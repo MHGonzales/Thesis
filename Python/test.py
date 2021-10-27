@@ -4,5 +4,5 @@ print("banana")
 print("workworkwokr")
 print("aaaaaaa")
 print("Helpppp")
-x = int(5)
+x = 5
 print(x)
