@@ -29,3 +29,4 @@ if __name__ == "__main__":
 
     thread_receive = threading.Thread(target = receive)
     thread_receive.start()
+    # hello
