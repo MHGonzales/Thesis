@@ -17,8 +17,8 @@ if __name__ == "__main__":
     cli_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # connect
-    HOST = '52.220.121.212' #change when starting new tcp tunnel
-    PORT = 12448    #change when starting new tcp tunnel
+    HOST = '3.141.142.211' #change when starting new tcp tunnel
+    PORT = 17649   #change when starting new tcp tunnel
     cli_sock.connect((HOST, PORT))     
     print('Connected to remote host...')
     uname = input('Enter your name to enter the chat > ').encode('utf-8')
