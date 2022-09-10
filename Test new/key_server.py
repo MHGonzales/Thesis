@@ -9,21 +9,29 @@ def server_program():
     server_socket = socket.socket()  
     
     server_socket.bind((host, port))  
-
-    
     server_socket.listen(2)
+
     conn, address = server_socket.accept()  
     print("Connection from: " + str(address))
+
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
         data = conn.recv(1024).decode()
-        if not data:
-            # if data is not received break
+
+        if data == "a":
+            print("Robot go left") # send message
+        elif data == "w":
+            print("Robot go up")
+        elif data == "s":
+            print("Robot go down")
+        elif data == "d":
+            print("Robot go right")
+        elif data == "esc":
+            print("Controller left the chat")
             break
-        print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
-        
+        else:
+            print("No data received")
+            continue
 
     conn.close()  # close the connection
 
