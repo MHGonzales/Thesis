@@ -1,4 +1,6 @@
 import socket
+import DobotDllType as dType
+import pyfirmata
 
 
 def server_program():
@@ -19,13 +21,15 @@ def server_program():
         data = conn.recv(1024).decode()
 
         if data == "a":
-            print("Robot go left") # send message
+            dType.SetPTPCmdEx(api, 2, 200,  0,  0, current_pose[3], 1) # send message
+            print("Robot go forward")
         elif data == "w":
             print("Robot go up")
         elif data == "s":
             print("Robot go down")
         elif data == "d":
-            print("Robot go right")
+            dType.SetPTPCmdEx(api, 2, 79,  0,  0, current_pose[3], 1)
+            print("Robot go backward")
         elif data == "esc":
             print("Controller left the chat")
             break
@@ -37,4 +41,15 @@ def server_program():
 
 
 if __name__ == '__main__':
+    CON_STR = {
+    dType.DobotConnect.DobotConnect_NoError:  "DobotConnect_NoError",
+    dType.DobotConnect.DobotConnect_NotFound: "DobotConnect_NotFound",
+    dType.DobotConnect.DobotConnect_Occupied: "DobotConnect_Occupied"}
+    
+    api = dType.load()
+    state = dType.ConnectDobot(api, "", 115200)[0]
+    print("Connect status:",CON_STR[state])
+
+    current_pose = dType.GetPose(api)
+
     server_program()

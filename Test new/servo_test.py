@@ -9,7 +9,7 @@ api = dType.load()
 state = dType.ConnectDobot(api, "", 115200)[0]
 print("Connect status:",CON_STR[state])
 
-addr = 6
+addr = 8
 frequency = 50
 
 dType.SetIOMultiplexing(api, addr, 2, 1)
