@@ -1,16 +1,26 @@
-from pyfirmata import Arduino, SERVO
-from time import sleep
+""" servo pyfirmata"""
 
-port = ''
-pin = 10
-board = Arduino(port)
-board.digital(pin).mode = SERVO
-def rotateSERVO(pin, angle):
-   board.digital[pin].write(angle)
-   sleep(0.015)
+import pyfirmata
+from tkinter import *
 
-while True:
-    for i in range (0,180):
-        rotateSERVO(pin,i)
-    for i in range(180,1,-1):
-        rotateSERVO(pin, i)
+def move_servo(angle):
+    pin9.write(angle)
+    
+def main():
+    global pin9
+    
+    board=pyfirmata.Arduino('COM5')
+
+    iter8 = pyfirmata.util.Iterator(board)
+    iter8.start()
+
+    pin9 = board.get_pin('d:9:s')
+    
+    root = Tk()
+    scale = Scale(root, command = move_servo, to = 175, 
+                  orient = HORIZONTAL, length = 400, label = 'Angle')
+    scale.pack(anchor = CENTER)
+
+    root.mainloop()
+
+main()
