@@ -10,7 +10,7 @@ def move_servo(angle):
 def main():
     global pin10
     
-    board=pyfirmata.Arduino('COM11')
+    board=pyfirmata.Arduino('COM7')
 
     iter8 = pyfirmata.util.Iterator(board)
     iter8.start()
