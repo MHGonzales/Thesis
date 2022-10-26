@@ -1,0 +1,30 @@
+syms l1 l2 l3 l4 l5 t1 t2 t3 t4 t5
+
+T1 = [cos(t1) -sin(t1) 0 0;
+      sin(t1) cos(t1) 0 0;
+      0 0 1 l1; 
+      0 0 0 1 ];
+T2 = [cos(t2) -sin(t2) 0 0; 
+      0 0 -1 0;
+      sin(t2) cos(t2) 0 0; 
+      0 0 0 1 ];
+T3 = [cos(t3) -sin(t3) 0 l2;
+      sin(t3) cos(t3) 0 0;
+      0 0 1 0; 
+      0 0 0 1 ];
+T4 =[cos(t4) -sin(t4) 0 l3;
+      sin(t4) cos(t4) 0 0;
+      0 0 1 0; 
+      0 0 0 1 ];
+T5 = [cos(t5) -sin(t5) 0 l4; 
+      0 0 -1 0;
+      sin(t5) cos(t5) 0 0; 
+      0 0 0 1 ];
+T6 =[ 1 0 0 l5; 
+    0 1 0 0 ;
+    0 0 1 0; 
+    0 0 0 1 ];
+T = simplify(T1*T2*T3*T4*T5*T6);
+x = T(1,4);
+y = T(2,4);
+z = T(3,4);
