@@ -13,10 +13,10 @@ e2 = rtb.ET.Rz()
 e3 = rtb.ET.Ry()
 e4 = rtb.ET.tz(l1)
 e5 = rtb.ET.Ry()
-
+e6 = rtb.ET.tz(l2)
 #forward kinematics
-ets = e1*e2*e3*e4*e5
-
+ets = rtb.ETS([e1, e2, e3, e4, e5, e6])
+print(f"The dobot has {ets.n} joints")
 #sample initial joing angles
 q = np.array([45, 45, 45])
 
