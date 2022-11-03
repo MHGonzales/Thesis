@@ -25,13 +25,7 @@ import spatialgeometry as sg
 import time
 
 class IK(ABC):
-    """
-    An abstract super class which provides basic functionality to perform numerical inverse
-    kinematics (IK). Superclasses can inherit this class and implement the solve method.
-
-    This class also provides a mechanism to collect data on performance for large scale
-    experiments.
-    """
+   
 
     def __init__(
         self,
@@ -42,15 +36,7 @@ class IK(ABC):
         we: np.ndarray = np.ones(6),
         problems: int = 1000,
     ):
-        """
-        name: The name of the IK algorithm
-        ilimit: How many iterations are allowed within a search before a new search is started
-        slimit: How many searches are allowed before being deemed unsuccessful
-        tol: Maximum allowed residual error E
-        we: A 6 vector which assigns weights to Cartesian degrees-of-freedom
-        problems: Total number of IK problems within the experiment
-        """
-
+        
         # Solver parameters
         self.name = name
         self.slimit = slimit
@@ -69,19 +55,7 @@ class IK(ABC):
         self.success[:] = np.nan
 
     def solve(self, ets: rtb.ETS, Tep: np.ndarray, q0: np.ndarray):
-        """
-        This method will attempt to solve the IK problem and obtain joint coordinates
-        which result the the end-effector pose Tep.
-
-        The method returns a tuple:
-        q: The joint coordinates of the solution (ndarray). Note that these will not
-            be valid if failed to find a solution
-        success: True if a solution was found (boolean)
-        iterations: The number of iterations it took to find the solution (int)
-        searches: The number of searches it took to find the solution (int)
-        residual: The residual error of the solution (float)
-        """
-
+       
         # Iteration count
         i = 0
         total_i = 0
@@ -110,15 +84,7 @@ class IK(ABC):
         return q, False, np.nan, np.nan, E
 
     def error(self, Te: np.ndarray, Tep: np.ndarray):
-        """
-        Calculates the engle axis error between current end-effector pose Te and
-        the desired end-effector pose Tep. Also calulates the quadratic error E
-        which is weighted by the diagonal matrix We.
-
-        Returns a tuple:
-        e: angle-axis error (ndarray in R^6)
-        E: The quadratic error weighted by We
-        """
+       
         e = rtb.angle_axis(Te, Tep)
         E = 0.5 * e @ self.We @ e
 
@@ -126,10 +92,7 @@ class IK(ABC):
 
     @abstractmethod
     def step(self, ets: rtb.ETS, Tep: np.ndarray, q: np.ndarray):
-        """
-        Superclasses will implement this method to perform a step of the implemented
-        IK algorithm
-        """
+       
         pass
 
 class NR(IK):
