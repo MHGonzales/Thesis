@@ -35,6 +35,7 @@ ets = robot()
 #Final pose test
 Tf = SE3.Trans(0.7, 0.2, 0.1) *SE3.OA([0,  1, 0], [0, 0, 1])
 print(Tf)
+
 rb = rtb.ERobot(ets)
 #initial pose test
 T=rb.fkine(np.zeros(7))
