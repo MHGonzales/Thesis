@@ -20,8 +20,10 @@ T=robot.fkine(np.array([0.785398,1.5708,0]))
 print(T)
 
 #final pose
-Tf = SE3.Trans(1.707,0.7071,-1) *SE3.OA([0,  1, 0], [0, 0, -1])
+Tf = SE3.Trans(1.707,0.7071,-1) *SE3.OA([1,  0, 0], [0, 0, 1])
 
 #solution test (still failure)
-sol = robot.ikine_LM(Tf,q0=np.array([0,0,0]),rlimit = 500)
+sol = robot.ikine_min(Tf,q0=np.array([0,0,0]))
 print(sol)
+
+print(robot.fkine(sol.q))
