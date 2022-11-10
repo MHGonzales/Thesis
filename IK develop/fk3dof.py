@@ -2,38 +2,48 @@
 import numpy as np
 import roboticstoolbox as rtb
 from spatialmath import SE3
-from ikdof import *
+#from ikdof import *
 
 def robot():
-    #reference frames translation and rotation
-    E1 = rtb.ET.tz(0.333)
-    E2 = rtb.ET.Rz()
-    E3 = rtb.ET.Ry()
-    E4 = rtb.ET.tz(0.316)
-    E5 = rtb.ET.Rz()
-    E6 = rtb.ET.tx(0.0825)
-    E7 = rtb.ET.Ry(flip=True)
-    E8 = rtb.ET.tx(-0.0825)
-    E9 = rtb.ET.tz(0.384)
-    E10 = rtb.ET.Rz()
-    E11 = rtb.ET.Ry(flip=True)
-    E12 = rtb.ET.tx(0.088)
-    E13 = rtb.ET.Rx(np.pi)
-    E14 = rtb.ET.tz(0.107)
-    E15 = rtb.ET.Rz()
+    deg = np.pi / 180
+    mm = 1e-3
+    tool_offset = (103) * mm
 
+    l0 = rtb.Link(rtb.ET.tz(0.333) * rtb.ET.Rz(), name="link0", parent=None)
 
-    panda = E1 * E2 * E3 * E4 * E5 * E6 * E7 * E8 * E9 * E10 * E11 * E12 * E13 * E14 * E15
+    l1 = rtb.Link( rtb.ET.Ry(), name="link1", parent=l0)
 
-    
-    #return ets object
+    l2 =rtb.Link( rtb.ET.tz(0.316) * rtb.ET.Rz(), name="link2", parent=l1)
+
+    l3 = rtb.Link(rtb.ET.tx(0.0825) *  rtb.ET.Ry(), name="link3", parent=l2)
+
+    l4 = rtb.Link(
+            rtb.ET.tx(-0.0825) * rtb.ET.tz(0.384) * rtb.ET.Rz(),
+            name="link4",
+            parent=l3,
+        )
+
+    l5 = rtb.Link(rtb.ET.Ry(), name="link5", parent=l4)
+
+    l6 = rtb.Link(
+            rtb.ET.tx(0.088) * rtb.ET.Rx(180, "deg") * rtb.ET.tz(0.107) * rtb.ET.Rz(),
+            name="link6",
+            parent=l5,
+        )
+
+    ee = rtb.Link(rtb.ET.tz(tool_offset) * rtb.ET.Rz(-np.pi / 4), name="ee", parent=l6)
+
+    elinks = [l0, l1, l2, l3, l4, l5, l6, ee]
+
+    panda = rtb.ERobot(elinks)
+
     return panda
 
 qf= np.array([0.79,1.57,0])
 q0 = np.array([0,0,0])
 ets = robot()
 #Final pose test
-Tf = SE3.Trans(0.7, 0.2, 0.1) *SE3.OA([0,  1, 0], [0, 0, 1])
+Tf = SE3.Trans(0.7, 0.2, 0.1) *SE3.OA([0,  1, 0], [0, 0, -1])
 print(Tf)
 
 rb = rtb.ERobot(ets)
@@ -41,7 +51,7 @@ rb = rtb.ERobot(ets)
 T=rb.fkine(np.zeros(7))
 print(T)
 #inv kinematics
-sol = rb.ikine_LMS(Tf,ilimit = 3100)
+sol = rb.ikine_LMS(Tf,q0=np.array([0,0,0,0,0,0,0]))
 print(sol)
 
 print(rb.fkine(sol.q))
