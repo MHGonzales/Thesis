@@ -9,7 +9,7 @@ def display() :
 def main():
 
     if len(sys.argv)<2:
-        host = input("Enter host ip address: ")
+        host = 'localhost'
     else:
         host = sys.argv[1]
 
