@@ -16,7 +16,7 @@ def main():
     port = 5001
     
     #asks for user name
-    name=input("\33[34m\33[1m CREATING NEW ID:\n Enter username: \33[0m")
+    name=input(b'CREATING NEW ID:\n Enter username:').encode()
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
     
