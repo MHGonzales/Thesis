@@ -31,6 +31,7 @@ class dobot(ERobot):
 
         l3 = Link(ET.Rx(90, "deg") * ET.tz(1) * ET.Rx(-90, "deg")*ET.Rz(), name="link3", parent=l1)
         ee = Link(ET.Rx(90, "deg") , name="ee", parent=l3)
+       
         #* ET.Rz(180, "deg")
         elinks = [l0, l1, l2,l3, ee] #ee]
 
