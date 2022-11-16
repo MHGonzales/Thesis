@@ -16,7 +16,7 @@ class ClientThread(Thread):
         self.socket = socket
         self.ip = ip
         self.port = port
-        print "New thread started"
+        print ("New thread started")
       
        
  
@@ -46,14 +46,14 @@ class ClientThread(Thread):
                         
                     data2 = "invalid login"
                     status = 0
-                    print data2
+                    print (data2)
                     self.socket.send(data2)
                     
                     continue
                 else:
                     
                     for p in blockusers:
-                        print "blockusers: " , p
+                        print ("blockusers: " , p)
                         val = p.partition(" ")
                         valin = val[2].partition(" ")
                         curtime =time.time()
@@ -62,11 +62,11 @@ class ClientThread(Thread):
                             status = 2
                             
                     for p in curusers:
-                        print "curusers:", p
+                        print ("curusers:", p)
                         if userdata == p:
                             data2 = "same user"
                             status = 1
-                            print data2
+                            print (data2)
                     if data2 == " blocked ":
                     
                         self.socket.send(data2)
@@ -85,12 +85,12 @@ class ClientThread(Thread):
                     
                     if (validity not in open('user_pass.txt').read()):  
                         data2 = "invalid password"
-                        print data2   
+                        print (data2  )
                         num = num + 1       
                         if num == 3:
                             status = 2
                             self.socket.send(data2)
-                            print "breaking"
+                            print ("breaking")
                             break
                                     
                                     
@@ -113,7 +113,7 @@ class ClientThread(Thread):
                         lock.acquire()        
                         curusers.append(userdata)
                         lock.release()
-                        print userdata + " logged in"
+                        print (userdata + " logged in")
                         status = 1  # 0 for offline , 1 for online , 2 for blocked 
                         logtime=time.time()
                         fd = self.socket.fileno()
@@ -135,7 +135,7 @@ class ClientThread(Thread):
                 lock.acquire()
                 del sendqueues[fd]
                 lock.release()
-                print blockuserdata, " blocked for 60 seconds"
+                print (blockuserdata, " blocked for 60 seconds")
                 sys.exit()
                 
                 
@@ -200,13 +200,13 @@ class ClientThread(Thread):
                                         
                                
                         for p in receivers:
-                            print p
+                            print(p) 
                             errorflag = 1 
                             for z in userfdmap:
                                 zi = z.partition(" ")
                                 if p == zi[0]:
                                     receiverfd = int(zi[2])
-                                    print receiverfd
+                                    print (receiverfd)
                                     errorflag = 0
                                     lock.acquire()
                                     sendqueues[receiverfd].put(sendmessage)
