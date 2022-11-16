@@ -93,6 +93,8 @@ class ServerThreadread(Thread):
                 sys.exit() 
        
            
+    
+TCP_IP = sys.argv[1]
 TCP_PORT = int(sys.argv[2])
 TCP_PORT2 = 125
 BUFFER_SIZE = 1024
