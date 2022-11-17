@@ -5,17 +5,7 @@ from roboticstoolbox.robot.Link import Link
 from spatialmath import SE3
 from math import pi
 class dobot(ERobot):
-    """
-    Create model of Franka-Emika Panda manipulator
-    panda = Panda() creates a robot object representing the Franka-Emika
-    Panda robot arm. This robot is represented using the elementary
-    transform sequence (ETS).
-    ETS taken from [1] based on
-    https://frankaemika.github.io/docs/control_parameters.html
-    :references:
-        - Kinematic Derivatives using the Elementary Transform
-          Sequence, J. Haviland and P. Corke
-    """
+    
 
     def __init__(self):
 
@@ -29,7 +19,7 @@ class dobot(ERobot):
 
         l2 = Link(ET.Rx(90, "deg") * ET.tz(1) * ET.Rx(-90, "deg")*ET.Rz(), name="link2", parent=l1)
 
-        l3 = Link(ET.Rx(90, "deg") * ET.tz(1) * ET.Rx(-90, "deg")*ET.Rz(), name="link3", parent=l1)
+        l3 = Link(ET.Rx(90, "deg") * ET.tz(1) * ET.Rx(-90, "deg")*ET.Rz(), name="link3", parent=l2)
         ee = Link(ET.Rx(90, "deg") , name="ee", parent=l3)
        
         #* ET.Rz(180, "deg")
@@ -46,13 +36,14 @@ class dobot(ERobot):
 if __name__ == "__main__":  #run dobot test
 
     robot = dobot()
+    robot.q
     T = robot.fkine(robot.qr)
     print(robot.fkine(robot.qr))
 
     # IK
     1.408,1.421,1.002
 
-    T = SE3(1,1,2.4142) * SE3.OA([0, 1, 0], [0, 0, 1])
+    T = SE3(1,1,2.4142) * SE3.OA([0, 0, 1], [1, 0, 0])
     print(T)
     sol = robot.ikine_LMS(T,robot.qz,ilimit =1000,mask= np.array([1,1,1,0,0,0]))  # solve IK, ignore additional outputs
     print(sol)  # display joint angles
