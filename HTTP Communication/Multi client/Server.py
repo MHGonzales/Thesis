@@ -1,6 +1,7 @@
 # Imports
 import socket
 from _thread import *
+import Queue
 
 # Declarations
 host = '127.0.0.1'
@@ -14,7 +15,7 @@ def client_handler(connection):
         message = data.decode('utf-8')
         if message == 'BYE':
             break
-        print(str(f'User: {message}'))
+        print(f'User: {message}')
         reply = f'Server: {message}'
         connection.sendall(str.encode(reply))
     connection.close()
