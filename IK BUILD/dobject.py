@@ -11,7 +11,7 @@ class Dobot(DHRobot):
         mm =1e-3
 
         L1 = RevoluteMDH(
-            d =1,
+            d =140*mm,
             qlim = np.array([-135*deg, 135*deg])
         )
         L2 = RevoluteMDH(
@@ -19,35 +19,35 @@ class Dobot(DHRobot):
             qlim = np.array([0*deg, 85*deg])
         )
         L3 = RevoluteMDH(
-            a =1,
+            a =135*mm,
             qlim = np.array([-10*deg, 95*deg]),
         )
         L4 = RevoluteMDH(
-            a =1,
+            a =147*mm,
             offset = -L2.theta - L3.theta ,
         )
         L5 = RevoluteMDH(
-            d=0.01,
-            alpha = np.pi/2,
+            d=0*mm,
+            alpha = -np.pi/2,
         )
         L6 = RevoluteMDH(
             alpha = np.pi/2,
-            d=0.01,
-            offset = 90 *deg
+            d=40*mm,
         )
         L7 = RevoluteMDH(
             alpha = -np.pi/2,
 
         )
-        #tool = 
-        L = [L1,L2,L3,L4,L5]
+        tool = transl(0,0,35*mm)
+        L = [L1,L2,L3,L4,L5,L6]
 
         super().__init__(
             L,
             name = "Dobot",
+            
 
         )
-        self.qr = np.array([pi/4, pi/4, 0,0])
+        self.qr = np.array([pi/4, pi/4, 0,0,0])
         self.qz = np.zeros(5)
 
         self.addconfiguration("qr", self.qr)
