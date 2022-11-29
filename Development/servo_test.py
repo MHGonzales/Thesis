@@ -22,4 +22,5 @@ for ii in range(3,13,1):
     dType.dSleep(5000)
     print(dType.GetIOPWM(api, addr))
     dType.dSleep(5000)
+    
 dType.DisconnectDobot(api)
