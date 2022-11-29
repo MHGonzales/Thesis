@@ -9,15 +9,16 @@ rb = Dobot()
 
 if __name__ == "__main__":
     
-    T = rb.fkine(np.array([pi/4,pi/4,0,0,0,0]))
-    print(T)
-    Tf = SE3.Trans(0.200 ,0.15 ,0.140) *SE3.OA([0,  0, 1], [1, 0, 0])
-
-    #solution test )1,1,2.4142
+    
+    Tf = SE3.Trans(0.200 ,0 ,0.140) *SE3.OA([0,  0, 1], [1, 0, 0])
+    Tf2 = SE3.Trans(0.200 ,-0.15 ,0.25) *SE3.OA([0,  0, 1], [1, 0, 0])
+    
     sol = rb.ikine_LMS(Tf,q0=np.array([0,0,0,0,0,0]))
+    sol2 = rb.ikine_LMS(Tf2,q0 = sol.q)
     #sol.q[3] = -sol.q[1]-sol.q[2],mask = np.array([1,1,1,1,1,0])
-    print(sol)
+    
 
-    print(rb.fkine(sol.q))
-    qtraj = rtb.jtraj(np.array([0,0,0,0,0,0]), sol.q, 300)
-    rb.plot(qtraj.q, movie="dobot.gif")
+    #print(rb.fkine(sol.q))
+    qtraj = rtb.jtraj(sol.q, sol2.q, 50)
+    #rb.plot(qtraj.q, movie="dobot.gif")
+    print(qtraj.q[1,])
