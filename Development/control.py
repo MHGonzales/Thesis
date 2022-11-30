@@ -1,5 +1,5 @@
 import numpy as np
-from numpy import pi
+from math import pi,degrees
 from spatialmath import SE3
 import roboticstoolbox as rtb
 from dobject import Dobot
@@ -25,13 +25,13 @@ def qpath(qn,q0):
 #convert rad to deg
 def r2d(rad:float):
     deg:float
-    #erika
+    #deg = degrees(rad)
     return deg
 
 #convert deg to pwm
-def r2p(rad:float):
+def d2p(deg:float):
     pwm:float
-    #erika
+    #
     return pwm
 
 #update joint angles
@@ -39,7 +39,7 @@ def r2p(rad:float):
 def setje():
     #loop to move through qtraj
     #dtype.SetPTPCmd(api,4,j1,j2,j3) 
-    exit
+    return
 
 #update wrist position
 def setjw(pwm:float):
@@ -53,8 +53,8 @@ def setjw(pwm:float):
     #dType.SetIOPWM(api, 6, 50, pwm,1)
     #dType.SetIOPWM(api, 8, 50, pwm,1)
 
-    exit
-
+    return
+#input
 def main():
     #branch based on button pressed
     #obtain new coordinates
@@ -77,7 +77,8 @@ if __name__ == "__main__":
     api = dType.load()
     #initialize starting joint angles
         #q0 = rb.qz
-        #dtype.SetJointAngle(api,4,q0[0],q0[1],q0[2],current_pose[7],1)
+        #current_pose = dtype.GetPose(api)
+        #dType.SetJointAngle(api,4,q0[0],q0[1],q0[2],current_pose[7],1)
     #while True:
         #keyboard event go to main
     main()
