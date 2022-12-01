@@ -47,8 +47,8 @@ class Dobot(DHRobot):
             
 
         )
-        self.qr = np.array([pi/4, pi/4, 0,0,0])
-        self.qz = np.zeros(5)
+        self.qr = np.array([0*deg, deg*75, deg*-40,0*deg,0*deg,0*deg])
+        self.qz = np.zeros(6)
 
         self.addconfiguration("qr", self.qr)
         self.addconfiguration("qz", self.qz) 
