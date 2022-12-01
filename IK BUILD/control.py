@@ -11,14 +11,14 @@ if __name__ == "__main__":
     
     
     Tf = SE3.Trans(0.200 ,0 ,0.140) *SE3.OA([0,  0, 1], [1, 0, 0])
-    Tf2 = SE3.Trans(0.200 ,-0.15 ,0.25) *SE3.OA([0,  0, 1], [1, 0, 0])
+    Tf2 = SE3.Trans(0.200 ,0.01 ,0.140) *SE3.OA([0,  0, 1], [1, 0, 0])
     
-    sol = rb.ikine_LMS(Tf,q0=np.array([0,0,0,0,0,0]))
-    sol2 = rb.ikine_LMS(Tf2,q0 = sol.q)
+    sol = rb.ik_lm_sugihara(Tf,rb.qr)
+    sol2 = rb.ik_lm_sugihara(Tf2,q0 = sol[0])
     #sol.q[3] = -sol.q[1]-sol.q[2],mask = np.array([1,1,1,1,1,0])
     
-
-    #print(rb.fkine(sol.q))
-    qtraj = rtb.jtraj(sol.q, sol2.q, 50)
-    #rb.plot(qtraj.q, movie="dobot.gif")
-    print(qtraj.q[1,])
+    print((sol[0])*(180/pi))
+    print(rb.fkine(rb.qr))
+    qtraj = rtb.jtraj(rb.qr, sol[0], 25)
+    rb.plot(qtraj.q, movie="dobot.gif")
+    
