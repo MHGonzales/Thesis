@@ -11,9 +11,9 @@ import keyboard
 
 rb = Dobot()
 MM=1e-3
-x = 0.154
-y = 0.04
-z = 0.3547
+x = 0.187
+y = 0.1
+z = 0.135
 
 
 #determine joint angles
@@ -50,10 +50,10 @@ def setje(qn):
     q0 = [0,0,0]
     for i in range(0,3,1):
         qd = degrees(qn[i])
-        q0[i] = qd
+        q0[i] = -qd
     print(q0)
     current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,4,q0[0],90-q0[1],-q0[2],current_pose[7],1) 
+    dType.SetPTPCmd(api,4,q0[0],-q0[1],-q0[2],0,1) 
     return
 
 #update wrist positionw
@@ -107,11 +107,11 @@ if __name__ == "__main__":
     #initialize starting joint angles
     q0 = [0,0,0]
     for i in range(0,3,1):
-        qd = degrees(rb.qr[i])
+        qd = degrees(rb.qz[i])
         q0[i] = qd
     print(q0)
     current_pose = dType.GetPose(api)
-    dType.SetPTPCmd(api,4,q0[0],90-q0[1],-q0[2],current_pose[7],1)
+    dType.SetPTPCmd(api,4,q0[0],-q0[1],-q0[2],current_pose[7],1)
 
     q0 = rb.qr
     qset = [q0,x,y,z]
