@@ -4,23 +4,73 @@ from spatialmath import SE3
 import roboticstoolbox as rtb
 from dobject import Dobot
 import DobotDllType as dType
+from math import pi,degrees
+
 
 rb = Dobot()
 x = 0.187
-y = -0.07
-z = 0.135
+y = 0.100
+z = 0.0
 
-q0 = np.ndarray(0,0,0,0)
+q0 = np.ndarray([0,0,0,0,0])
 
-def jpos(q0:np.ndarray):
+def jpos():
     
     Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])
-    sol = rb.ikine_LMS(Tf,q0)
+    sol = rb.ikine_LMS(Tf,rb.qz)
     #print(rb.fkine(sol.q))
     #print(sol)
+    return sol.q*180/pi
     
+def setje():
+    #loop to move through qtraj
+    current_pose=dType.GetPose(api)
+    dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
+    return
+def d2p(deg:float):
+    
+    pwm = (deg/18)+2.5
+    print(pwm)
+    return pwm
+def setjW(q:float):
+    pwm = d2p(q)
+    dType.SetIOPWM(api, 4, 50, pwm, 1)
+    dType.dSleep(1500)
+    return
 
 
+
+def main():
+    #branch based on button pressed
+    """
+    if mov == "a":
+        y=y+0.01
+        print(f"x:{x},y:{y},z{z}") 
+    elif mov == "w":
+        z=z+0.01
+        print(f"x:{x},y:{y},z{z}")       
+    elif mov == "s":
+        z=z-0.01
+        print(f"x:{x},y:{y},z{z}")        
+    elif mov == "d":
+        y=y-0.01
+        print(f"x:{x},y:{y},z{z}")
+    #obtain new coordinates
+        #get x,y,z
+    """
+    #obtain joint angles
+    qn = jpos()
+    #aqtraj = qpath(qn,q0)
+    #convert rad to degrees
+        #qn = r2d(qtraj)
+    #set joint angles in robot using DOBOT API
+    setje()
+    setjW(qn[4])
+        #  and setjw(qtraj)
+    #update new angles to be current angles
+    
+    #repeat
+    return 
 if __name__ == "__main__":
     
     #print(rb.fkine(rb.qz))
@@ -45,4 +95,12 @@ if __name__ == "__main__":
     #qtraj = rtb.jtraj(sol.q, sol2.q, 100)
     #rb.plot(qtraj.q, movie="dobot.gif")
     #dType.DisconnectDobot(api)
-    exit
+    api = dType.load()
+    dType.ConnectDobot(api, "", 115200)
+    current_pose = dType.GetPose(api)
+    #dType.SetPTPCmd(api,2,147,0,135,current_pose[7],1)
+    dType.SetIOMultiplexing(api, 4, 2, 1)
+    
+    main()
+    dType.DisconnectDobot(api)
+    
