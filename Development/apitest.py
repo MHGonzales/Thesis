@@ -9,8 +9,8 @@ from math import pi,degrees
 
 rb = Dobot()
 x = 0.187
-y = 0.100
-z = 0.0
+y = -0.100
+z = 0.1
 
 q0 = np.ndarray([0,0,0,0,0])
 
