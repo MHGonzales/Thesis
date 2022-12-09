@@ -12,7 +12,7 @@ import keyboard
 rb = Dobot()
 MM=1e-3
 x = 0.187
-y = 0.1
+y = 0.0
 z = 0.135
 
 
@@ -45,15 +45,11 @@ def d2p(deg:float):
 
 #update joint angles
 #input sol.q
-def setje(qn):
+def setje():
     #loop to move through qtraj
-    q0 = [0,0,0]
-    for i in range(0,3,1):
-        qd = degrees(qn[i])
-        q0[i] = -qd
-    print(q0)
+    
     current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,4,q0[0],-q0[1],-q0[2],0,1) 
+    dType.SetPTPCmd(api,2,x-47,y,z,current_pose[7],1) 
     return
 
 #update wrist positionw

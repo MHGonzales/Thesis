@@ -1,5 +1,5 @@
 from ctypes import *
-import time,  platform
+import time,  platform, math
 import os
 
 def enum(**enums):
