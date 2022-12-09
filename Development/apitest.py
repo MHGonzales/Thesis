@@ -38,7 +38,7 @@ def setjW(q:float):
     dType.SetIOPWM(api, 4, 50, pwm, 1)
     dType.dSleep(1500)
     
-    #return
+    return
 
 
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     api = dType.load()
     dType.ConnectDobot(api, "", 115200)
     current_pose = dType.GetPose(api)
-    #dType.SetPTPCmd(api,2,147,0,135,current_pose[7],1)
+    
     dType.SetIOMultiplexing(api, 4, 2, 1)
     qn = jpos()
     setje()

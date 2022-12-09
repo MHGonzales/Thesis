@@ -3,34 +3,80 @@ import socket
 from _thread import *
 import Queue
 import DobotDllType as dType
-import roboticstoolbox
+from spatialmath import SE3
+import roboticstoolbox as rtb
+from dobject import Dobot
+import DobotDllType as dType
+from math import pi
 
 # Declarations
 host = '127.0.0.1'
 port = 1233
 ThreadCount = 0
+rb = Dobot()
+x = 0.187
+y = 0.0
+z = 0.1
+
+def jpos():
+    
+    Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])
+    sol = rb.ikine_LMS(Tf,rb.qz)
+    return sol.q*180/pi
+    
+def setje():
+    #loop to move through qtraj
+    
+    current_pose=dType.GetPose(api)
+    dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
+    #return
+def d2p(deg:float):
+    
+    pwm = (deg/18)+2.5
+    print(pwm)
+    return pwm
+def setjW(q:float):
+    
+    pwm = d2p(q)
+    dType.SetIOPWM(api, 4, 50, pwm, 1)
+    dType.dSleep(1500)
+    
+    return
 
 def client_handler(connection):
     connection.send(str.encode('You are now connected to the replay server... Type BYE to stop'))
+    api = dType.load()
+    dType.ConnectDobot(api, "", 115200)
+    dType.SetIOMultiplexing(api, 4, 2, 1)
+    qn = jpos()
+    setje()
+    setjW(qn[4])
+    
     while True:
         data = connection.recv(2048).decode()
 
         if data == "a":
-            #dType.SetPTPCmdEx(api, 2, 200,  0,  0, current_pose[3], 1) # send message
-            print("Robot go forward")
+            y=y+0.02
+            print(f"x:{x},y:{y},z{z}") 
         elif data == "w":
-            print("Robot go up")
+            z=z+0.02
+            print(f"x:{x},y:{y},z{z}") 
         elif data == "s":
-            print("Robot go down")
+            z=z-0.02
+            print(f"x:{x},y:{y},z{z}") 
         elif data == "d":
-            #dType.SetPTPCmdEx(api, 2, 79,  0,  0, current_pose[3], 1)
-            print("Robot go backward")
+            y=y-0.02
+            print(f"x:{x},y:{y},z{z}") 
         elif data == "esc":
             print("Controller left the chat")
             break
         else:
             print("No data received")
             continue
+        qn = jpos()
+        setje()
+        setjW(qn[4])
+
     connection.close()
 
 def accept_connections(ServerSocket):
@@ -40,6 +86,15 @@ def accept_connections(ServerSocket):
 
 def start_server(host, port):
     ServerSocket = socket.socket()
+    api = dType.load()
+    dType.ConnectDobot(api, "", 115200)
+    current_pose = dType.GetPose(api)
+    #dType.SetPTPCmd(api,2,147,0,135,current_pose[7],1)
+    dType.SetIOMultiplexing(api, 4, 2, 1)
+    qn = jpos()
+    setje()
+    setjW(qn[4])
+
     try:
         ServerSocket.bind((host, port))
     except socket.error as e:
@@ -50,6 +105,7 @@ def start_server(host, port):
     
     while True:
         accept_connections(ServerSocket)
+
 
 start_server(host, port)
 
