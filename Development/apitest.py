@@ -5,11 +5,12 @@ import roboticstoolbox as rtb
 from dobject import Dobot
 import DobotDllType as dType
 from math import pi,degrees
-
+import keyboard
+from threading import *
 
 rb = Dobot()
 x = 0.187
-y = -0.100
+y = 0.0
 z = 0.1
 
 q0 = np.ndarray([0,0,0,0,0])
@@ -18,25 +19,26 @@ def jpos():
     
     Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
-    #print(rb.fkine(sol.q))
-    #print(sol)
     return sol.q*180/pi
     
 def setje():
     #loop to move through qtraj
+    
     current_pose=dType.GetPose(api)
     dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
-    return
+    #return
 def d2p(deg:float):
     
     pwm = (deg/18)+2.5
     print(pwm)
     return pwm
 def setjW(q:float):
+    
     pwm = d2p(q)
     dType.SetIOPWM(api, 4, 50, pwm, 1)
     dType.dSleep(1500)
-    return
+    
+    #return
 
 
 
@@ -100,7 +102,29 @@ if __name__ == "__main__":
     current_pose = dType.GetPose(api)
     #dType.SetPTPCmd(api,2,147,0,135,current_pose[7],1)
     dType.SetIOMultiplexing(api, 4, 2, 1)
+    qn = jpos()
+    setje()
+    setjW(qn[4])
     
-    main()
+    while True:
+        
+        if keyboard.read_key() == "a":
+            y=y+0.02
+            print(f"x:{x},y:{y},z{z}") 
+        elif keyboard.read_key() == "w":
+            z=z+0.02
+            print(f"x:{x},y:{y},z{z}")       
+        elif keyboard.read_key() == "s":
+            z=z-0.02
+            print(f"x:{x},y:{y},z{z}")    
+        elif keyboard.read_key() == "d":
+            y=y-0.02
+            print(f"x:{x},y:{y},z{z}")    
+        elif keyboard.read_key() == 'esc':
+            break
+        else:
+            continue
+        main()
+
     dType.DisconnectDobot(api)
     
