@@ -23,9 +23,9 @@ def jpos():
     
 def setje():
     #loop to move through qtraj
-    
-    current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
+    while True:
+        current_pose=dType.GetPose(api)
+        dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
     #return
 def d2p(deg:float):
     
@@ -33,12 +33,12 @@ def d2p(deg:float):
     print(pwm)
     return pwm
 def setjW(q:float):
+    while True:
+        pwm = d2p(q)
+        dType.SetIOPWM(api, 4, 50, pwm, 1)
+        dType.dSleep(1500)
     
-    pwm = d2p(q)
-    dType.SetIOPWM(api, 4, 50, pwm, 1)
-    dType.dSleep(1500)
-    
-    return
+    #return
 
 
 
@@ -66,13 +66,13 @@ def main():
     #convert rad to degrees
         #qn = r2d(qtraj)
     #set joint angles in robot using DOBOT API
-    setje()
-    setjW(qn[4])
+    #setje()
+    #setjW(qn[4])
         #  and setjw(qtraj)
     #update new angles to be current angles
     
     #repeat
-    return 
+    #return 
 if __name__ == "__main__":
     
     #print(rb.fkine(rb.qz))
@@ -103,8 +103,12 @@ if __name__ == "__main__":
     
     dType.SetIOMultiplexing(api, 4, 2, 1)
     qn = jpos()
-    setje()
-    setjW(qn[4])
+    t1 = Thread(target = setje)
+    t2 = Thread(target = setjW,args = qn[4])
+    t1.setDaemon(True)
+    t2.setDaemon(True)
+    t1.start()
+    t2.start()
     
     while True:
         
