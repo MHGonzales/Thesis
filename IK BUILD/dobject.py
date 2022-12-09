@@ -18,13 +18,13 @@ class Dobot(DHRobot):
         )
         L2 = RevoluteMDH(
             alpha = pi/2,
-            qlim = np.array([0*deg, 85*deg]),
+            qlim = np.array([0*deg, -85*deg]),
             #flip=True,
             offset=90*deg
         )
         L3 = RevoluteMDH(
             a =135*mm,
-            qlim = np.array([-10*deg, 95*deg]),
+            qlim = np.array([10*deg, -95*deg]),
             offset=-90*deg,
             #flip=True
         )
