@@ -11,20 +11,25 @@ from math import pi
 
 # Declarations
 host = '127.0.0.1'
-port = 1233
+port = 5050
 ThreadCount = 0
+
 rb = Dobot()
+
 x = 0.187
 y = 0.0
 z = 0.1
 
-def jpos():
+api = dType.load()
+dType.ConnectDobot(api, "", 115200)
+
+def jpos(x,y,z):
     
     Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
     return sol.q*180/pi
     
-def setje():
+def setje(x,y,z):
     #loop to move through qtraj
     
     current_pose=dType.GetPose(api)
@@ -45,12 +50,10 @@ def setjW(q:float):
 
 def client_handler(connection):
     connection.send(str.encode('You are now connected to the replay server... Type BYE to stop'))
-    api = dType.load()
-    dType.ConnectDobot(api, "", 115200)
-    dType.SetIOMultiplexing(api, 4, 2, 1)
-    qn = jpos()
-    setje()
-    setjW(qn[4])
+    
+    x = 0.187
+    y = 0.0
+    z = 0.1
     
     while True:
         data = connection.recv(2048).decode()
@@ -73,8 +76,8 @@ def client_handler(connection):
         else:
             print("No data received")
             continue
-        qn = jpos()
-        setje()
+        qn = jpos(x,y,z)
+        setje(x,y,z)
         setjW(qn[4])
 
     connection.close()
@@ -86,13 +89,12 @@ def accept_connections(ServerSocket):
 
 def start_server(host, port):
     ServerSocket = socket.socket()
-    api = dType.load()
-    dType.ConnectDobot(api, "", 115200)
-    current_pose = dType.GetPose(api)
-    #dType.SetPTPCmd(api,2,147,0,135,current_pose[7],1)
+    x = 0.187
+    y = 0.0
+    z = 0.1
     dType.SetIOMultiplexing(api, 4, 2, 1)
-    qn = jpos()
-    setje()
+    qn = jpos(x,y,z)
+    setje(x,y,z)
     setjW(qn[4])
 
     try:
