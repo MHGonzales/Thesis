@@ -1,34 +1,29 @@
+# Imports
 import socket
+from _thread import *
+import Queue
 import DobotDllType as dType
 import roboticstoolbox
 
+# Declarations
+host = '127.0.0.1'
+port = 1233
+ThreadCount = 0
 
-def server_program():
-    # get the hostname
-    host = '127.0.0.1'
-    port = 5050   # initiate port no above 1024
-
-    server_socket = socket.socket()  
-    
-    server_socket.bind((host, port))  
-    server_socket.listen(2)
-
-    conn, address = server_socket.accept()  
-    print("Connection from: " + str(address))
-
+def client_handler(connection):
+    connection.send(str.encode('You are now connected to the replay server... Type BYE to stop'))
     while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = conn.recv(1024).decode()
+        data = connection.recv(2048).decode()
 
         if data == "a":
-            dType.SetPTPCmdEx(api, 2, 200,  0,  0, current_pose[3], 1) # send message
+            #dType.SetPTPCmdEx(api, 2, 200,  0,  0, current_pose[3], 1) # send message
             print("Robot go forward")
         elif data == "w":
             print("Robot go up")
         elif data == "s":
             print("Robot go down")
         elif data == "d":
-            dType.SetPTPCmdEx(api, 2, 79,  0,  0, current_pose[3], 1)
+            #dType.SetPTPCmdEx(api, 2, 79,  0,  0, current_pose[3], 1)
             print("Robot go backward")
         elif data == "esc":
             print("Controller left the chat")
@@ -36,9 +31,27 @@ def server_program():
         else:
             print("No data received")
             continue
+    connection.close()
 
-    conn.close()  # close the connection
+def accept_connections(ServerSocket):
+    Client, address = ServerSocket.accept()
+    print('Connected to: ' + address[0] + ':' + str(address[1]))
+    start_new_thread(client_handler, (Client, ))
 
+def start_server(host, port):
+    ServerSocket = socket.socket()
+    try:
+        ServerSocket.bind((host, port))
+    except socket.error as e:
+        print(str(e))
+
+    print(f'Server is listing on the port {port}...')
+    ServerSocket.listen()
+    
+    while True:
+        accept_connections(ServerSocket)
+
+start_server(host, port)
 
 if __name__ == '__main__':
     CON_STR = {
@@ -52,4 +65,4 @@ if __name__ == '__main__':
 
     current_pose = dType.GetPose(api)
 
-    server_program()
+    client_handler()
