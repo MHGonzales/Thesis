@@ -2,14 +2,14 @@ import keyboard
 import socket
 
 def client_program():
-    host = '127.0.0.1'
-    port = 1233 
+    host = '3.22.15.135'
+    port = 16621
 
     client_socket = socket.socket()  # instantiate
     print('Waiting for connection')
 
     client_socket.connect((host, port))  # connect to the server
-
+    print('Connected')
     while True:
         if keyboard.read_key() == "a":
             message = "a"
