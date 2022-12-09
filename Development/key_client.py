@@ -3,14 +3,14 @@ import socket
 
 def client_program():
     host = '127.0.0.1'
-    port = 5050 
+    port = 1233 
 
     client_socket = socket.socket()  # instantiate
+    print('Waiting for connection')
+
     client_socket.connect((host, port))  # connect to the server
 
-
     while True:
-        
         if keyboard.read_key() == "a":
             message = "a"
             client_socket.send(message.encode())  # send message
@@ -29,6 +29,7 @@ def client_program():
             break
         else:
             continue
+        print(message)
     client_socket.close()  # close the connection
 
 
@@ -36,4 +37,4 @@ if __name__ == '__main__':
     client_program()
 
 
-        
+
