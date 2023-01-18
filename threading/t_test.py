@@ -3,7 +3,7 @@ from numpy import pi
 from spatialmath import SE3
 from dobject import Dobot
 rb = Dobot()
-x = 0.187
+x = 0.147
 y = 0.0
 z = 0.1
 
@@ -18,6 +18,8 @@ def runB():
         print ('B\n')
 
 if __name__ == "__main__":
+
+    
     t1 = Thread(target = runA)
     t2 = Thread(target = runB)
     t1.setDaemon(True)
