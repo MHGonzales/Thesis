@@ -1,23 +1,37 @@
-import openpyxl
+import xlwings as xw
+import keyboard
+# Specifying a sheet
+ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
   
-# Opening an excel file
-wb_obj = openpyxl.load_workbook('coordinates_py.xlsx')
- 
-# Get workbook active sheet object
-# from the active attribute
-sheet_obj = wb_obj.active
- 
-# Cell objects also have a row, column,
-# and coordinate attributes that provide
-# location information for the cell.
- 
-# Note: The first row or
-# column integer is 1, not 0.
- 
-# Cell object is created by using
-# sheet object's cell() method.
-cell_obj = sheet_obj.cell(row = 1, column = 1)
- 
-# Print value of cell object
-# using the value attribute
-print(cell_obj.value)
+y:float = 0
+z:float = 0
+# Selecting a 2D
+# range of data
+table = ws.range("A1:I2").value
+i =1
+j =2
+h =0
+
+
+y = table[h][i]
+z = table[h][j]
+while True:
+        if keyboard.read_key() == "a":
+            i=i-3
+            j=j-3
+        elif keyboard.read_key() == "w":
+            h=h+1
+        elif keyboard.read_key() == "s":
+            h=h-1
+        elif keyboard.read_key() == "d":   
+            i=i+3
+            j=j+3 
+        elif keyboard.read_key() == 'esc':
+            break
+        else:
+            print("No data received")
+            continue
+        y = table[h][i]
+        z = table[h][j]
+        print("y:",y," z:",z)
+  
