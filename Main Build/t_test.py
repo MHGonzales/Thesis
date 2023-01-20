@@ -6,9 +6,9 @@ import DobotDllType as dType
 import keyboard
 
 rb = Dobot()
-x = 0.187
-y = -0.083
-z = -0.070
+x = 0.147
+y = -0.0076
+z = -0.06616
 
 def d2p(deg:float):
     
