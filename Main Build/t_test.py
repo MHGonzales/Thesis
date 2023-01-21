@@ -45,7 +45,6 @@ if __name__ == "__main__":
     t2.start()
     while True:
         if keyboard.read_key() == "a":
-            message = "a"
             y=y+0.02
             print(f"x:{x},y:{y},z{z}")   # send message
         elif keyboard.read_key() == "w":
