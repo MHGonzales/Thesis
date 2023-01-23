@@ -5,12 +5,14 @@ from PyQt5.QtCore import *
 import cv2
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtMultimediaWidgets import QVideoWidget 
+from PyQt5 import QtWidgets
 
 class MainWindow(QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
 
         self.VBL = QVBoxLayout()
+        
 
         self.FeedLabel = QLabel()
         self.VBL.addWidget(self.FeedLabel)
@@ -27,7 +29,9 @@ class MainWindow(QWidget):
         
         self.Worker2.start()
         self.Worker2.ImageUpdate.connect(self.ImageUpdateSlot)
-
+        
+        
+        
         self.setLayout(self.VBL)
 
     def ImageUpdateSlot(self, Image):
@@ -41,8 +45,7 @@ class Worker1(QThread):
     ImageUpdate = pyqtSignal(QImage)
     def run(self):
         self.ThreadActive = True
-        Capture = cv2.VideoCapture(0)
-        Capture = cv2.VideoCapture(0)
+        Capture = cv2.VideoCapture(2)
         
         while self.ThreadActive:
             ret, frame = Capture.read()
@@ -52,7 +55,7 @@ class Worker1(QThread):
                 ConvertToQtFormat = QImage(FlippedImage.data, FlippedImage.shape[1], FlippedImage.shape[0], QImage.Format_RGB888)
                 Pic = ConvertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                 self.ImageUpdate.emit(Pic)
-
+                
     def stop(self):
         self.ThreadActive = False
         self.quit()
@@ -62,7 +65,7 @@ class Worker2(QThread):
     def run(self):
         self.ThreadActive = True
         
-        Capture = cv2.VideoCapture(2)
+        Capture = cv2.VideoCapture(0)
         
         while self.ThreadActive:
             ret, frame = Capture.read()
