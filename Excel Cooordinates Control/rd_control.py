@@ -50,22 +50,12 @@ ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
 table = ws.range("A1:C6").value
 
 
-#this is for delta movement
+
 def robot(y:int = 0 ,z:int =0):
     
     #move in delta
     print("y: ",y,"z: ",z)
 
-
-#create function rotate knob.
-    #move to knob 2 servos (1st and 2nd servo)
-    # grab knob( 1 servo last )
-    #rotate knob(1 servo middle)
-
-
-
-
-#this is for delta calculation
 def delta():
     global i
     oy = table[i][1]
