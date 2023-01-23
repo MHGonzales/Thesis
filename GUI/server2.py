@@ -14,9 +14,10 @@ import imutils
 # create an INET, STREAMING socket
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-HOST = '172.23.100.6'
+host_name  = socket.gethostname()
+HOST = "localhost"
 print('HOST IP:',HOST)
-PORT = 17961 #change from ngrok
+PORT = 80 #change from ngrok
 socket_address = (HOST,PORT)
 print('Socket created')
 # bind the socket to the host. 
