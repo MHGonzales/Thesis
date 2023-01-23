@@ -6,9 +6,9 @@ import DobotDllType as dType
 import keyboard
 
 rb = Dobot()
-x = 0.187
-y = -0.083
-z = -0.070
+x = 0.147
+y = -0.0076
+z = -0.06616
 
 def d2p(deg:float):
     
@@ -45,7 +45,6 @@ if __name__ == "__main__":
     t2.start()
     while True:
         if keyboard.read_key() == "a":
-            message = "a"
             y=y+0.02
             print(f"x:{x},y:{y},z{z}")   # send message
         elif keyboard.read_key() == "w":
