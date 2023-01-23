@@ -7,12 +7,11 @@ import pickle
 import numpy as np
 import imutils
 
-host = '0.tcp.ngrok.io'
+host = '13.229.3.203'
 port = 15290
 
 client_socket = socket.socket()  # instantiate
 client_socket.connect((host, port))  # client_socket.connect(('0.tcp.ngrok.io', 19194))
-
 
 cam1 = cv2.VideoCapture(0)
 cam = cv2.VideoCapture(1)

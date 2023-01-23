@@ -1,15 +1,25 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# load_ext autoreload
+# autoreload 2
+
+# Import the required modules
+# pylab inline 
 from IPython.display import clear_output
 import socket
 import sys
 import cv2
+import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 import struct ## new
 import zlib
 from PIL import Image, ImageOps
 
-HOST = '0.tcp.ap.ngrok.io'
-PORT = 16292
+HOST= '127.0.0.1'
+PORT= 4040
 
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 print('Socket created')
