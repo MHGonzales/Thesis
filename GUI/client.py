@@ -7,8 +7,8 @@ import pickle
 import numpy as np
 import imutils
 
-host = '127.0.0.1'
-port = 4040
+host = '13.229.3.203'
+port = 15290
 
 client_socket = socket.socket()  # instantiate
 client_socket.connect((host, port))  # client_socket.connect(('0.tcp.ngrok.io', 19194))
