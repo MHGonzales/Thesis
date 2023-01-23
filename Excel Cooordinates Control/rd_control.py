@@ -47,34 +47,54 @@ if __name__ == "__main__":
 #activate threads for keyboard
 
 ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
-table = ws.range("A1:I2").value
+table = ws.range("A1:C6").value
 
+
+
+def robot(y:int = 0 ,z:int =0):
+    
+    #move in delta
+    print("y: ",y,"z: ",z)
+
+def delta():
+    global i
+    oy = table[i][1]
+    oz = table[i][2]
+    #new values
+    #subtract from old
+    #call robot(y,z)
+    #new values becomes old values
+    return
 
 def left():
-    
+    global i
+    i=0
     while True:
         if kb.read_key() == "a":
-            
-           continue
+            i+=2
+            delta()
         tm.sleep(0.25)
 
 def right():
+    global i
     while True:
         if kb.read_key() == "d":
-            
-            continue
+            i-=2
+            delta()
         tm.sleep(0.25)
 
 def up():
     while True:
         if kb.read_key() == "w":
-           continue
+            i+=1
+            delta()
         tm.sleep(0.25)
 
 def down():
     while True:
         if kb.read_key() == "s":
-           continue
+            i-=1
+            delta()
         tm.sleep(0.25)
 
 if __name__ == "__main__":
@@ -94,8 +114,10 @@ if __name__ == "__main__":
     t2.start()
     t3.start()
     t4.start()
-
-
+    x,y,z = 0,0,0 
+    y =62
+    robot(x,y,z)
+    print(i)
     while True:
         if kb.read_key() == "esc":
             break
