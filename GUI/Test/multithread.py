@@ -27,7 +27,7 @@ def camPreview(previewName, camID):
 
 # Create threads as follows
 thread1 = camThread("Robot Arm", 0)
-thread2 = camThread("Lab View", 2)
+thread2 = camThread("Lab View", 1)
 
 thread1.start()
 thread2.start()
