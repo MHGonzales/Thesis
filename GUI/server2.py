@@ -7,7 +7,7 @@ import imutils
 # socket: To get socket module from python
 # cv2: To import Computer Vision module from python
 # pickle: for serializing and de-serializing python object structures.
-# struct: to convert native Python data types such as strings and numbers into a string of bytes and vice versa
+# struct: to convert native Python data types such as strings and numbers into a string of bytes  and vice versa
 # imutils: Image processing operations
 
 # Server socket
@@ -18,7 +18,7 @@ server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 host_name  = socket.gethostname()
 HOST = "localhost"
 print('HOST IP:',HOST)
-PORT = 80 #change from ngrok
+PORT = 80  
 
 socket_address = (HOST,PORT)
 print('Socket created')
@@ -38,14 +38,24 @@ while True:
     print('Connection from: ', addr)
     if client_socket:
         vid = cv2.VideoCapture(0)
+        vid1 = cv2.VideoCapture(1)
         while (vid.isOpened()):
             img, frame = vid.read()
+            img1, frame1 = vid1.read()
             a = pickle.dumps(frame)
+            a1 = pickle.dumps(frame1)
             message = struct.pack("Q", len(a)) + a
+            message1 = struct.pack("Q", len(a1)) + a1
             client_socket.sendall(message)
-            cv2.imshow('Sending...', frame)
+            client_socket.sendall(message1)
+            if (img):
+                cv2.imshow('Sending...', frame)
+            if (img1):
+                cv2.imshow('Sending...1', frame1)
             key = cv2.waitKey(10)
             if key == 27: # exit on ESC
                 client_socket.close()
+
+
 
 
