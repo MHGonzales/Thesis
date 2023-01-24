@@ -1,6 +1,5 @@
 import socket
 
-
 def server_program():
     # get the hostname
     host = '127.0.0.1'
@@ -17,6 +16,7 @@ def server_program():
     while True:
         # receive data stream. it won't accept data packet greater than 1024 bytes
         data = conn.recv(1024).decode()
+        
         if not data:
             # if data is not received break
             break

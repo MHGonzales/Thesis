@@ -47,69 +47,63 @@ if __name__ == "__main__":
 #activate threads for keyboard
 
 ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
-table = ws.range("A1:I2").value
-i =1
-j =2
-h =0
+table = ws.range("A1:C6").value
 
-yold:float = table[h][i]
-zold:float = table[h][j]
-ynew:float = table[h][i]
-znew:float = table[h][j]
-ydelta:float = 0
-zdelta:float = 0
 
+#this is for delta movement
+def robot(y:int = 0 ,z:int =0):
+    
+    #move in delta
+    print("y: ",y,"z: ",z)
+
+
+#create function rotate knob.
+    #move to knob 2 servos (1st and 2nd servo)
+    # grab knob( 1 servo last )
+    #rotate knob(1 servo middle)
+
+
+
+
+#this is for delta calculation
 def delta():
-    ydelta = yold - ynew
-    zdelta = zold - znew
-    yold = ynew
-    zold = znew
-
-
-def moverobot():
-    while True:
-        continue
-        #print("Moving robot in y delta:" ,ydelta, "z delta: ",zdelta)
+    global i
+    oy = table[i][1]
+    oz = table[i][2]
+    #new values
+    #subtract from old
+    #call robot(y,z)
+    #new values becomes old values
+    return
 
 def left():
+    global i
+    i=0
     while True:
         if kb.read_key() == "a":
-            i=i-3
-            j=j-3
-            ynew = table[h][i]
-            znew = table[h][j]
-            print(ynew," ",znew)
+            i+=2
             delta()
         tm.sleep(0.25)
 
 def right():
+    global i
     while True:
         if kb.read_key() == "d":
-            i=i+3
-            j=j+3 
-            ynew = table[h][i]
-            znew = table[h][j]
-            print(ynew," ",znew)
+            i-=2
             delta()
         tm.sleep(0.25)
 
 def up():
     while True:
         if kb.read_key() == "w":
-            h=h+1
-            ynew = table[h][i]
-            znew = table[h][j]
-            print(ynew," ",znew)
+            i+=1
             delta()
         tm.sleep(0.25)
 
 def down():
     while True:
         if kb.read_key() == "s":
-            h=h-1
-            ynew = table[h][i]
-            znew = table[h][j]
-            print(ynew," ",znew)
+            i-=1
             delta()
         tm.sleep(0.25)
 
@@ -118,21 +112,22 @@ if __name__ == "__main__":
     t2 = Thread(target=right)
     t3 = Thread(target=up)
     t4 = Thread(target=down)
-    t5 = Thread(target = moverobot)
+
 
     t1.setDaemon(True)
     t2.setDaemon(True)
     t3.setDaemon(True)
     t4.setDaemon(True)
-    #t5.setDaemon(True)
+ 
 
     t1.start()
     t2.start()
     t3.start()
     t4.start()
-    #t5.start()
-
-    print(ynew," ",znew)
+    x,y,z = 0,0,0 
+    y =62
+    robot(x,y,z)
+    print(i)
     while True:
         if kb.read_key() == "esc":
             break
