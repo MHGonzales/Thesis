@@ -15,6 +15,7 @@ def d2p(deg:float):
     pwm = (deg/18)+2.5
     return pwm
 
+#put this in rd_control
 def runA():
     while True:
         Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])

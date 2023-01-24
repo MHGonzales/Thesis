@@ -28,18 +28,22 @@ def jpos(x,y,z):
     Tf = SE3.Trans(x ,y ,z) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
     return sol.q*180/pi
-    
+
+ 
 def setje(x,y,z):
     #loop to move through qtraj
     
     current_pose=dType.GetPose(api)
     dType.SetPTPCmd(api,2,(x-0.040)*1000,y*1000,z*1000,current_pose[7],1) 
     #return
+
 def d2p(deg:float):
     
     pwm = (deg/18)+2.5
     print(pwm)
     return pwm
+
+
 def setjW(q:float):
     
     pwm = d2p(q)
