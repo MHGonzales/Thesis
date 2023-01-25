@@ -1,6 +1,3 @@
-# Welcome to PyShine
-# In this video server is receiving video from clients and also record them with any names
-# Lets import the libraries
 import socket, cv2, pickle, struct
 import imutils
 import threading
@@ -23,7 +20,6 @@ def show_client(addr,client_socket):
     fourcc =0x7634706d 
     now = datetime.now()
     time_str = now.strftime("%d%m%Y%H%M%S")
-    time_name = '_Rec_'+time_str+'.mp4'
     fps = 30
     frame_shape = False
     try:
@@ -49,12 +45,6 @@ def show_client(addr,client_socket):
                 time_now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
                 frame =  ps.putBText(frame,time_now,10,10,vspace=10,hspace=1,font_scale=0.7, background_RGB=(255,0,0),text_RGB=(255,250,250))
                 
-                if not frame_shape:
-                    
-                    video_file_name  = str(addr) + time_name
-                    out = cv2.VideoWriter(video_file_name, fourcc, fps, (frame.shape[1], frame.shape[0]), True)
-                    frame_shape = True
-                out.write(frame)
                 cv2.imshow(f"FROM {addr}",frame)
                 key = cv2.waitKey(1) & 0xFF
                 if key  == ord('q'):
