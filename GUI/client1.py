@@ -1,6 +1,3 @@
-# Welcome to PyShine
-# lets make the client code
-# In this code client is sending video to server
 import socket,cv2, pickle,struct
 import pyshine as ps # pip install pyshine
 import imutils # pip install imutils
@@ -11,7 +8,7 @@ if camera == True:
 else:
 	vid = cv2.VideoCapture('videos/mario.mp4')
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-host_ip = '192.168.163.1' # Here according to your server ip write the address
+host_ip = '10.68.194.242' # Here according to your server ip write the address
 
 port = 9999
 client_socket.connect((host_ip,port))

@@ -13,8 +13,7 @@ server_port = 1234
 
 skt.connect((server_ip, int(server_port))) 
 skt.send(b"connected")  # sending string as data
-camera = cv.VideoCapture(1) # starting the camera
-camera1 = cv.VideoCapture(2) # starting the camera
+camera = cv.VideoCapture(0) # starting the camera
 
 # function for cleint to work as receiver
 def receiver():
