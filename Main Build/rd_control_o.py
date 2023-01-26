@@ -15,67 +15,22 @@ import DobotDllType as dType
 #move robot using delta
 #activate threads for keyboard
 
+ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
+table = ws.range("A1:C7").value
+
 
 #this is for delta movement
 def robot(y,z):
     
     current_pose=dType.GetPose(api)
     dType.SetPTPCmdEx(api, 7, 0,  y,  z, current_pose[7], 1)
-    dType.dSleep(2000)
+    dType.dSleep(1000)
 
 
 #create function rotate knob.
     #move to knob 2 servos (1st and 2nd servo)
     # grab knob( 1 servo last )
     #rotate knob(1 servo middle)
-
-def low_mid():
-    global table
-    while True:
-        if kb.read_key() == "k":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
-            table = ws.range("A1:C7").value
-            current_pose = dType.GetPose(api)
-            oy,oz = current_pose[1],current_pose[2]
-            ny,nz = table[0][1],table[0][2]
-            delta(oy,oz,ny,nz)
-        tm.sleep(0.25)
-
-def high_mid():
-    global table
-    while True:
-        if kb.read_key() == "i":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Upper Load']
-            table = ws.range("A1:C7").value
-            current_pose = dType.GetPose(api)
-            oy,oz = current_pose[1],current_pose[2]
-            ny,nz = table[0][1],table[0][2]
-            delta(oy,oz,ny,nz)
-        tm.sleep(0.25)
-
-def high_right():
-    global table
-    while True:
-        if kb.read_key() == "o":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Right Upper Load']
-            table = ws.range("A1:C2").value
-            current_pose = dType.GetPose(api)
-            oy,oz = current_pose[1],current_pose[2]
-            ny,nz = table[0][1],table[0][2]
-            delta(oy,oz,ny,nz)
-        tm.sleep(0.25)
-
-def low_right():
-    global table
-    while True:
-        if kb.read_key() == "l":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Data Acquisition']
-            table = ws.range("A1:C2").value
-            current_pose = dType.GetPose(api)
-            oy,oz = current_pose[1],current_pose[2]
-            ny,nz = table[0][1],table[0][2]
-            delta(oy,oz,ny,nz)
-        tm.sleep(0.25)
 
 
 #this is for delta calculation
@@ -142,37 +97,31 @@ if __name__ == "__main__":
     dType.ConnectDobot(api, "", 115200)
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
-    current_pose=dType.GetPose(api)
     dType.SetPTPCmd(api,2,140,0,0,0,1) 
-    
+    current_pose=dType.GetPose(api)
+    oy,oz = current_pose[1],current_pose[2]
+    ny = table[0][1]
+    nz = table[0][2]
+    delta(oy,oz,ny,nz)
 
     t1 = Thread(target=left)
     t2 = Thread(target=right)
     t3 = Thread(target=up)
     t4 = Thread(target=down)
-    t5= Thread(target=low_mid)
-    t6 = Thread(target=low_right)
-    t7 = Thread(target=high_mid)
-    t8 = Thread(target=high_right)
+    
 
 
     t1.setDaemon(True)
     t2.setDaemon(True)
     t3.setDaemon(True)
     t4.setDaemon(True)
-    t5.setDaemon(True)
-    t6.setDaemon(True)
-    t7.setDaemon(True)
-    t8.setDaemon(True)
+    
 
     t1.start()
     t2.start()
     t3.start()
     t4.start()
-    t5.start()
-    t6.start()
-    t7.start()
-    t8.start()
+    
 
 
     while True:
