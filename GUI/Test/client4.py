@@ -1,62 +1,45 @@
-#importing library
-
+import pickle
 import socket
-import numpy as np
-import cv2 as cv
-import threading
+import struct
+import time
 
-# client program socket to connect to the server program
-skt = socket.socket()
-skt.bind(("", 4321))  # empty means local system
-server_ip = 'localhost'
-server_port = 1234
+import cv2
 
-skt.connect((server_ip, int(server_port))) 
-skt.send(b"connected")  # sending string as data
-camera = cv.VideoCapture(0) # starting the camera
+# Define client socket
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client.connect(('1.tcp.ap.ngrok.io', 21694))
 
-# function for cleint to work as receiver
-def receiver():
-    framesLost = 0
-    print("Entered")
-    while True:
-        framesLost += 1 # counting frame
-        data = skt.recv(100000000)  # receiving data with the size limit
-        if(data == b'finished'): # to stop receiving and stop camera
-            print("Finished")
-            camera.release()
-            skt.close()
-        else:  # converting the byte data into numpy array
-            photo =  np.frombuffer(data, dtype=np.uint8)
-            if len(photo) == 640*480*3: # changing the array shape and getting the video
-                cv.imshow('Arm View', photo.reshape(480, 640, 3))
-                if cv.waitKey(1) == 27: # camera closing condition
-                    skt.send(b'finished')
-                    camera.release()
-                    cv.destroyAllWindows()
-                    break
+# Define VideoCapture object
+# There must be a camera plugged up. Play with the first argument of the VideoCapture declaration.
+# The codec is provided for faster launch.
+width, height = 256, 144 # 1920 x 1080 is too much
+cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+cam.set(cv2.CAP_PROP_FPS, 30)
+cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
 
-#def receiver2():
-#    framesLost1 = 0
-#    print("Entered - 1")
-#    while True:
-#        framesLost1 += 1 # counting frame
-#        data1 = skt.recv(100000000)  # receiving data with the size limit
-#        if(data1 == b'finished'): # to stop receiving and stop camera
-#            print("Finished")
-#            camera1.release()
-#            skt.close()
-#        else:  # converting the byte data into numpy array
-#            photo1 =  np.frombuffer(data1, dtype=np.uint8)
-#            if len(photo1) == 640*480*3: # changing the array shape and getting the video
-#                cv.imshow('Lab View', photo1.reshape(480, 640, 3))
-#                if cv.waitKey(1) == 27: # camera closing condition
-#                    skt.send(b'finished')
-#                    camera1.release()
-#                    cv.destroyAllWindows()
-#                    break
+while True:
+    # Capture frame
+    _, frame = cam.read()
 
+    # Serialize the frame, then send it to the server socket.
+    # It's necessary to include the length of the byte stream at the beginning in order for the server to know when to
+    # stop receiving.
+    frame_bytes = pickle.dumps(frame)
+    send_bytes = struct.pack('q', len(frame_bytes)) + frame_bytes
+    start = time.perf_counter()
+    client.sendall(send_bytes)
+    end = time.perf_counter()
 
-# threads to run both the functions
-threading.Thread(target=receiver).start()
-#threading.Thread(target=receiver2).start()
+    # Some measurements
+    print(f'Total size sent: {len(send_bytes):,} bytes')
+    print(f'Time to send: {end - start} seconds')
+    print(f'Send rate: {len(send_bytes)/(end - start):,} bytes/second\n')
+
+    # Show the frame
+    cv2.imshow('Sending Video', frame)
+
+    if cv2.waitKey(1) == 27:
+        client.close()
+        break

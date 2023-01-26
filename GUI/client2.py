@@ -9,9 +9,9 @@ import imutils
 # create an INET, STREAMing socket : 
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
-host_ip = 'localhost'
+host_ip = '1.tcp.ap.ngrok.io'
 # Standard loopback interface address (localhost)
-port = 80
+port = 21694
 
 # Port to listen on (non-privileged ports are > 1023)
 # now connect to the web server on the specified port number
@@ -36,9 +36,9 @@ while True:
     frame_data = data[:msg_size]
     data  = data[msg_size:]
     frame = pickle.loads(frame_data)
-    frame1 = pickle.loads(frame_data)
+    #frame1 = pickle.loads(frame_data)
     cv2.imshow("Receiving...",frame)
-    cv2.imshow("Receiving...1",frame1)
+    #cv2.imshow("Receiving...1",frame1)
     key = cv2.waitKey(10) 
     if key  == 27:
         break

@@ -14,11 +14,12 @@ import imutils
 # create an INET, STREAMING socket
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 
+width,height = 256, 144
 
 host_name  = socket.gethostname()
 HOST = "localhost"
 print('HOST IP:',HOST)
-PORT = 80  
+PORT = 5050
 
 socket_address = (HOST,PORT)
 print('Socket created')
@@ -38,22 +39,24 @@ while True:
     print('Connection from: ', addr)
     if client_socket:
 
-        vid = cv2.VideoCapture(0)
-        vid1 = cv2.VideoCapture(1)
+        vid = cv2.VideoCapture(1)
+        #vid1 = cv2.VideoCapture(1)
+        vid.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
         while (vid.isOpened()):
             img, frame = vid.read()
-            img1, frame1 = vid1.read()
+            #img1, frame1 = vid1.read()
             a = pickle.dumps(frame)
-            a1 = pickle.dumps(frame1)
+            #a1 = pickle.dumps(frame1)
             message = struct.pack("Q", len(a)) + a
-            message1 = struct.pack("Q", len(a1)) + a1
+            #message1 = struct.pack("Q", len(a1)) + a1
             client_socket.sendall(message)
-            client_socket.sendall(message1)
+            #client_socket.sendall(message1)
             if (img):
                 cv2.imshow('Sending...', frame)
-            if (img1):
-                cv2.imshow('Sending...1', frame1)
+            #if (img1):
+            #    cv2.imshow('Sending...1', frame1)
             key = cv2.waitKey(10)
             if key == 27: # exit on ESC
                 client_socket.close()
