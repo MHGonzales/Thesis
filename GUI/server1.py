@@ -7,9 +7,9 @@ from datetime import datetime
 
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 host_name  = socket.gethostname()
-host_ip = socket.gethostbyname(host_name)
+host_ip = 'localhost'
 print('HOST IP:',host_ip)
-port = 9999
+port = 80
 socket_address = (host_ip,port)
 server_socket.bind(socket_address)
 server_socket.listen()
@@ -17,7 +17,7 @@ print("Listening at",socket_address)
 
 
 def show_client(addr,client_socket):
-    fourcc =0x7634706d 
+    
     now = datetime.now()
     time_str = now.strftime("%d%m%Y%H%M%S")
     fps = 30
@@ -30,7 +30,7 @@ def show_client(addr,client_socket):
             while True:
                 while len(data) < payload_size:
                     packet = client_socket.recv(4*1024) # 4K
-                    if not packet: break
+                    
                     data+=packet
                 packed_msg_size = data[:payload_size]
                 data = data[payload_size:]
@@ -43,13 +43,14 @@ def show_client(addr,client_socket):
                 frame = pickle.loads(frame_data)
                 text  =  f"CLIENT: {addr}"
                 time_now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-                frame =  ps.putBText(frame,time_now,10,10,vspace=10,hspace=1,font_scale=0.7, background_RGB=(255,0,0),text_RGB=(255,250,250))
+                frame =  ps.putBText(frame,time_now,10,10,vspace=10,hspace=1,font_scale=0.7, text_RGB=(0,0,0))
                 
                 cv2.imshow(f"FROM {addr}",frame)
-                key = cv2.waitKey(1) & 0xFF
-                if key  == ord('q'):
+                key = cv2.waitKey(10) & 0xFF
+                if key  == 27:
+                    client_socket.close()
                     break
-            client_socket.close()
+            
     except Exception as e:
         print(f"CLINET {addr} DISCONNECTED")
         pass
@@ -58,6 +59,5 @@ while True:
 	client_socket,addr = server_socket.accept()
 	thread = threading.Thread(target=show_client, args=(addr,client_socket))
 	thread.start()
-	print("TOTAL CLIENTS ",threading.activeCount() - 1)
 	
 
