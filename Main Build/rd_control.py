@@ -19,9 +19,9 @@ import DobotDllType as dType
 #this is for delta movement
 def robot(y,z):
     
-    current_pose=dType.GetPose(api)
-    dType.SetPTPCmdEx(api, 7, 0,  y,  z, current_pose[7], 1)
-    dType.dSleep(2000)
+    #kilocurrent_pose=dType.GetPose(api)
+    dType.SetPTPCmdEx(api, 7, 0,  y,  z, 0, 1)
+    
 
 
 #create function rotate knob.
@@ -30,7 +30,7 @@ def robot(y,z):
     #rotate knob(1 servo middle)
 
 def low_mid():
-    global table
+    global table,i
     while True:
         if kb.read_key() == "k":
             ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
@@ -38,11 +38,12 @@ def low_mid():
             current_pose = dType.GetPose(api)
             oy,oz = current_pose[1],current_pose[2]
             ny,nz = table[0][1],table[0][2]
+            i=0
             delta(oy,oz,ny,nz)
         tm.sleep(0.25)
 
 def high_mid():
-    global table
+    global table,i
     while True:
         if kb.read_key() == "i":
             ws = xw.Book("coordinates_py.xlsx").sheets['Middle Upper Load']
@@ -50,11 +51,12 @@ def high_mid():
             current_pose = dType.GetPose(api)
             oy,oz = current_pose[1],current_pose[2]
             ny,nz = table[0][1],table[0][2]
+            i=0
             delta(oy,oz,ny,nz)
         tm.sleep(0.25)
 
 def high_right():
-    global table
+    global table,i
     while True:
         if kb.read_key() == "o":
             ws = xw.Book("coordinates_py.xlsx").sheets['Right Upper Load']
@@ -62,11 +64,12 @@ def high_right():
             current_pose = dType.GetPose(api)
             oy,oz = current_pose[1],current_pose[2]
             ny,nz = table[0][1],table[0][2]
+            i=0
             delta(oy,oz,ny,nz)
         tm.sleep(0.25)
 
 def low_right():
-    global table
+    global table,i
     while True:
         if kb.read_key() == "l":
             ws = xw.Book("coordinates_py.xlsx").sheets['Data Acquisition']
@@ -74,13 +77,14 @@ def low_right():
             current_pose = dType.GetPose(api)
             oy,oz = current_pose[1],current_pose[2]
             ny,nz = table[0][1],table[0][2]
+            i=0
             delta(oy,oz,ny,nz)
         tm.sleep(0.25)
 
 
 #this is for delta calculation
 def delta(oy,oz,ny,nz):
-    global i
+    
     dy = ny-oy
     dz = nz - oz
     print("Delat y: ",dy ," Delta z: ",dz )
