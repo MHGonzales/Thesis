@@ -22,8 +22,8 @@ table = ws.range("A1:C7").value
 #this is for delta movement
 def robot(y,z):
     
-    current_pose=dType.GetPose(api)
-    dType.SetPTPCmdEx(api, 7, 0,  y,  z, current_pose[7], 1)
+    #current_pose=dType.GetPose(api)
+    dType.SetPTPCmdEx(api, 7, 0,  y,  z, 0, 1)
     dType.dSleep(1000)
 
 
