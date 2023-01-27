@@ -1,32 +1,52 @@
+import struct
+import pickle
 import socket
-import numpy as np
-import cv2 as cv
-import threading
+import time
 
-skt = socket.socket()
-skt.bind(("localhost", 1234))
-skt.listen()
-session, address = skt.accept() #accepting request from any server
-print(session.recv(4*1024)) 
-camera = cv.VideoCapture(0) # staritng camera
-camera1 = cv.VideoCapture(1) # staritng camera
+import cv2
 
-def sender():
-    while True:
-        status, photo = camera.read()
-        photo = cv.resize(photo, (640, 480))
-        print(photo.shape)
-        if status:
-            session.send(np.ndarray.tobytes(photo))
-        else: print("Could not get frame")
-#def sender1():
-    while True:
-        status1, photo1 = camera1.read()
-        photo1 = cv.resize(photo1, (640, 480))
-        print(photo1.shape)
-        if status1:    
-            session.send(np.ndarray.tobytes(photo1))
-        else: print("Could not get frame")
+# Define server socket. For testing, the IPV4 address works fine.
+ip, port = 'localhost', 5050
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind((ip, port))
+server.listen()
+print(f'Server listening on {ip}')
+client, address = server.accept()
+print(f'Connection made with {address}\n')
 
-threading.Thread(target=sender).start()                
-#threading.Thread(target=sender1).start()
+# This is the number of bytes that represent an integer
+bytes_length = struct.calcsize('q')
+data = b''
+
+while True:
+    # The first 8 bytes ('q' data type) represent an integer. This integer is the size of the serialized frame object.
+    # We need to make sure the data array has at least these 8 bytes, so that we know when to end the second while loop.
+    start = time.perf_counter()
+    while len(data) < bytes_length:
+        data += client.recv(1024*2)
+    frame_size_bytes = data[:bytes_length]
+    frame_size = struct.unpack('q', frame_size_bytes)[0]
+
+    # Keep adding the frame data until the known size is reached. There may be excess bytes that carry over, but the
+    # first while loop expects this and takes care of it.
+    frame_data = data[bytes_length:]
+    while len(frame_data) < frame_size:
+        frame_data += client.recv(1024*2)
+    end = time.perf_counter()
+
+    # Some measurements
+    print(f'Total size received: {len(frame_data) + bytes_length:,} bytes')
+    print(f'Time to receive: {end - start} seconds')
+    print(f'Receive rate: {(len(frame_data) + bytes_length)/(end - start):,} bytes/second\n')
+
+    # Get the frame object, resize it, then show it.
+    frame = pickle.loads(frame_data[:frame_size])
+    # height, width, _ = frame.shape
+    resized = cv2.resize(frame, (400, 360))
+    data = frame_data[frame_size:]  # excess data
+    cv2.imshow('Received Video', resized)
+
+    # End if 'q' is pressed
+    if cv2.waitKey(1) == 27:
+        server.close()
+        break
