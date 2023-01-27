@@ -46,7 +46,7 @@ while True:
     data = frame_data[frame_size:]  # excess data
     cv2.imshow('Received Video', resized)
 
-
+    # End if 'q' is pressed
     if cv2.waitKey(1) == 27:
         server.close()
         break

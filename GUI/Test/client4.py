@@ -13,11 +13,11 @@ client.connect(('1.tcp.ap.ngrok.io', 21694))
 # There must be a camera plugged up. Play with the first argument of the VideoCapture declaration.
 # The codec is provided for faster launch.
 width, height = 256, 144 # 1920 x 1080 is too much
-cam = cv2.VideoCapture(1, cv2.CAP_DSHOW)
+cam = cv2.VideoCapture(2)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 cam.set(cv2.CAP_PROP_FPS, 30)
-cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('H','2','6','4'))
 
 while True:
     # Capture frame
