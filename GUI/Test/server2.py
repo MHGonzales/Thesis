@@ -3,6 +3,7 @@ import cv2
 import pickle
 import struct
 import imutils
+from moviepy.editor import *
 
 # socket: To get socket module from python
 # cv2: To import Computer Vision module from python
@@ -13,8 +14,6 @@ import imutils
 # Server socket
 # create an INET, STREAMING socket
 server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-
-width,height = 256, 144
 
 host_name  = socket.gethostname()
 HOST = "localhost"
@@ -39,10 +38,8 @@ while True:
     print('Connection from: ', addr)
     if client_socket:
 
-        vid = cv2.VideoCapture(1)
+        vid = cv2.VideoCapture(3)
         #vid1 = cv2.VideoCapture(1)
-        vid.set(cv2.CAP_PROP_FRAME_WIDTH, width)
-        vid.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
         while (vid.isOpened()):
             img, frame = vid.read()

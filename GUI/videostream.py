@@ -2,7 +2,7 @@ from flask import Flask, Response
 import cv2
 
 app = Flask(__name__)
-video = cv2.VideoCapture(2)
+video = cv2.VideoCapture(3)
 video2 = cv2.VideoCapture(0)
 
 @app.route('/')
@@ -12,6 +12,7 @@ def index():
 def gen(video):
     while True:
         success, image = video.read()
+        encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         ret, jpeg = cv2.imencode('.jpg', image)
         frame = jpeg.tobytes()
         
@@ -21,7 +22,8 @@ def gen(video):
 def gen(video2):
     while True:
         success2, image2 = video2.read()
-        ret, jpeg = cv2.imencode('.jpg', image2)
+        encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),40] 
+        ret, jpeg = cv2.imencode('.jpg', image2, encode_param)
         frame = jpeg.tobytes()
         
         yield (b'--frame\r\n'
@@ -38,4 +40,4 @@ def video_feed2():
     return Response(gen(video2),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=443, threaded=True)
+    app.run(host='localhost', port=2037, threaded=True)
