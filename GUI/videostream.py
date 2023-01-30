@@ -39,7 +39,6 @@ def video_feed():
     return Response(gen(video),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 @app.route('/LAB VIEW')
-
 def video_feed2():
     global video2
     return Response(gen(video2),
