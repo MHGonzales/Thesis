@@ -2,13 +2,13 @@
 
 Servo servo_1,servo_2,servo_3; // servo controller (multiple can exist)
 
-int servo_pin = 9; // PWM pin for servo control
+
 int pos = 0;    // servo starting position
 
 void setup() {
-  servo_1.attach(servo_pin,520,2475);
-  servo_2.attach(10,625,2550);
-  servo_3.attach(11); // start servo control
+  servo_1.attach(9,520,2465);
+  servo_2.attach(10,625,2540);
+  servo_3.attach(3); // start servo control
   Serial.begin(9600); // start serial monitor
   servo_1.write(pos);
   servo_2.write(pos);
@@ -25,8 +25,7 @@ void loop() {
     Serial.println(" Degrees");
     if (in_char.toInt()>=pos)
     {
-      for (pos; pos <= in_char.toInt(); pos += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
+      for (pos; pos <= in_char.toInt(); pos += 1) { 
         servo_1.write(pos); 
         servo_2.write(pos);
         servo_3.write(pos);             // tell servo to go to position in variable 'pos'
