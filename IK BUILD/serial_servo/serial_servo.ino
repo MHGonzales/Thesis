@@ -47,50 +47,43 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    if (j1>=pos_1)
-    {
-      for (pos_1; pos_1 <= j1; pos_1 += 1) { 
-        servo_1.write(pos_1);             // tell servo to go to position in variable 'pos'
-        delay(30);                       // waits 15 ms for the servo to reach the position
-       }
-    }
-    if (j2>=pos_2)
-    {
-      for (pos_2; pos_2 <= j2; pos_2 += 1) { 
-        servo_2.write(pos_2);             // tell servo to go to position in variable 'pos'
-        delay(20);                       // waits 15 ms for the servo to reach the position
-       }
-    }
-    if (j3>=pos_3)
-    {
-      for (pos_3; pos_3 <= j3; pos_3 += 1) { 
-        servo_3.write(pos_3);             // tell servo to go to position in variable 'pos'
-        delay(20);                       // waits 15 ms for the servo to reach the position
-       }
-    }
-    if (j1<=pos_1)
-    {
-      for (pos_1; pos_1 >= j1; pos_1 -= 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-        servo_1.write(pos_1);              // tell servo to go to position in variable 'pos'
-        delay(20);                       // waits 15 ms for the servo to reach the position
-       }
-    }
-    if (j2<=pos_2)
-    {
-      for (pos_2; pos_2 >= j2; pos_2 -= 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-        servo_2.write(pos_2);              // tell servo to go to position in variable 'pos'
-        delay(20);                       // waits 15 ms for the servo to reach the position
-       }
-    }
-    if (j3<=pos_3)
-    {
-      for (pos_3; pos_3 >= j3; pos_3 -= 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-        servo_3.write(pos_3);              // tell servo to go to position in variable 'pos'
-        delay(30);                       // waits 15 ms for the servo to reach the position
-       }
+    while( pos_1 != j1 || pos_2 != j2 || pos_3 != j3){
+        if (pos_1 < j1)
+        {
+          pos_1++;
+          servo_1.write(pos_1);
+          delay(15);   
+        }
+        if (pos_2 < j2)
+        {
+          pos_2++;
+          servo_2.write(pos_2);
+          delay(15);   
+        }
+        if (pos_3 < j3)
+        {
+          pos_3++;
+          servo_3.write(pos_3);
+          delay(15);   
+        }  
+        if (pos_1 > j1)
+        {
+          pos_1--;
+          servo_1.write(pos_1);
+          delay(15);   
+        }
+        if (pos_2 > j2)
+        {
+          pos_2--;
+          servo_2.write(pos_2);
+          delay(15);
+        }
+        if (pos_3 > j3)
+        {
+          pos_3--;
+          servo_3.write(pos_3);
+          delay(15);
+        }        
     } // convert angle and write servo // delay for maximum speed
     pos_1 = j1;
     pos_2 = j2;
