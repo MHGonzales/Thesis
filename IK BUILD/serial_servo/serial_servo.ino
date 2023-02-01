@@ -1,5 +1,6 @@
 #include <Servo.h>
-
+#include <MPU6050_light.h>
+                                        
 Servo servo_1,servo_2,servo_3; // servo controller (multiple can exist)
 int pos_1,pos_2,pos_3 = 0;    // servo starting position
 int j1,j2,j3 = 0;
@@ -7,7 +8,7 @@ int j1,j2,j3 = 0;
 void setup() {
   servo_1.attach(9,520,2465);
   servo_2.attach(10,625,2540);
-  servo_3.attach(11,520,2460); // start servo control
+  servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
   servo_1.write(pos_1);
   servo_2.write(pos_2);
