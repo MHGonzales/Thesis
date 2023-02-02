@@ -1,0 +1,116 @@
+* {
+    margin: auto;
+    padding: 0;
+}
+body {
+    text-align: center;
+    background-color: #113C61;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+  
+  #wrapper {
+    height: fit-content;
+    width: fit-content;
+    padding: 10px;
+    justify-content: center; 
+  }
+  
+  #controls {
+    display: inline-grid;
+    justify-content: center; 
+    grid-column-gap: 20%;
+    grid-row-gap: 20%;
+    align-self: end;
+  }
+  
+  .movements_control {
+    border: solid 1px black;  
+    border-width: 0 3px 3px 0;
+    padding: 3px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #up {
+    grid-column-start: 2;
+  }
+  
+  #left {
+    grid-column-start: 1;
+  }
+  
+  #down {
+    grid-column-start: 0;
+  }
+  
+  #right {
+    grid-column-start: 3;
+  }
+  
+  #up:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #down:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #left:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }    
+  #right:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+
+  #m1 {
+    grid-template-rows: 1;
+    grid-column-start: 1;
+  }
+  
+  #m2 {
+    grid-template-rows: 1;
+    grid-column-start: 2;
+  }
+  
+  #m3 {
+    grid-template-rows: 1;
+    grid-column-start: 3;
+  }
+  
+  #m4 {
+    grid-template-rows: 0;
+    grid-column-start: 2;
+  }
+
+  #m5 {
+    grid-template-rows: 0;
+    grid-column-start: 3;
+  }
+  #m1:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #m2:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #m3:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }    
+  #m4:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #m5:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  @media (min-width: 721px) {
+    .movements_control {
+      width: 70px;
+      height: 70px;
+    }
+  }
+  
+  @media (max-width: 720px) {
+    .movements_control {
+      width: 80px;
+      height: 80px;
+    }
+  }
