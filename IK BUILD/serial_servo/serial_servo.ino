@@ -9,8 +9,8 @@ int j1,j2,j3 = 0;
 
 
 void setup() {
-  servo_1.attach(9,520,2465);
-  servo_2.attach(10,625,2540);
+  servo_1.attach(9,520,2475);
+  servo_2.attach(10,625,2575);
   servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
@@ -27,7 +27,7 @@ void setup() {
 }
 
 void loop() {
-  mpu.update();
+  
   while (Serial.available()){
     String rxString = "";
     String strArr[3];
@@ -97,13 +97,7 @@ void loop() {
         } 
              
     } // convert angle and write servo // delay for maximum speed
-    
-    Serial.print("Pitch : ");
-    Serial.print(mpu.getAngleX());
-    Serial.print("\tYaw : ");
-    Serial.print(mpu.getAngleY());
-    Serial.print("\tRoll : ");
-    Serial.println(mpu.getAngleZ()); 
+
     pos_1 = j1;
     pos_2 = j2;
     pos_3 = j3;

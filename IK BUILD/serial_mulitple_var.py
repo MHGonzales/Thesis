@@ -12,8 +12,6 @@ if __name__ == "__main__":
 
         ad.write(pos.encode())                          # write position to serial port
                    # read serial port for arduino echo
-        reachedPos = str(ad.readline().decode('ascii'))          # read serial port for arduino echo
-        print  (reachedPos) 
 
         if keyboard.read_key() == 'esc':
             break
