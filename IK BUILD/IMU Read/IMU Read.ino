@@ -30,11 +30,11 @@ void loop() {
   mpu.update();
   
   if((millis()-timer)>10){ // print data every 10ms
-	Serial.print("Roll : ");
+	Serial.print("Pitch : ");
 	Serial.print(mpu.getAngleX());
-	Serial.print("\tPitch : ");
-	Serial.print(mpu.getAngleY());
 	Serial.print("\tYaw : ");
+	Serial.print(mpu.getAngleY());
+	Serial.print("\tRoll : ");
 	Serial.println(mpu.getAngleZ());
 	timer = millis();  
   }
