@@ -4,7 +4,8 @@
 Servo servo_1,servo_2,servo_3;
 
  // servo controller (multiple can exist)
-int pos_1,pos_2,pos_3 = 0;    // servo starting position
+int pos_1,pos_2 = 0;
+int pos_3 = 90;    // servo starting position
 int j1,j2,j3 = 0;
 
 
