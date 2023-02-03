@@ -35,19 +35,19 @@ class Dobot(DHRobot):
         )
         L5 = RevoluteMDH(
             d=10*mm,
-            #offset=-90*deg,
-            #alpha = -np.pi/2,
+            offset=-180*deg,
+            alpha = np.pi,
             #flip=True
         )
         L6 = RevoluteMDH(
             a=0*mm,
-            alpha = -np.pi/2,
+            alpha = np.pi/2,
             #flip=True
         )
         L7 = RevoluteMDH(
-            alpha = np.pi/2,
+            alpha = -np.pi/2,
             d=40*mm,
-            a=10*mm,
+            #a=-10*mm,
             #flip=True
             #offset=-90*deg,
             #flip=True
