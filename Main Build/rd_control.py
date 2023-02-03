@@ -6,7 +6,7 @@ from numpy import pi
 from spatialmath import SE3
 from dobject import Dobot
 import DobotDllType as dType
-
+from serial import Serial as sr
 
 #specify sheets
 #read data range from
@@ -17,10 +17,13 @@ import DobotDllType as dType
 
 
 #this is for delta movement
-def robot(y,z):
-    
-    #kilocurrent_pose=dType.GetPose(api)
-    dType.SetPTPCmdEx(api, 7, 0,  y,  z, 0, 1)
+def robot(dx,dy,dz,nx,ny,nz):
+    #calculate inverse kinematics for position
+    #store ivnerse kinematics
+    dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
+    Tf = SE3.Trans(nx/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
+    #send serial to arduino
+
     
 
 
@@ -83,14 +86,15 @@ def low_right():
 
 
 #this is for delta calculation
-def delta(oy,oz,ny,nz):
+def delta(ox,oy,oz,nx,ny,nz):
     
     dy = ny-oy
     dz = nz - oz
-    print("Delat y: ",dy ," Delta z: ",dz )
+    dx = nx-ox
+    print("Delta x: ",dx,"Delat y: ",dy ," Delta z: ",dz )
     #new values
     #subtract from old
-    robot(dy,dz)
+    robot(dx,dy,dz,nx,ny,nz)
     #new values becomes old values
     return
 
