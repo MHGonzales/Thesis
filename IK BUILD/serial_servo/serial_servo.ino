@@ -16,7 +16,7 @@ void setup() {
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.write(pos_1);
+  servo_1.write(90);
   servo_2.write(pos_2);
   servo_3.write(pos_3); 
   
