@@ -15,13 +15,22 @@ from serial import Serial as sr
 #move robot using delta
 #activate threads for keyboard
 
+ad = sr('COM6',9600)
 
 #this is for delta movement
 def robot(dx,dy,dz,nx,ny,nz):
     #calculate inverse kinematics for position
-    #store ivnerse kinematics
-    dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
     Tf = SE3.Trans(nx/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
+    sol = rb.ikine_LMS(Tf,rb.qz)
+    qn =sol.q*180/pi
+    j4 = qn[4]
+    j5 = qn[5]
+    j6 = qn[6]
+    pos = str(j4+','+j5+','+j6+',').encode()
+    ad.write(pos)     
+    dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
+
+    
     #send serial to arduino
 
     
