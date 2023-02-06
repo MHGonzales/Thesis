@@ -10,12 +10,12 @@ int j1,j2,j3 = 0;
 
 void setup() {
   servo_1.attach(9,520,2475);
-  servo_2.attach(10,625,2650);
+  servo_2.attach(10,625,2600);
   servo_3.attach(11,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.write(0);
+  servo_1.write(90);
   servo_2.write(90);
   servo_3.write(0); 
   
