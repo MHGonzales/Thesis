@@ -1,7 +1,7 @@
-#include <Servo.h>
+#include <VarSpeedServo.h>
 
                                         
-Servo servo_1,servo_2,servo_3;
+VarSpeedServo servo_1,servo_2,servo_3;
 
  // servo controller (multiple can exist)
   // servo starting position
@@ -9,6 +9,10 @@ int j1,j2,j3 = 0;
 
 
 void setup() {
+
+  unsigned long MOVING_TIME = 3000; // moving time is 3 seconds
+  unsigned long moveStartTime;
+
   servo_1.attach(9,520,2475);
   servo_2.attach(10,625,2600);
   servo_3.attach(11,520,2460); // start servo control
@@ -57,19 +61,20 @@ void loop() {
         arrayIndex++;
       }
     }
-      
+
+
    
     j1 = strArr[0].toInt();
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.write(j1); 
+    servo_1.slowmove(j1+90,255); 
     delay(100);
-    servo_2.write(j2);
+    servo_2.slowmove(j2,255);
     delay(100);
-    servo_3.write(j3);             // tell servo to go to position in variable 'j1'
+    servo_3.slowmove(j3,255);             // tell servo to go to position in variable 'j1'
     delay(100);
-    
+    Serial.println("Wrist Moved");
   }
   
 }
