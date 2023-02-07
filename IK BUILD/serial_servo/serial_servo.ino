@@ -74,7 +74,7 @@ void loop() {
     delay(100);
     servo_3.slowmove(j3,15);             // tell servo to go to position in variable 'j1'
     delay(100);
-    Serial.println("Wrist Moved");
+    
   }
   
 }
