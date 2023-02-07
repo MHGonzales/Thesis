@@ -37,7 +37,8 @@ def robot(dx,dy,dz,nx,ny,nz):
     #send serial to arduino
 
 def roll():
-    global j4,j5,j6
+    global j4,j5
+    j6=0
     while True:
         if kb.read_key() == "q":
             j6-=90
