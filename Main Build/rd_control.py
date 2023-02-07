@@ -35,7 +35,10 @@ def robot(dx,dy,dz,nx,ny,nz):
     
     #send serial to arduino
 
-    
+def roll():
+
+
+    return    
 
 
 #create function rotate knob.
