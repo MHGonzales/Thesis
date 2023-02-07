@@ -68,11 +68,11 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.slowmove(j1+90,10); 
+    servo_1.slowmove(j1+90,15); 
     delay(100);
-    servo_2.slowmove(j2,10);
+    servo_2.slowmove(j2,15);
     delay(100);
-    servo_3.slowmove(j3,10);             // tell servo to go to position in variable 'j1'
+    servo_3.slowmove(j3,15);             // tell servo to go to position in variable 'j1'
     delay(100);
     Serial.println("Wrist Moved");
   }
