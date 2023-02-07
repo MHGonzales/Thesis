@@ -69,11 +69,11 @@ void loop() {
     j3 = strArr[2].toInt();
 
     servo_1.slowmove(j1+90,15); 
-    delay(100);
+    delay(15);
     servo_2.slowmove(j2,15);
-    delay(100);
+    delay(15);
     servo_3.write(j3);             // tell servo to go to position in variable 'j1'
-    delay(100);
+    delay(15);
     
   }
   

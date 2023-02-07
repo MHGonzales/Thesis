@@ -40,9 +40,9 @@ def roll():
     global j4,j5,j6
     while True:
         if kb.read_key() == "q":
-            j6-=1
+            j6-=90
         elif kb.read_key() == "e":
-            j6+=1
+            j6+=90
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
         ad.write(pos_wrist.encode())
         tm.sleep(0.25) 
@@ -217,6 +217,8 @@ if __name__ == "__main__":
     t6 = Thread(target=low_right)
     t7 = Thread(target=high_mid)
     t8 = Thread(target=high_right)
+    t9 = Thread(target=switches)
+    t10 = Thread(target=roll)
 
 
     t1.setDaemon(True)
@@ -227,6 +229,9 @@ if __name__ == "__main__":
     t6.setDaemon(True)
     t7.setDaemon(True)
     t8.setDaemon(True)
+    t9.setDaemon(True)
+    t10.setDaemon(True)
+
 
     t1.start()
     t2.start()
@@ -236,6 +241,9 @@ if __name__ == "__main__":
     t6.start()
     t7.start()
     t8.start()
+    t9.start()
+    t10.start()
+    
 
     
     while True:
