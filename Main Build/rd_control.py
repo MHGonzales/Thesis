@@ -22,7 +22,7 @@ rb = Dobot()
 #this is for delta movement
 def robot(dx,dy,dz,nx,ny,nz):
     #calculate inverse kinematics for position
-    Tf = SE3.Trans((nx+90)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
+    Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
     qn =sol.q*180/pi
     j4:str = str(0)
@@ -44,54 +44,76 @@ def robot(dx,dy,dz,nx,ny,nz):
     #rotate knob(1 servo middle)
 
 def low_mid():
-    global table,i
+    global table,i,j,k
     while True:
         if kb.read_key() == "k":
             ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
-            table = ws.range("A1:C7").value
+            table = ws.range("A1:I2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz =140, table[0][1],table[0][2]
             i=0
+            j=1
+            k=2
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
-def high_mid():
-    global table,i
+def switches():
+    global table,i,j,k
     while True:
-        if kb.read_key() == "i":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Upper Load']
-            table = ws.range("A1:C7").value
+        if kb.read_key() == "j":
+            ws = xw.Book("coordinates_py.xlsx").sheets['Switches']
+            table = ws.range("A1:I2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz =140, table[0][1],table[0][2]
             i=0
+            j=1
+            k=2
+            delta(ox,oy,oz,nx,ny,nz)
+            tm.sleep(0.25)
+def high_mid():
+    global table,i,j,k
+    while True:
+        if kb.read_key() == "i":
+            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Upper Load']
+            table = ws.range("A1:I2").value
+            current_pose = dType.GetPose(api)
+            ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+            nx,ny,nz =140, table[0][1],table[0][2]
+            i=0
+            j=1
+            k=2
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
 def high_right():
-    global table,i
+    global table,i,j,k
     while True:
         if kb.read_key() == "o":
             ws = xw.Book("coordinates_py.xlsx").sheets['Right Upper Load']
             table = ws.range("A1:C2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =130, table[0][1],table[0][2]
             i=0
+            j=1
+            k=2
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
 def low_right():
-    global table,i
+    global table,i,j,k
     while True:
         if kb.read_key() == "l":
             ws = xw.Book("coordinates_py.xlsx").sheets['Data Acquisition']
-            table = ws.range("A1:C2").value
+            table = ws.range("A1:L4").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =130, table[0][1],table[0][2]
             i=0
+            j=1
+            k=2
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
@@ -110,55 +132,56 @@ def delta(ox,oy,oz,nx,ny,nz):
     return
 
 def left():
-    global i,table
-    i=0
+    global i,table,j,k
     while True:
         if kb.read_key() == "a":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][1],table[i][2]
-            i-=2
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            j+=3
+            k+=3
             nx = current_pose[0]
-            ny = table[i][1]
-            nz = table[i][2]
+            ny = table[i][j]
+            nz = table[i][k]
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
 def right():
-    global i,table
+    global i,table,j,k
     while True:
         if kb.read_key() == "d":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][1],table[i][2]
-            i+=2
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            j+=3
+            k+=3
             nx = current_pose[0]
-            ny = table[i][1]
-            nz = table[i][2]
+            ny = table[i][j]
+            nz = table[i][k]
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
 def up():
-    global i,table
+    global i,table,j,k
     while True:
         if kb.read_key() == "w":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][1],table[i][2]
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
             i-=1
             nx = current_pose[0]
-            ny = table[i][1]
-            nz = table[i][2]
+            ny = table[i][j]
+            nz = table[i][k]
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
 def down():
-    global i,table
+    global i,table,j,k
     while True:
         if kb.read_key() == "s":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][1],table[i][2]
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
             i+=1
             nx = current_pose[0]
-            ny = table[i][1]
-            nz = table[i][2]
+            ny = table[i][j]
+            nz = table[i][k]
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 

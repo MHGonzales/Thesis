@@ -46,7 +46,7 @@ class Dobot(DHRobot):
         )
         L7 = RevoluteMDH(
             alpha = np.pi/2,
-            d=90*mm,
+            d=120*mm,
             a=50*mm,
             #flip=True
             #offset=-90*deg,

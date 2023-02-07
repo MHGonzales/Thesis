@@ -14,7 +14,7 @@ void setup() {
   unsigned long moveStartTime;
 
   servo_1.attach(9,520,2475);
-  servo_2.attach(10,625,2600);
+  servo_2.attach(10,625,2630);
   servo_3.attach(11,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
