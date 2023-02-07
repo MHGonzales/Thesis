@@ -21,14 +21,15 @@ rb = Dobot()
 
 #this is for delta movement
 def robot(dx,dy,dz,nx,ny,nz):
+    global j4,j5,j6
     #calculate inverse kinematics for position
     Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
     qn =sol.q*180/pi
-    j4:str = str(0)
-    j5:str= str(qn[5])
-    j6:str= str(qn[6])
-    pos_wrist = str(j4 +','+ j5 + ','+ j6 +',')
+    j4 = 0
+    j5= qn[5]
+    j6= qn[6]
+    pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
 
@@ -36,9 +37,15 @@ def robot(dx,dy,dz,nx,ny,nz):
     #send serial to arduino
 
 def roll():
-
-
-    return    
+    global j4,j5,j6
+    while True:
+        if kb.read_key() == "q":
+            j6-=1
+        elif kb.read_key() == "e":
+            j6+=1
+        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
+        ad.write(pos_wrist.encode())
+        tm.sleep(0.25) 
 
 
 #create function rotate knob.
@@ -75,6 +82,7 @@ def switches():
             k=2
             delta(ox,oy,oz,nx,ny,nz)
             tm.sleep(0.25)
+
 def high_mid():
     global table,i,j,k
     while True:

@@ -72,7 +72,7 @@ void loop() {
     delay(100);
     servo_2.slowmove(j2,15);
     delay(100);
-    servo_3.slowmove(j3,15);             // tell servo to go to position in variable 'j1'
+    servo_3.write(j3);             // tell servo to go to position in variable 'j1'
     delay(100);
     
   }
