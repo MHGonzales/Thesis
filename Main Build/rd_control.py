@@ -107,7 +107,7 @@ def high_right():
             table = ws.range("A1:C2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =130, table[0][1],table[0][2]
+            nx,ny,nz =120, table[0][1],table[0][2]
             i=0
             j=1
             k=2

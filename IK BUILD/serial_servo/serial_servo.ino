@@ -1,7 +1,7 @@
 #include <VarSpeedServo.h>
 
                                         
-VarSpeedServo servo_1,servo_2,servo_3;
+VarSpeedServo servo_1,servo_2,servo_3,grip;
 
  // servo controller (multiple can exist)
   // servo starting position
@@ -15,11 +15,11 @@ void setup() {
 
   servo_1.attach(9,520,2475);
   servo_2.attach(10,625,2630);
-  servo_3.attach(11,520,2460); // start servo control
+  servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.write(90);
+  servo_1.write(90+10);
   servo_2.write(90);
   servo_3.write(0); 
   
@@ -68,12 +68,12 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.slowmove(j1+90,15); 
-    delay(15);
-    servo_2.slowmove(j2,15);
-    delay(15);
-    servo_3.write(j3);             // tell servo to go to position in variable 'j1'
-    delay(15);
+    servo_1.slowmove(j1+100,20); 
+    //delay(15);
+    servo_2.slowmove(j2,20);
+    //delay(15);
+    servo_3.slowmove(j3,20);             // tell servo to go to position in variable 'j1'
+    //delay(15);
     
   }
   
