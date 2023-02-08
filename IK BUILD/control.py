@@ -21,6 +21,6 @@ if __name__ == "__main__":
     print(f"{(sol2.q)*(180/pi)}")
     print(sol.success)
     #print(rb.fkine(sol2.q))
-    qtraj = rtb.jtraj(rb.qz, rb.qz, 100)
+    qtraj = rtb.jtraj(rb.qz, sol.q, 100)
     rb.plot(qtraj.q, movie="dobot.gif")
     

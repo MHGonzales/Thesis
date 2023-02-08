@@ -35,7 +35,7 @@ def robot(dx,dy,dz,nx,ny,nz):
 
     
     #send serial to arduino
-
+# not working
 def roll():
     global j4,j5
     j6=0
@@ -53,6 +53,30 @@ def roll():
     #move to knob 2 servos (1st and 2nd servo)
     # grab knob( 1 servo last )
     #rotate knob(1 servo middle)
+#move forward
+def forward():
+    global table,i,j,k
+    while True:
+        if kb.read_key() =="z":
+            current_pose = dType.GetPose(api)
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            nx = current_pose[0]+32
+            ny = table[i][j]
+            nz = table[i][k]
+            delta(ox,oy,oz,nx,ny,nz)
+        tm.sleep(0.25)
+
+def backward():
+    global table,i,j,k
+    while True:
+        if kb.read_key() =="x":
+            current_pose = dType.GetPose(api)
+            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            nx = current_pose[0]-32
+            ny = table[i][j]
+            nz = table[i][k]
+            delta(ox,oy,oz,nx,ny,nz)
+        tm.sleep(0.25)
 
 def low_mid():
     global table,i,j,k
@@ -74,7 +98,7 @@ def switches():
     while True:
         if kb.read_key() == "j":
             ws = xw.Book("coordinates_py.xlsx").sheets['Switches']
-            table = ws.range("A1:I2").value
+            table = ws.range("A1:AJ2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz =140, table[0][1],table[0][2]
@@ -122,7 +146,7 @@ def low_right():
             table = ws.range("A1:L4").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =130, table[0][1],table[0][2]
+            nx,ny,nz =140, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -149,8 +173,8 @@ def left():
         if kb.read_key() == "a":
             current_pose = dType.GetPose(api)
             ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            j+=3
-            k+=3
+            j-=3
+            k-=3
             nx = current_pose[0]
             ny = table[i][j]
             nz = table[i][k]
@@ -219,7 +243,8 @@ if __name__ == "__main__":
     t7 = Thread(target=high_mid)
     t8 = Thread(target=high_right)
     t9 = Thread(target=switches)
-    t10 = Thread(target=roll)
+    t10 = Thread(target=forward)
+    t11 = Thread(target=backward)
 
 
     t1.setDaemon(True)
@@ -232,6 +257,7 @@ if __name__ == "__main__":
     t8.setDaemon(True)
     t9.setDaemon(True)
     t10.setDaemon(True)
+    t11.setDaemon(True)
 
 
     t1.start()
@@ -244,7 +270,7 @@ if __name__ == "__main__":
     t8.start()
     t9.start()
     t10.start()
-    
+    t11.start()
 
     
     while True:
