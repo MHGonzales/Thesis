@@ -19,7 +19,7 @@ void setup() {
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.slowmove(90,12);
+  servo_1.slowmove(95,12);
   servo_2.slowmove(90,12);
   servo_3.slowmove(0,12); 
   
@@ -68,7 +68,7 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.slowmove(j1+90,12); 
+    servo_1.slowmove(j1+95,12); 
     //delay(15);
     servo_2.slowmove(j2,12);
     //delay(15);
