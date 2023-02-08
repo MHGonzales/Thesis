@@ -27,8 +27,8 @@ def robot(dx,dy,dz,nx,ny,nz):
     sol = rb.ikine_LMS(Tf,rb.qz)
     qn =sol.q*180/pi
     j4 = 0
-    j5= qn[5]
-    j6= qn[6]
+    j5= int(qn[4])
+    j6= 0
     pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
