@@ -19,9 +19,9 @@ void setup() {
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.write(90+10);
-  servo_2.write(90);
-  servo_3.write(0); 
+  servo_1.slowmove(90,12);
+  servo_2.slowmove(90,12);
+  servo_3.slowmove(0,12); 
   
   // move servo to 0 degrees
   Serial.println("Positioned at 0 Degrees");
@@ -68,11 +68,11 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.slowmove(j1+100,20); 
+    servo_1.slowmove(j1+90,12); 
     //delay(15);
-    servo_2.slowmove(j2,20);
+    servo_2.slowmove(j2,12);
     //delay(15);
-    servo_3.slowmove(j3,20);             // tell servo to go to position in variable 'j1'
+    servo_3.slowmove(j3,12);             // tell servo to go to position in variable 'j1'
     //delay(15);
     
   }
