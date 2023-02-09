@@ -36,6 +36,10 @@ def robot(dx,dy,dz,nx,ny,nz):
     
     #send serial to arduino
 # not working
+#create function rotate knob.
+    #move to knob 2 servos (1st and 2nd servo)
+    # grab knob( 1 servo last )
+    #rotate knob(1 servo middle)
 def roll():
     global j4,j5
     j6=0
@@ -49,10 +53,6 @@ def roll():
         tm.sleep(0.25) 
 
 
-#create function rotate knob.
-    #move to knob 2 servos (1st and 2nd servo)
-    # grab knob( 1 servo last )
-    #rotate knob(1 servo middle)
 #move forward
 def forward():
     global table,i,j,k
