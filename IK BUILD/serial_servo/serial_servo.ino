@@ -13,15 +13,15 @@ void setup() {
   unsigned long MOVING_TIME = 3000; // moving time is 3 seconds
   unsigned long moveStartTime;
 
-  servo_1.attach(9,520,2475);
-  servo_2.attach(10,625,2630);
+  servo_1.attach(10,520,2475);
+  servo_2.attach(9,625,2630);
   servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.slowmove(95,12);
-  servo_2.slowmove(90,12);
-  servo_3.slowmove(0,12); 
+  servo_1.slowmove(90,15);
+  servo_2.slowmove(90,15);
+  servo_3.slowmove(0,15); 
   
   // move servo to 0 degrees
   Serial.println("Positioned at 0 Degrees");
@@ -68,11 +68,11 @@ void loop() {
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
 
-    servo_1.slowmove(j1+95,12); 
+    servo_1.slowmove(j2,20); 
     //delay(15);
-    servo_2.slowmove(j2,12);
+    servo_2.slowmove(j1+90,20);
     //delay(15);
-    servo_3.slowmove(j3,12);             // tell servo to go to position in variable 'j1'
+    servo_3.slowmove(j3,20);             // tell servo to go to position in variable 'j1'
     //delay(15);
     
   }
