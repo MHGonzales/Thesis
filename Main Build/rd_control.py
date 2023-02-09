@@ -81,8 +81,8 @@ def backward():
 def power():
     global table,i,j,k
     while True:
-        if kb.read_key() == "k":
-            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
+        if kb.read_key() == "p":
+            ws = xw.Book("coordinates_py.xlsx").sheets['Power Supply']
             table = ws.range("A1:C5").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
@@ -237,19 +237,7 @@ def down():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
-if __name__ == "__main__":
-
-
-    api = dType.load()
-    dType.ConnectDobot(api, "", 115200)
-    #dType.SetIOMultiplexing(api, 4, 2, 1)
-    #global current_pose
-    current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,2,100,0,0,0,1) 
-    
-    print(" Initializing Arduino Serial Connection")
-    tm.sleep(5)
-    print("Initializing threads") 
+def start_threads():
     t1 = Thread(target=left)
     t2 = Thread(target=right)
     t3 = Thread(target=up)
@@ -261,6 +249,7 @@ if __name__ == "__main__":
     t9 = Thread(target=switches)
     t10 = Thread(target=forward)
     t11 = Thread(target=backward)
+    t12 = Thread(target = power)
 
 
     t1.setDaemon(True)
@@ -274,6 +263,7 @@ if __name__ == "__main__":
     t9.setDaemon(True)
     t10.setDaemon(True)
     t11.setDaemon(True)
+    t12.setDaemon(True)
 
 
     t1.start()
@@ -287,6 +277,25 @@ if __name__ == "__main__":
     t9.start()
     t10.start()
     t11.start()
+    t12.start()
+
+    return
+
+if __name__ == "__main__":
+
+
+    api = dType.load()
+    dType.ConnectDobot(api, "", 115200)
+    #dType.SetIOMultiplexing(api, 4, 2, 1)
+    #global current_pose
+    current_pose=dType.GetPose(api)
+    dType.SetPTPCmd(api,2,100,0,0,0,1) 
+    
+    print(" Initializing Arduino Serial Connection")
+    tm.sleep(5)
+    print("Initializing threads") 
+    
+    start_threads()
 
     
     while True:
