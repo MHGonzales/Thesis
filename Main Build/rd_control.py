@@ -78,8 +78,24 @@ def backward():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
+def power():
+    global table,i,j,k
+    while True:
+        if kb.read_key() == "k":
+            ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
+            table = ws.range("A1:C5").value
+            current_pose = dType.GetPose(api)
+            ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+            nx,ny,nz =140, table[0][1],table[0][2]
+            i=0
+            j=1
+            k=2
+            delta(ox,oy,oz,nx,ny,nz)
+        tm.sleep(0.25)
+
 def low_mid():
     global table,i,j,k
+
     while True:
         if kb.read_key() == "k":
             ws = xw.Book("coordinates_py.xlsx").sheets['Middle Lower Load']
