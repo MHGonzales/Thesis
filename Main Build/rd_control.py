@@ -20,15 +20,15 @@ ad = sr('COM6',9600)
 rb = Dobot()
 
 #this is for delta movement
-def robot(dx,dy,dz,nx,ny,nz):
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "0"):
     global j4,j5,j6
     #calculate inverse kinematics for position
     Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
     sol = rb.ikine_LMS(Tf,rb.qz)
     qn =sol.q*180/pi
-    j4 = 0
-    j5= int(qn[4])
-    j6= 0
+    j4 = int(qn[4])
+    j5= 0
+    j6= roll
     pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
@@ -41,15 +41,13 @@ def robot(dx,dy,dz,nx,ny,nz):
     # grab knob( 1 servo last )
     #rotate knob(1 servo middle)
 def roll():
-    global j4,j5
-    j6=0
     while True:
-        if kb.read_key() == "q":
-            j6-=90
-        elif kb.read_key() == "e":
-            j6+=90
-        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
-        ad.write(pos_wrist.encode())
+        if kb.read_key() == "r":
+            roll = input("Roll Degrees: ")
+            current_pose= dType.GetPose(api)
+            ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+            nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+            delta(ox,oy,oz,nx,ny,nz,roll)
         tm.sleep(0.25) 
 
 
@@ -169,9 +167,11 @@ def low_right():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 
+def pickup():
+    return
 
 #this is for delta calculation
-def delta(ox,oy,oz,nx,ny,nz):
+def delta(ox,oy,oz,nx,ny,nz,roll:str = "0"):
     
     dy = ny-oy
     dz = nz - oz
@@ -179,7 +179,7 @@ def delta(ox,oy,oz,nx,ny,nz):
     print("Delta x: ",dx,"Delat y: ",dy ," Delta z: ",dz )
     #new values
     #subtract from old
-    robot(dx,dy,dz,nx,ny,nz)
+    robot(dx,dy,dz,nx,ny,nz,roll )
     #new values becomes old values
     return
 
@@ -250,6 +250,7 @@ def start_threads():
     t10 = Thread(target=forward)
     t11 = Thread(target=backward)
     t12 = Thread(target = power)
+    t13 = Thread(target = roll)
 
 
     t1.setDaemon(True)
@@ -264,6 +265,7 @@ def start_threads():
     t10.setDaemon(True)
     t11.setDaemon(True)
     t12.setDaemon(True)
+    t13.setDaemon(True)
 
 
     t1.start()
@@ -278,6 +280,7 @@ def start_threads():
     t10.start()
     t11.start()
     t12.start()
+    t13.start()
 
     return
 
@@ -292,7 +295,7 @@ if __name__ == "__main__":
     dType.SetPTPCmd(api,2,100,0,0,0,1) 
     
     print(" Initializing Arduino Serial Connection")
-    tm.sleep(5)
+    tm.sleep(10)
     print("Initializing threads") 
     
     start_threads()

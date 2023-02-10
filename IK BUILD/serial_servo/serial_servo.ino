@@ -6,22 +6,24 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
  // servo controller (multiple can exist)
   // servo starting position
 int j1,j2,j3 = 0;
+int pos_1 =90;
+int pos_2 = 100;
+int pos_3 = 0;
 
 
 void setup() {
 
-  unsigned long MOVING_TIME = 3000; // moving time is 3 seconds
-  unsigned long moveStartTime;
+ 
 
-  servo_1.attach(10,520,2475);
-  servo_2.attach(9,625,2630);
+  servo_1.attach(9,550,2480);
+  servo_2.attach(10,550,2480);
   servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
 
-  servo_1.slowmove(90,15);
-  servo_2.slowmove(90,15);
-  servo_3.slowmove(0,15); 
+  servo_1.write(pos_1);
+  servo_2.write(pos_2);
+  servo_3.write(pos_3); 
   
   // move servo to 0 degrees
   Serial.println("Positioned at 0 Degrees");
@@ -34,8 +36,10 @@ void setup() {
 
 void loop() {
   
+  
   while (Serial.available())
   {
+    //unsigned long progress = millis() - moveStartTime;
     String rxString = "";
     String strArr[3];
   //Keep looping until there is something in the buffer.
@@ -67,13 +71,15 @@ void loop() {
     j1 = strArr[0].toInt();
     j2 = strArr[1].toInt();
     j3 = strArr[2].toInt();
-
-    servo_1.slowmove(j2,20); 
+    
+    
+    servo_1.slowmove(j1,12); 
+      //delay(15);
+    servo_2.slowmove(j2+100,12);
+      //delay(15);
+    servo_3.slowmove(j3,12);             // tell servo to go to position in variable 'j1'
     //delay(15);
-    servo_2.slowmove(j1+90,20);
-    //delay(15);
-    servo_3.slowmove(j3,20);             // tell servo to go to position in variable 'j1'
-    //delay(15);
+    
     
   }
   
