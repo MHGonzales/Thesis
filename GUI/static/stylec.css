@@ -1,6 +1,7 @@
 * {
     margin: auto;
     padding: 0;
+    
 }
 body {
     text-align: center;
@@ -34,6 +35,8 @@ body {
   }
   
   #up {
+    border-collapse: collapse;
+    width: 100%;
     grid-column-start: 2;
   }
   
