@@ -5,8 +5,8 @@ import os
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
 
 app = Flask(__name__)
-video = cv2.VideoCapture(3)
-video2 = cv2.VideoCapture(0)
+video = cv2.VideoCapture(2)
+video2 = cv2.VideoCapture(3)
 bg = cv2.imread('WEB.png', cv2.IMREAD_COLOR) 
 
 @app.route("/")
