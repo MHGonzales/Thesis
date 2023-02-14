@@ -42,20 +42,21 @@ class Dobot(DHRobot):
         )
         L6 = RevoluteMDH(
             alpha = np.pi/2,
-            d=120*mm,
+            a=60*mm,
+            offset= 90*deg,
             #flip=True
         )
         L7 = RevoluteMDH(
             alpha = np.pi/2,
-            d=120*mm,
-            a=50*mm,
+            d=60*mm,
+            #a=50*mm,
             #flip=True
-            #offset=-90*deg,
+            offset=-90*deg,
             #flip=True
         )
         
         tool = transl(0,0,35*mm)
-        L = [L1,L2,L3,L4,L5,L6]
+        L = [L1,L2,L3,L4,L5,L6,L7]
 
         super().__init__(
             L,
@@ -64,8 +65,8 @@ class Dobot(DHRobot):
             
 
         )
-        self.qr = np.array([0*deg, deg*15, deg*40,-55*deg,90*deg,0*deg])
-        self.qz = np.array([0*deg, deg*0, deg*0,0*deg,0*deg,0*deg])
+        self.qr = np.array([0*deg, deg*15, deg*40,-55*deg,90*deg,0*deg,0*deg])
+        self.qz = np.array([0*deg, deg*0, deg*0,0*deg,0*deg,0*deg,0*deg])
 #zeros(6)
 
         self.addconfiguration("qr", self.qr)

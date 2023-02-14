@@ -73,7 +73,7 @@ void loop() {
     j3 = strArr[2].toInt();
     
     
-    servo_1.slowmove(j1,12); 
+    servo_1.slowmove(j1+90,12); 
       //delay(15);
     servo_2.slowmove(j2+100,12);
       //delay(15);
