@@ -28,7 +28,7 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0"):
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
         j4 = 0
-        j5= 100
+        j5= -100
         j6= roll
         #j7 grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
@@ -198,12 +198,12 @@ def low_right():
 def pickup_mode():
     global table,i,j,k,l
     while True:
-        if rb.read_key() == "u":
+        if kb.read_key() == "u":
             ws = xw.Book("coordinates_py.xlsx").sheets['Wires']
             table = ws.range("A1:R6").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =table[0][1],table[0][2],120
+            nx,ny,nz =table[0][1],table[0][2],155
             i=0
             j=1
             k=2
@@ -212,7 +212,18 @@ def pickup_mode():
         tm.sleep(0.25)
     return
     
-
+def home_position():
+    while True:
+        global i,j,k,l
+        if kb.read_key()=="h":
+            ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+            nx,ny,nz =100,0,0
+            i=0
+            j=1
+            k=2
+            l = 0
+            delta(ox,oy,oz,nx,ny,nz)
+        tm.sleep(0.25)
 #this is for delta calculation
 def delta(ox,oy,oz,nx,ny,nz,roll:str = "0"):
     
@@ -323,6 +334,7 @@ def start_threads():
     t12 = Thread(target = power)
     t13 = Thread(target = roll)
     t14 = Thread(target = pickup_mode)
+    t15 = Thread(target = home_position)
 
 
     t1.setDaemon(True)
@@ -339,6 +351,7 @@ def start_threads():
     t12.setDaemon(True)
     t13.setDaemon(True)
     t14.setDaemon(True)
+    t15.setDaemon(True)
 
 
     t1.start()
@@ -355,6 +368,7 @@ def start_threads():
     t12.start()
     t13.start()
     t14.start()
+    t15.start()
 
     return
 
