@@ -234,7 +234,7 @@ def delta(ox,oy,oz,nx,ny,nz,roll:str = "0"):
     return
 
 def left():
-    global i,table,j,k
+    global i,table,j,k,l
     while True:
         if kb.read_key() == "a":
             current_pose = dType.GetPose(api)
@@ -255,7 +255,7 @@ def left():
         tm.sleep(0.25)
 
 def right():
-    global i,table,j,k
+    global i,table,j,k,l
     while True:
         if kb.read_key() == "d":
             current_pose = dType.GetPose(api)
@@ -276,7 +276,7 @@ def right():
         tm.sleep(0.25)
 
 def up():
-    global i,table,j,k
+    global i,table,j,k,l
     while True:
         if kb.read_key() == "w":
             current_pose = dType.GetPose(api)
@@ -296,7 +296,7 @@ def up():
         tm.sleep(0.25)
 
 def down():
-    global i,table,j,k
+    global i,table,j,k,l
     while True:
         if kb.read_key() == "s":
             current_pose = dType.GetPose(api)
