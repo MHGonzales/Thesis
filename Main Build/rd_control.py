@@ -46,11 +46,7 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0"):
 
     
     #send serial to arduino
-# not working
-#create function rotate knob.
-    #move to knob 2 servos (1st and 2nd servo)
-    # grab knob( 1 servo last )
-    #rotate knob(1 servo middle)
+
 def roll():
     while True:
         if kb.read_key() == "r":

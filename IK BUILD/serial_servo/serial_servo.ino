@@ -6,8 +6,8 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
  // servo controller (multiple can exist)
   // servo starting position
 int j1,j2,j3 = 0;
-int pos_1 =90;
-int pos_2 = 100;
+int pos_1 = 90;
+int pos_2 = 95;
 int pos_3 = 0;
 
 
@@ -16,7 +16,7 @@ void setup() {
  
 
   servo_1.attach(9,550,2480);
-  servo_2.attach(10,550,2480);
+  servo_2.attach(10,500,2400);
   servo_3.attach(6,520,2460); // start servo control
   Serial.begin(9600); // start serial monitor
 
@@ -75,7 +75,7 @@ void loop() {
     
     servo_1.slowmove(j1+90,12); 
       //delay(15);
-    servo_2.slowmove(j2+100,12);
+    servo_2.slowmove(j2+95,12);
       //delay(15);
     servo_3.slowmove(j3,12);             // tell servo to go to position in variable 'j1'
     //delay(15);
