@@ -6,8 +6,8 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
  // servo controller (multiple can exist)
   // servo starting position
 int j1,j2,j3 = 0;
-int pos_1 = 0;
-int pos_2 = 0;
+int pos_1 = 90;
+int pos_2 = 90;
 int pos_3 = 85;
 
 
@@ -77,7 +77,7 @@ void loop() {
       //delay(15);
     servo_2.slowmove(j2,12);
       //delay(15);
-    servo_3.slowmove(j3-5,12);             // tell servo to go to position in variable 'j1'
+    servo_3.slowmove(j3,12);             // tell servo to go to position in variable 'j1'
     //delay(15);
     
     

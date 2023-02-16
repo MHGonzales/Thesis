@@ -20,7 +20,7 @@ ad = sr('COM6',9600)
 rb = Dobot()
 
 #this is for delta movement
-def robot(dx,dy,dz,nx,ny,nz,roll:str = "0"):
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "180",pitch:str = "85"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
@@ -28,17 +28,17 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0"):
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
         j4 = 0
-        j5= -100
-        j6= roll
+        j5= 90
+        j6= 180
         #j7 grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     else:
-        Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [1, 0, 0])
+        Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
         j4 = int(qn[4])
-        j5= 0
-        j6= roll
+        j5= roll
+        j6= pitch
         #j7 grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     ad.write(pos_wrist.encode())   
@@ -221,7 +221,7 @@ def home_position():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 #this is for delta calculation
-def delta(ox,oy,oz,nx,ny,nz,roll:str = "0"):
+def delta(ox,oy,oz,nx,ny,nz,roll:str = "90"):
     
     dy = ny-oy
     dz = nz - oz
@@ -239,15 +239,17 @@ def left():
         if kb.read_key() == "a":
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            j-=3
-            k-=3
             if l==1:
                 ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                j-=3
+                k-=3
                 nx = table[i][j]
                 ny = table[i][k]
                 nz = current_pose[2]
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                j-=3
+                k-=3
                 nx = current_pose[0]
                 ny = table[i][j]
                 nz = table[i][k]
@@ -260,15 +262,17 @@ def right():
         if kb.read_key() == "d":
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            j+=3
-            k+=3
             if l==1:
                 ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                j+=3
+                k+=3
                 nx = table[i][j]
                 ny = table[i][k]
                 nz = current_pose[2]
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                j+=3
+                k+=3
                 nx = current_pose[0]
                 ny = table[i][j]
                 nz = table[i][k]
@@ -281,14 +285,16 @@ def up():
         if kb.read_key() == "w":
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            i-=1
+            
             if l==1:
                 ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                i-=1
                 nx = table[i][j]
                 ny = table[i][k]
                 nz = current_pose[2]
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                i-=1
                 nx = current_pose[0]
                 ny = table[i][j]
                 nz = table[i][k]
@@ -301,14 +307,15 @@ def down():
         if kb.read_key() == "s":
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            i+=1
             if l==1:
                 ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                i+=1
                 nx = table[i][j]
                 ny = table[i][k]
                 nz = current_pose[2]
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                i+=1
                 nx = current_pose[0]
                 ny = table[i][j]
                 nz = table[i][k]
