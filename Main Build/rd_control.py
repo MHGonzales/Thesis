@@ -19,8 +19,8 @@ import roboticstoolbox as rtb
 ad = sr('COM6',9600)
 rb = Dobot()
 
-#this is for delta movement
-def robot(dx,dy,dz,nx,ny,nz,roll:str = "180",pitch:str = "85"):
+#this is for delta movement and robot movement
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "90",grip:str = "90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
@@ -29,18 +29,18 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "180",pitch:str = "85"):
         qn =sol.q*180/pi
         j4 = 0
         j5= 90
-        j6= 180
-        #j7 grip
-        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
+        j6 = 180
+        gr =grip
+        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
         Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
         j4 = int(qn[4])
         j5= roll
-        j6= pitch
-        #j7 grip
-        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
+        j6= 90
+        gr=grip
+        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
 
@@ -55,6 +55,28 @@ def roll():
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
             delta(ox,oy,oz,nx,ny,nz,roll)
+        tm.sleep(0.25) 
+
+def grip():
+    g:int = 0
+    while True:
+        if kb.read_key() == "g":
+            if g == 0:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = 85)
+                tm.sleep(2)
+                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                g =1
+            else:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = 135)
+                tm.sleep(2)
+                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                g=0
         tm.sleep(0.25) 
 
 
@@ -221,7 +243,7 @@ def home_position():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 #this is for delta calculation
-def delta(ox,oy,oz,nx,ny,nz,roll:str = "90"):
+def delta(ox,oy,oz,nx,ny,nz,roll:str = "90",grip:str = "90"):
     
     dy = ny-oy
     dz = nz - oz
@@ -229,7 +251,7 @@ def delta(ox,oy,oz,nx,ny,nz,roll:str = "90"):
     print("Delta x: ",dx,"Delat y: ",dy ," Delta z: ",dz )
     #new values
     #subtract from old
-    robot(dx,dy,dz,nx,ny,nz,roll )
+    robot(dx,dy,dz,nx,ny,nz,roll,grip )
     #new values becomes old values
     return
 
