@@ -8,7 +8,8 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
 
  // servo controller (multiple can exist)
   // servo starting position
-double set_j1,set_j2,set_j3 = 90;
+double set_j1,set_j2,set_j3 = 0;
+double pos_1,pos_2,pos_3 =90;
 double i_pitch,i_roll,i_yaw;
 double e_1,e_2,e_3;
 unsigned long timer,currentTime,previousTime;
@@ -33,19 +34,21 @@ void setup() {
   Serial.begin(9600); // start serial monitor
   Wire.begin();
 
-  servo_1.write(set_j1);
-  servo_2.write(set_j2);
-  servo_3.write(set_j3); 
+  servo_1.write(pos_1);
+  servo_2.write(pos_2);
+  servo_3.write(pos_3); 
   
   // move servo to 0 degrees
   delay(5000);
   Serial.println("Positioned at Home Position");
 
+  //Initializes MPU 6050
   byte status = mpu.begin();
   Serial.print(F("MPU6050 status: "));
   Serial.println(status);
   while(status!=0){ }
   
+  //Calculates MPU 6050 offsets
   Serial.println(F("Calculating offsets, do not move MPU6050"));
   delay(1000);
   // mpu.upsideDownMounting = true; // uncomment this line if the MPU6050 is mounted upside-down
@@ -59,7 +62,7 @@ void setup() {
 
 void loop() {
   
-  
+  //Reads any serial input
   while (Serial.available())
   {
     //unsigned long progress = millis() - moveStartTime;
@@ -90,39 +93,33 @@ void loop() {
     }
 
 
-   
+   //stores servo motor setpoints
     set_j1 = strArr[0].toFloat()+90;
     set_j2 = strArr[1].toFloat()+90;
     set_j3 = strArr[2].toFloat()+90;
     
     
-
-    servo_1.slowmove(set_j1,12); 
-      //delay(15);
-    servo_2.slowmove(set_j2,12);
-      //delay(15);
-    servo_3.slowmove(set_j3,12);             // tell servo to go to position in variable 'j1'
-    //delay(15);
-    
-    
   }
+  // Read and stores MPU 6050 angle and position values (still noisy)
   mpu.update();
   i_pitch = mpu.getAngleX();
   i_roll = mpu.getAngleY();
   i_yaw = mpu.getAngleZ();
-  if((millis()-timer)>100
-  ){ // print data every 10ms
-    Serial.print("pitch : ");
-    Serial.print(i_pitch);
-    Serial.print("\troll : ");
-    Serial.print(i_roll);
-    Serial.print("\tyaw : ");
-    Serial.println(i_yaw);
-    timer = millis();
-  }
+ 
+  //Computes PID
+  comp_pid( i_pitch, i_roll, i_yaw, set_j1,  set_j2, set_j3, &out1, &out2, &out3);
+
+  //Writes output from PID
+  servo_1.slowmove(out1,12); 
+      //delay(15);
+  servo_2.slowmove(out2,12);
+      //delay(15);
+   servo_3.slowmove(out3,12);  
   
 }
-double comp_pid(float i_pitch,float i_roll,float i_yaw,float set_j1, float set_j2,float set_j3){
+//function to calculate PID
+//Can change to PID Library in the future
+double comp_pid(double i_pitch,double i_roll,double i_yaw,double set_j1, double set_j2,double set_j3,double *output1,double *output2,double *output3){
   currentTime = millis();
 
   elapsedTime = (double)(currentTime - previousTime);
@@ -144,19 +141,17 @@ double comp_pid(float i_pitch,float i_roll,float i_yaw,float set_j1, float set_j
   rateError2 = (e_2-lastError2)/elapsedTime;
   rateError3 = (e_3-lastError3)/elapsedTime;
 
-  //New output
-  double out1 = kp*e_1 + ki*cumError1 + kd*rateError1;
-  double out2  = kp*e_2 + ki*cumError2 + kd*rateError2;
-  double out3  = kp*e_3 + ki*cumError3 + kd*rateError3;
+  //New call by reference output
+  *output1 = kp*e_1 + ki*cumError1 + kd*rateError1;
+  *output2  = kp*e_2 + ki*cumError2 + kd*rateError2;
+  *output3  = kp*e_3 + ki*cumError3 + kd*rateError3;
 
+  // Saves last error
   lastError1 = e_1;
   lastError2 = e_2;
   lastError3 = e_3;
 
   previousTime = currentTime;
-
+  //saves previous time
 }
 
-double comp_newangle(){
-
-}
