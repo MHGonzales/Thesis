@@ -56,11 +56,11 @@ void loop() {
     stepper.setMicrostep(1);  // Set microstep mode to 1:1
 
     // One complete revolution is 360°
-    stepper.rotate(360);     // forward revolution
+    stepper.rotate(1);     // forward revolution
 
     // One complete revolution is also MOTOR_STEPS steps in full step mode
     stepper.move(MOTOR_STEPS);    // forward revolution
 
-    digitalWrite(6,HIGH); // Set Enable high
+    //digitalWrite(6,HIGH); // Set Enable high
 
 }
