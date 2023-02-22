@@ -8,8 +8,8 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
 
  // servo controller (multiple can exist)
   // servo starting position
-double set_j1,set_j2,set_j3 = 0;
-double pos_1,pos_2,pos_3 =90;
+float set_j1,set_j2,set_j3 = 0;
+float pos_1,pos_2,pos_3 = 90;
 double i_pitch,i_roll,i_yaw;
 double e_1,e_2,e_3;
 unsigned long timer,currentTime,previousTime;
@@ -18,11 +18,11 @@ unsigned long timer,currentTime,previousTime;
 double elapsedTime;
 double lastError1,lastError2,lastError3;
 double cumError1,cumError2,cumError3, rateError1,rateError2,rateError3;
-double out1,out2,out3;
+float out1,out2,out3=0;
 
-double kp = 2;
-double ki = 5;
-double kd = 1;
+double kp = .5;
+double ki = .000001;
+double kd = 100;
 
 void setup() {
 
@@ -34,9 +34,9 @@ void setup() {
   Serial.begin(9600); // start serial monitor
   Wire.begin();
 
-  servo_1.write(pos_1);
-  servo_2.write(pos_2);
-  servo_3.write(pos_3); 
+  servo_1.write(90);
+  servo_2.write(90);
+  servo_3.write(90); 
   
   // move servo to 0 degrees
   delay(5000);
@@ -94,9 +94,9 @@ void loop() {
 
 
    //stores servo motor setpoints
-    set_j1 = strArr[0].toFloat()+90;
-    set_j2 = strArr[1].toFloat()+90;
-    set_j3 = strArr[2].toFloat()+90;
+    set_j1 = strArr[0].toFloat();
+    set_j2 = strArr[1].toFloat();
+    set_j3 = strArr[2].toFloat();
     
     
   }
@@ -110,16 +110,17 @@ void loop() {
   comp_pid( i_pitch, i_roll, i_yaw, set_j1,  set_j2, set_j3, &out1, &out2, &out3);
 
   //Writes output from PID
-  servo_1.slowmove(out1,12); 
+  servo_1.write(90+out1); 
       //delay(15);
-  servo_2.slowmove(out2,12);
+  servo_2.write(90+out2);
       //delay(15);
-   servo_3.slowmove(out3,12);  
+  servo_3.write(90+out3);  
+  
   
 }
 //function to calculate PID
 //Can change to PID Library in the future
-double comp_pid(double i_pitch,double i_roll,double i_yaw,double set_j1, double set_j2,double set_j3,double *output1,double *output2,double *output3){
+double comp_pid(double i_pitch,double i_roll,double i_yaw,double set_j1, double set_j2,double set_j3,float *output1,float *output2,float *output3){
   currentTime = millis();
 
   elapsedTime = (double)(currentTime - previousTime);
