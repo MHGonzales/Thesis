@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>Robot Console</title>
+    <link rel = "stylesheet" href = "/static/stylec.css" />
+    <meta charset="UTF = 8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<script  >  
+   function wClicked() {   
+    alert('W')
+             } 
+    function aClicked() {   
+    alert('A');
+             } 
+    function sClicked() {   
+    alert('S');
+             } 
+    function dClicked() {   
+    alert('D');
+             } 
+    </script> 
+<body>
+    <div></div>
+    <div id="wrapper">
+        <div id="controls">
+          <input type="button" id="up" class="movements_control" onclick="wClicked()" value="W"></button>
+          <input type="button" id="left" class="movements_control" onclick="aClicked()" value="A" ></button>
+          <input type="button" id="down" class="movements_control" onclick="sClicked()" value="S"></button>
+          <input type="button" id="right" class="movements_control" onclick="dClicked()" value="D"></button>
+        </div>
+    </div>
+    <div id="wrapper">
+        <div id="controls">
+          <input type="button" id="m1" class="movements_control" onclick="wClicked()" value="P"></button>
+          <input type="button" id="m2" class="movements_control" onclick="aClicked()" value="I" ></button>
+          <input type="button" id="m3" class="movements_control" onclick="sClicked()" value="O"></button>
+          <input type="button" id="m4" class="movements_control" onclick="dClicked()" value="K"></button>
+          <input type="button" id="m5" class="movements_control" onclick="dClicked()" value="L"></button>
+        </div>
+    </div>
+    <div></div>
+</body>
+
+</html>
