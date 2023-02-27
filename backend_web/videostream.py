@@ -26,7 +26,7 @@ def gen(video2):
 def gen(video):
     while True:
         success2, img2 = video.read()
-        new_img2 = cv2.resize(img2, (588, 324))
+        new_img2 = cv2.resize(img2, (882, 486))
         encode_param2=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         ret, jpeg = cv2.imencode('.jpg', new_img2, encode_param2)
         frame1 = jpeg.tobytes()
