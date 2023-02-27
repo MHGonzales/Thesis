@@ -5,11 +5,13 @@ Servo grip;
 void setup() {
   // put your setup code here, to run once:
   grip.attach(11);
+  delay(5000);
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  grip.write(85);
+  grip.write(80);
 
   delay(1000);
 
@@ -17,7 +19,7 @@ void loop() {
 
   delay(1000);
 
-  grip.write(95);
+  grip.write(100);
 
   delay(1000);
 
