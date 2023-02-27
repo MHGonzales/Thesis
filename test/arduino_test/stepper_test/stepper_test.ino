@@ -11,12 +11,12 @@
 #include <Arduino.h>
 
 // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
-#define MOTOR_STEPS 200
-#define RPM 120
+#define MOTOR_STEPS 400
+#define RPM 30
 
-#define DIR 4
-#define STEP 5
-#define SLEEP 9
+#define DIR 3
+#define STEP 4
+#define SLEEP 2
 
 /*
  * Choose one of the sections below that match your board
@@ -24,9 +24,9 @@
 
 
 #include "A4988.h"
-#define MS1 10
-#define MS2 11
-#define MS3 12
+#define MS1 5
+#define MS2 6
+#define MS3 7
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 // #include "BasicStepperDriver.h" // generic
@@ -53,14 +53,16 @@ void loop() {
     /*
      * Moving motor in full step mode is simple:
      */
-    stepper.setMicrostep(1);  // Set microstep mode to 1:1
+    stepper.setMicrostep(2);  // Set microstep mode to 1:1
 
     // One complete revolution is 360°
-    stepper.rotate(1);     // forward revolution
+    stepper.rotate(360);     // forward revolution
 
     // One complete revolution is also MOTOR_STEPS steps in full step mode
-    stepper.move(MOTOR_STEPS);    // forward revolution
+    //stepper.move(MOTOR_STEPS);    // forward revolution
 
+    stepper.rotate(-360);    
+    //stepper.move(MOTOR_STEPS); 
     //digitalWrite(6,HIGH); // Set Enable high
 
 }
