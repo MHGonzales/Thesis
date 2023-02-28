@@ -7,15 +7,16 @@ VarSpeedServo servo_1,servo_2,grip;
 
 #define DIR 3
 #define STEP 4
+#define SLEEP 5
 
 
 #include "A4988.h"
-#define MS1 5
-#define MS2 6
-#define MS3 7
+#define MS1 6
+#define MS2 7
+#define MS3 8
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
-float set_j1,set_j2,set_j3 = 90;
+float set_j1,set_j2,set_j3,set_j4 = 90;
 float new_step,old_step=90;
 int pos_1= 90,pos_2= 90,pos_3 = 90;
 
@@ -29,7 +30,7 @@ void setup() {
   //Wire.begin();
 
   servo_1.write(90);
-  servo_2.write(90);
+  servo_2.write(100);
   grip.write(pos_3); 
 
   stepper.begin(RPM);
@@ -74,18 +75,18 @@ void loop() {
 
    //stores servo motor setpoints
     set_j1 = strArr[0].toFloat();
-    set_j2 = strArr[1].toFloat();
-    new_step = strArr[2].toFloat();
+    new_step = strArr[1].toFloat();
+    set_j3 = strArr[2].toFloat();
     set_j4 = strArr[3].toFloat();
 
-    set_j3 = new_step - old_step;
+    set_j2 = new_step - old_step;
     
     servo_1.slowmove(set_j1,13); 
     delay(15);
-    servo_2.slowmove(set_j2,13);
+    servo_2.slowmove(set_j3,13);
     delay(15);
     grip.write(set_j4);
-    stepper.rotate(set_j3); 
+    stepper.rotate(set_j2); 
 
     old_step = new_step;
 
