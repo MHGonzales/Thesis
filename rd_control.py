@@ -65,15 +65,15 @@ def grip():
     while True:
         if kb.read_key() == "g":
             if g == 0:
-                current_pose= dType.GetPose(api)
+                current_pose = dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 delta(ox,oy,oz,nx,ny,nz,grip = 85)
                 tm.sleep(2)
                 delta(ox,oy,oz,nx,ny,nz,grip = 90)
-                g =1
+                g = 1
             else:
-                current_pose= dType.GetPose(api)
+                current_pose = dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 delta(ox,oy,oz,nx,ny,nz,grip = 135)
