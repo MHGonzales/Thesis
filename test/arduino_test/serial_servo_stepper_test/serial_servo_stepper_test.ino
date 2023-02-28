@@ -17,7 +17,7 @@ VarSpeedServo servo_1,servo_2,grip;
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 float set_j1,set_j2,set_j3,set_j4 = 90;
-float new_step,old_step=90;
+float new_step,old_step=0;
 int pos_1= 90,pos_2= 90,pos_3 = 90;
 
 void setup() {
@@ -30,7 +30,7 @@ void setup() {
   //Wire.begin();
 
   servo_1.write(90);
-  servo_2.write(100);
+  servo_2.write(90);
   grip.write(pos_3); 
 
   stepper.begin(RPM);
