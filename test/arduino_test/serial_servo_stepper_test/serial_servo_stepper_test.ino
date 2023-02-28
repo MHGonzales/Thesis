@@ -7,7 +7,7 @@ VarSpeedServo servo_1,servo_2,grip;
 
 #define DIR 3
 #define STEP 4
-#define SLEEP 9
+
 
 #include "A4988.h"
 #define MS1 5
