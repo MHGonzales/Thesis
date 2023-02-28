@@ -1,6 +1,6 @@
 #include <VarSpeedServo.h>
 
-VarSpeedServo servo_1,servo_2,servo_3,grip;
+VarSpeedServo servo_1,servo_2,grip;
 
 #define MOTOR_STEPS 200
 #define RPM 30
@@ -23,14 +23,14 @@ void setup() {
   // put your setup code here, to run once:
   servo_1.attach(9,544,2520);
   servo_2.attach(10,544,2500);
-  servo_3.attach(11,544,2500);
+  grip.attach(11,544,2500);
 
   Serial.begin(9600); // start serial monitor
   //Wire.begin();
 
   servo_1.write(90);
   servo_2.write(90);
-  servo_3.write(pos_3); 
+  grip.write(pos_3); 
 
   stepper.begin(RPM);
   //stepper.enable();
@@ -46,7 +46,7 @@ void loop() {
   {
     //unsigned long progress = millis() - moveStartTime;
     String rxString = "";
-    String strArr[3];
+    String strArr[4];
   //Keep looping until there is something in the buffer.
     while (Serial.available()) {
       //Delay to allow byte to arrive in input buffer.
@@ -76,6 +76,7 @@ void loop() {
     set_j1 = strArr[0].toFloat();
     set_j2 = strArr[1].toFloat();
     new_step = strArr[2].toFloat();
+    set_j4 = strArr[3].toFloat();
 
     set_j3 = new_step - old_step;
     
@@ -83,10 +84,12 @@ void loop() {
     delay(15);
     servo_2.slowmove(set_j2,13);
     delay(15);
+    grip.write(set_j4);
     stepper.rotate(set_j3); 
 
     old_step = new_step;
-    
+
+
   }
 
  // Serial.print(set_j1);
