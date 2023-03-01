@@ -10,7 +10,7 @@ rb = Dobot()
 if __name__ == "__main__":
     
     #print(rb.fkine(np.array([5.07626309e+01, -4.14250837e+01,  1.3e+01, -1.32807423e+01 ,3.92373839e+01, -2.78967742e-05])*pi/180))
-    Tf = SE3.Trans(0.147+0.120 ,0,0.135) *SE3.OA([0, 0,1], [0,1, 0])
+    Tf = SE3.Trans(0.147+0.120 ,0.04,0.135) *SE3.OA([0, 0,1], [0,1, 0])
     Tf2 = SE3.Trans(0.200 ,0 ,0.135) *SE3.OA([0,  0, 1], [1, 0, 0])
     print(rb.fkine(rb.qz))
     sol = rb.ikine_LMS(Tf,rb.qz)
