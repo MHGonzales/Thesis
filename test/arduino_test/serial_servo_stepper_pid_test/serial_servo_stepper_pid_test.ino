@@ -114,20 +114,11 @@ void loop() {
   //Writes output from PID
   servo_1.write(set_j1+out1); 
       //delay(15);
-  stepper.rotate()(set_j2+out2);
+  stepper.rotate(out2);
       //delay(15);
   servo_2.write(set_j3+out3); 
 
- // Serial.print(set_j1);
-  //Serial.print(set_j2);
-  //Serial.println(set_j3);
- // servo_1.write(set_j1); 
-  //delay(15);
-  //servo_2.write(set_j2);
- // delay(15);
-  //stepper.rotate(set_j3-old_step); 
-
-  //old_step = set_j3;
+ 
 }
 
 double comp_pid(double i_pitch,double i_roll,double i_yaw,double set_j1, double set_j2,double set_j3,float *output1,float *output2,float *output3){

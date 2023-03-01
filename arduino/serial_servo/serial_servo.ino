@@ -21,7 +21,7 @@ double cumError1,cumError2,cumError3, rateError1,rateError2,rateError3;
 float out1,out2,out3=0;
 
 double kp = .5;
-double ki = .000001;
+double ki = 0;
 double kd = 100;
 
 void setup() {
