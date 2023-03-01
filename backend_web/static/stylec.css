@@ -115,14 +115,14 @@ body {
     grid-column-start: 2;
   }
   
-  #backward {
-    grid-template-rows: 2;
-    grid-column-start: 2;
-  }
-  
   #home {
     grid-template-rows: 2;
     grid-column-start: 1;
+  }
+  
+  #backward {
+    grid-template-rows: 2;
+    grid-column-start: 2;
   }
 
   #pickup:hover{
