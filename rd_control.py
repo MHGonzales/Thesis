@@ -19,7 +19,7 @@ print("Import Success !!")
 #move robot using delta
 #activate threads for keyboard
 
-ad = sr('COM6',9600)
+ad = sr('COM4',9600)
 rb = Dobot()
 
 #this is for delta movement and robot movement
