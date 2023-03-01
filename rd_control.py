@@ -3,6 +3,7 @@ from threading import Thread
 
 import xlwings as xw
 import keyboard as kb
+
 import roboticstoolbox as rtb
 from spatialmath import SE3
 from numpy import pi
@@ -23,16 +24,16 @@ ad = sr('COM4',9600)
 rb = Dobot()
 
 #this is for delta movement and robot movement
-def robot(dx,dy,dz,nx,ny,nz,roll:str = "90",grip:str = "90"):
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
         Tf = SE3.Trans((nx+110)/1000 ,ny/1000 ,nz/1000) *SE3.OA([1,  0, 0], [0, 0, -1])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = 0
+        j4 = 90
         j5= 90
-        j6 = 180
+        j6 = 0
         gr =grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
@@ -68,17 +69,17 @@ def grip():
                 current_pose = dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = 85)
+                delta(ox,oy,oz,nx,ny,nz,grip = "85")
                 tm.sleep(2)
-                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                delta(ox,oy,oz,nx,ny,nz,grip = "90")
                 g = 1
             else:
                 current_pose = dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = 100)
+                delta(ox,oy,oz,nx,ny,nz,grip = "100")
                 tm.sleep(2)
-                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                delta(ox,oy,oz,nx,ny,nz,grip = "90")
                 g=0
         tm.sleep(0.25) 
 
@@ -89,12 +90,14 @@ def forward():
     while True:
         if kb.read_key() =="z":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            
             if l==1:
+                ox,oy,oz = table[i][j],table[i][k],current_pose[2] 
                 nx = table[i][j]
                 ny = table[i][k]
-                nz = current_pose[2]+32
+                nz = current_pose[2]-62
             else:
+                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 nx = current_pose[0]+32
                 ny = table[i][j]
                 nz = table[i][k]
@@ -107,12 +110,14 @@ def backward():
     while True:
         if kb.read_key() =="x":
             current_pose = dType.GetPose(api)
-            ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
             if l==1:
+                ox,oy,oz = table[i][j],table[i][k],current_pose[2] 
                 nx = table[i][j]
                 ny = table[i][k]
-                nz = current_pose[2]-32
+                nz = current_pose[2]+62
             else:
+                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 nx = current_pose[0]-32
                 ny = table[i][j]
                 nz = table[i][k]
@@ -224,7 +229,7 @@ def pickup_mode():
             table = ws.range("A1:R6").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =table[0][1],table[0][2],155
+            nx,ny,nz =table[0][1],table[0][2],150
             i=0
             j=1
             k=2
@@ -246,7 +251,7 @@ def home_position():
             delta(ox,oy,oz,nx,ny,nz)
         tm.sleep(0.25)
 #this is for delta calculation
-def delta(ox,oy,oz,nx,ny,nz,roll:str = "90",grip:str = "90"):
+def delta(ox,oy,oz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     
     dy = ny-oy
     dz = nz - oz
@@ -363,6 +368,7 @@ def start_threads():
     t13 = Thread(target = roll)
     t14 = Thread(target = pickup_mode)
     t15 = Thread(target = home_position)
+    t16 = Thread(target = grip)
 
 
     t1.setDaemon(True)
@@ -380,6 +386,7 @@ def start_threads():
     t13.setDaemon(True)
     t14.setDaemon(True)
     t15.setDaemon(True)
+    t16.setDaemon(True)
 
 
     t1.start()
@@ -397,6 +404,7 @@ def start_threads():
     t13.start()
     t14.start()
     t15.start()
+    t16.start()
 
     return
 
