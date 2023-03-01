@@ -8,20 +8,46 @@
 </head>
 <script  >  
    function wClicked() {   
-    alert('W')
+    alert('Going up')
              } 
     function aClicked() {   
-    alert('A');
+    alert('Going left');
              } 
     function sClicked() {   
-    alert('S');
+    alert('Going right');
              } 
     function dClicked() {   
-    alert('D');
+    alert('Going down');
+             }
+    function pClicked() {   
+    alert('Power Supply')
+             } 
+    function iClicked() {   
+    alert('Center Top Module');
+             } 
+    function kClicked() {   
+    alert('Center Bottom Module');
+             } 
+    function oClicked() {   
+    alert('Right Top Module');
+             }
+    function lClicked() {   
+    alert('Right Bottom Module')
+             } 
+    function uClicked() {   
+    alert('Pick up mode');
+             } 
+    function zClicked() {   
+    alert('Moves forward');
+             } 
+    function xClicked() {   
+    alert('Moves back');
+             } 
+    function hClicked() {   
+    alert('Home position');
              } 
     </script> 
 <body>
-    <div></div>
     <div id="wrapper">
         <div id="controls">
           <input type="button" id="up" class="movements_control" onclick="wClicked()" value="W"></button>
@@ -32,14 +58,21 @@
     </div>
     <div id="wrapper">
         <div id="controls">
-          <input type="button" id="m1" class="movements_control" onclick="wClicked()" value="P"></button>
-          <input type="button" id="m2" class="movements_control" onclick="aClicked()" value="I" ></button>
-          <input type="button" id="m3" class="movements_control" onclick="sClicked()" value="O"></button>
-          <input type="button" id="m4" class="movements_control" onclick="dClicked()" value="K"></button>
-          <input type="button" id="m5" class="movements_control" onclick="dClicked()" value="L"></button>
+          <input type="button" id="m1" class="movements_control" onclick="pClicked()" value="P"></button>
+          <input type="button" id="m2" class="movements_control" onclick="iClicked()" value="I" ></button>
+          <input type="button" id="m3" class="movements_control" onclick="kClicked()" value="O"></button>
+          <input type="button" id="m4" class="movements_control" onclick="oClicked()" value="K"></button>
+          <input type="button" id="m5" class="movements_control" onclick="lClicked()" value="L"></button>
         </div>
     </div>
-    <div></div>
+    <div id="wrapper">
+        <div id="controls">
+          <input type="button" id="pickup" class="movements_control" onclick="uClicked()" value="U"></button>
+          <input type="button" id="forward" class="movements_control" onclick="zClicked()" value="Z" ></button>
+          <input type="button" id="backward" class="movements_control" onclick="xClicked()" value="X"></button>
+          <input type="button" id="home" class="movements_control" onclick="hClicked()" value="H"></button>
+        </div>
+    </div>
 </body>
 
 </html>

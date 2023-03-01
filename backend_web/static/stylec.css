@@ -104,6 +104,41 @@ body {
   #m5:hover{
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     }
+  
+  #pickup {
+    grid-template-rows: 1;
+    grid-column-start: 1;
+  }
+  
+  #forward {
+    grid-template-rows: 1;
+    grid-column-start: 2;
+  }
+  
+  #backward {
+    grid-template-rows: 2;
+    grid-column-start: 2;
+  }
+  
+  #home {
+    grid-template-rows: 2;
+    grid-column-start: 1;
+  }
+
+  #pickup:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #forward:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #backward:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }    
+  #home:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+
+
   @media (min-width: 721px) {
     .movements_control {
       width: 70px;
