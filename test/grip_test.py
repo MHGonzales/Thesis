@@ -19,7 +19,7 @@ ad = sr('COM4',9600)
 def robot(grip:str="90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position       
-    j4 = grip
+    j4 = 90
     j5 = 90
     j6 = 90
     gr = grip
