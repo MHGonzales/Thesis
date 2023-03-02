@@ -12,6 +12,7 @@ from utilities_test import Dobot
 from utilities_test.dobot import DobotDllType as dType
 from serial import Serial as sr
 
+
 print("Import Success !!")
 
 ad = sr('COM4',9600)
