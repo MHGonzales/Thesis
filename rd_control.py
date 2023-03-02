@@ -13,12 +13,7 @@ from utilities.dobot import DobotDllType as dType
 from serial import Serial as sr
 
 print("Import Success !!")
-#specify sheets
-#read data range from
-#define keyboard funcions
-#calculate delta
-#move robot using delta
-#activate threads for keyboard
+
 
 ad = sr('COM4',9600)
 rb = Dobot()
