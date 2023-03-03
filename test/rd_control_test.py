@@ -54,7 +54,7 @@ def roll():
             delta(ox,oy,oz,nx,ny,nz,roll)
         tm.sleep(0.25) 
 
-def grip():
+def grip_close():
     g:int = 0
     while True:
         if kb.read_key() == "g":
@@ -62,17 +62,31 @@ def grip():
                 current_pose= dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = 85)
-                tm.sleep(2)
-                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                delta(ox,oy,oz,nx,ny,nz,grip = "60")
                 g =1
             else:
                 current_pose= dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = 135)
-                tm.sleep(2)
-                delta(ox,oy,oz,nx,ny,nz,grip = 90)
+                delta(ox,oy,oz,nx,ny,nz,grip = "90")
+                g=0
+        tm.sleep(0.25) 
+
+def grip_open():
+    f:int = 0
+    while True:
+        if kb.read_key() == "g":
+            if f == 0:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = "120")
+                f =1
+            else:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = "90")
                 g=0
         tm.sleep(0.25) 
 
@@ -342,38 +356,23 @@ def down():
         tm.sleep(0.25)
 
 def start_threads():
-    t1 = Thread(target=left)
-    t2 = Thread(target=right)
-    t3 = Thread(target=up)
-    t4 = Thread(target=down)
-    t5= Thread(target=low_mid)
-    t6 = Thread(target=low_right)
-    t7 = Thread(target=high_mid)
-    t8 = Thread(target=high_right)
-    t9 = Thread(target=switches)
-    t10 = Thread(target=forward)
-    t11 = Thread(target=backward)
-    t12 = Thread(target = power)
-    t13 = Thread(target = roll)
-    t14 = Thread(target = pickup_mode)
-    t15 = Thread(target = home_position)
-
-
-    t1.setDaemon(True)
-    t2.setDaemon(True)
-    t3.setDaemon(True)
-    t4.setDaemon(True)
-    t5.setDaemon(True)
-    t6.setDaemon(True)
-    t7.setDaemon(True)
-    t8.setDaemon(True)
-    t9.setDaemon(True)
-    t10.setDaemon(True)
-    t11.setDaemon(True)
-    t12.setDaemon(True)
-    t13.setDaemon(True)
-    t14.setDaemon(True)
-    t15.setDaemon(True)
+    t1 = Thread(target=left,daemon=True)
+    t2 = Thread(target=right,daemon=True)
+    t3 = Thread(target=up,daemon=True)
+    t4 = Thread(target=down,daemon=True)
+    t5= Thread(target=low_mid,daemon=True)
+    t6 = Thread(target=low_right,daemon=True)
+    t7 = Thread(target=high_mid,daemon=True)
+    t8 = Thread(target=high_right,daemon=True)
+    t9 = Thread(target=switches,daemon=True)
+    t10 = Thread(target=forward,daemon=True)
+    t11 = Thread(target=backward,daemon=True)
+    t12 = Thread(target = power,daemon=True)
+    t13 = Thread(target = roll,daemon=True)
+    t14 = Thread(target = pickup_mode,daemon=True)
+    t15 = Thread(target = home_position,daemon=True)
+    t16 = Thread(target = grip_close,daemon=True)
+    t17 = Thread(target = grip_open,daemon=True)
 
 
     t1.start()
@@ -391,8 +390,12 @@ def start_threads():
     t13.start()
     t14.start()
     t15.start()
+    t16.start()
+
+    print("Threads Initialized....")
 
     return
+
 
 if __name__ == "__main__":
 
@@ -406,9 +409,12 @@ if __name__ == "__main__":
     
     print(" Initializing Arduino Serial Connection")
     tm.sleep(5)
-    print("Initializing threads") 
+    print("Arduino Connected")
+    print("Initializing threads....") 
     
     start_threads()
+
+    print("Robot Control Active")
 
     
     while True:

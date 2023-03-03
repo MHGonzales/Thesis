@@ -2,12 +2,12 @@
 #include <Servo.h>
 
 Servo servo;
-int pos=0;
+int pos=90;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  servo.attach(11,544,2500);//default min:544 max: 2400 //yaw 544,2520 //pitch 544, 2500
+  servo.attach(10,544,2500);//default min:544 max: 2400 //yaw 544,2520 //pitch 544, 2500
   servo.write(pos);
 }
 
