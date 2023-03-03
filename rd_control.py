@@ -56,26 +56,40 @@ def roll():
             delta(ox,oy,oz,nx,ny,nz,roll)
         tm.sleep(0.25) 
 
-def grip():
+def grip_close():
     g:int = 0
     while True:
         if kb.read_key() == "g":
             if g == 0:
-                current_pose = dType.GetPose(api)
+                current_pose= dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = "85")
-                tm.sleep(2)
-                delta(ox,oy,oz,nx,ny,nz,grip = "90")
-                g = 1
+                delta(ox,oy,oz,nx,ny,nz,grip = "60")
+                g =1
             else:
-                current_pose = dType.GetPose(api)
+                current_pose= dType.GetPose(api)
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                delta(ox,oy,oz,nx,ny,nz,grip = "100")
-                tm.sleep(2)
                 delta(ox,oy,oz,nx,ny,nz,grip = "90")
                 g=0
+        tm.sleep(0.25) 
+
+def grip_open():
+    f:int = 0
+    while True:
+        if kb.read_key() == "f":
+            if f == 0:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = "120")
+                f =1
+            else:
+                current_pose= dType.GetPose(api)
+                ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                delta(ox,oy,oz,nx,ny,nz,grip = "90")
+                f=0
         tm.sleep(0.25) 
 
 
@@ -90,14 +104,14 @@ def forward():
                 ox,oy,oz = table[i][j],table[i][k],current_pose[2] 
                 nx = table[i][j]
                 ny = table[i][k]
-                nz = current_pose[2]-62
+                nz = current_pose[2]-10
+                robot(0,0,10,nx,ny,nz)
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                nx = current_pose[0]+32
+                nx = current_pose[0]+10
                 ny = table[i][j]
                 nz = table[i][k]
-            
-            delta(ox,oy,oz,nx,ny,nz)
+                robot(10,0,0,nx,ny,nz)
         tm.sleep(0.25)
 
 def backward():
@@ -110,13 +124,14 @@ def backward():
                 ox,oy,oz = table[i][j],table[i][k],current_pose[2] 
                 nx = table[i][j]
                 ny = table[i][k]
-                nz = current_pose[2]+62
+                nz = current_pose[2]+10
+                robot(0,0,10,nx,ny,nz)
             else:
                 ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                nx = current_pose[0]-32
+                nx = current_pose[0]-10
                 ny = table[i][j]
                 nz = table[i][k]
-            delta(ox,oy,oz,nx,ny,nz)
+                robot(-10,0,0,nx,ny,nz)
         tm.sleep(0.25)
 
 def power():
@@ -363,7 +378,9 @@ def start_threads():
     t13 = Thread(target = roll,daemon=True)
     t14 = Thread(target = pickup_mode,daemon=True)
     t15 = Thread(target = home_position,daemon=True)
-    t16 = Thread(target = grip,daemon=True)
+    t16 = Thread(target = grip_close,daemon=True)
+    t17 = Thread(target = grip_open,daemon=True)
+
 
 
     t1.start()
@@ -382,6 +399,9 @@ def start_threads():
     t14.start()
     t15.start()
     t16.start()
+    t17.start()
+
+    print("Threads Initialized....")
 
     return
 
@@ -397,9 +417,12 @@ if __name__ == "__main__":
     
     print(" Initializing Arduino Serial Connection")
     tm.sleep(5)
-    print("Initializing threads") 
+    print("Arduino Connected")
+    print("Initializing threads....") 
     
     start_threads()
+
+    print("Robot Control Active")
 
     
     while True:
