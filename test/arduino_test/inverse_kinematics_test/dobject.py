@@ -51,7 +51,7 @@ class Dobot(DHRobot):
             #d=30*mm,
             #a=50*mm,
             #flip=True
-            #offset=90*deg,
+            offset=-90*deg,
             #flip=True
         )
         

@@ -53,7 +53,7 @@ void loop() {
     /*
      * Moving motor in full step mode is simple:
      */
-    stepper.setMicrostep(2);  // Set microstep mode to 1:1
+    stepper.setMicrostep(1);  // Set microstep mode to 1:1
 
     // One complete revolution is 360°
     stepper.rotate(360);     // forward revolution

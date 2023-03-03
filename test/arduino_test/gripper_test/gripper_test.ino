@@ -15,15 +15,9 @@ void loop() {
 
   delay(1000);
 
-  grip.write(90);
-
-  delay(1000);
-
   grip.write(100);
 
   delay(1000);
 
-  grip.write(90);
-
-  delay(1000);
+ 
 }

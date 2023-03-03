@@ -2,7 +2,7 @@
 #include <Servo.h>
 
 Servo servo;
-int pos=100;
+int pos=90;
 
 void setup() {
   // put your setup code here, to run once:
