@@ -33,7 +33,7 @@ def grip_close():
         if kb.read_key() == "g":
             if g == 0:
                 
-                robot(grip = "30")
+                robot(grip = "60")
                 g = 1
             else:
  
@@ -47,7 +47,7 @@ def grip_open():
         if kb.read_key() == "f":
             if f == 0:
                 
-                robot(grip = "130")
+                robot(grip = "120")
                 
                 f = 1
             else:
