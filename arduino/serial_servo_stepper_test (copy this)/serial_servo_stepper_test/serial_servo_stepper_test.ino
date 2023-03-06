@@ -11,9 +11,9 @@ VarSpeedServo servo_1,servo_2,grip;
 
 
 #include "A4988.h"
-#define MS1 6
+#define MS1 8
 #define MS2 7
-#define MS3 8
+#define MS3 6
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 float set_j1,set_j2,set_j3,set_j4 = 90;

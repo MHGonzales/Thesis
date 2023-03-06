@@ -16,7 +16,7 @@
 
 #define DIR 3
 #define STEP 4
-#define SLEEP 2
+#define SLEEP 5
 
 /*
  * Choose one of the sections below that match your board
@@ -24,9 +24,9 @@
 
 
 #include "A4988.h"
-#define MS1 5
-#define MS2 6
-#define MS3 7
+#define MS1 8
+#define MS2 7
+#define MS3 6
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 // #include "BasicStepperDriver.h" // generic
