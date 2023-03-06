@@ -22,9 +22,9 @@ int pos_1= 90,pos_2= 90,pos_3 = 90;
 
 void setup() {
   // put your setup code here, to run once:
-  servo_1.attach(9,544,2520);
+  servo_1.attach(11,544,2520);
   servo_2.attach(10,544,2500);
-  grip.attach(11,544,2500);
+  grip.attach(9,544,2520);
 
   Serial.begin(9600); // start serial monitor
   //Wire.begin();
