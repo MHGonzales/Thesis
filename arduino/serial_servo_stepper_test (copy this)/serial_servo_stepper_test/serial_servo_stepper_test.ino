@@ -10,11 +10,11 @@ VarSpeedServo servo_1,servo_2,grip;
 #define SLEEP 5
 
 
-#include "A4988.h"
-#define MS1 8
-#define MS2 7
-#define MS3 6
-A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
+#include "DRV8825.h"
+#define MODE0 8
+#define MODE1 7
+#define MODE2 6
+DRV8825 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MODE0, MODE1, MODE2);
 
 float set_j1,set_j2,set_j3,set_j4 = 90;
 float new_step,old_step=0;
@@ -34,7 +34,7 @@ void setup() {
   grip.write(pos_3); 
 
   stepper.begin(RPM);
-  //stepper.enable();
+  stepper.enable();
   stepper.setMicrostep(1);
 
   delay(5000);

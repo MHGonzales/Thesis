@@ -11,8 +11,8 @@
 #include <Arduino.h>
 
 // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
-#define MOTOR_STEPS 400
-#define RPM 30
+#define MOTOR_STEPS 200
+#define RPM 20
 
 #define DIR 3
 #define STEP 4
@@ -23,11 +23,11 @@
  */
 
 
-#include "A4988.h"
-#define MS1 8
-#define MS2 7
-#define MS3 6
-A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
+#include "DRV8825.h"
+#define MODE0 8
+#define MODE1 7
+#define MODE2 6
+DRV8825 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MODE0, MODE1, MODE2);
 
 // #include "BasicStepperDriver.h" // generic
 // BasicStepperDriver stepper(DIR, STEP);
@@ -37,8 +37,9 @@ void setup() {
      * Set target motor RPM.
      */
       Serial.begin(9600);
-      digitalWrite(6,LOW); // Set Enable low
+      //digitalWrite(6,LOW); // Set Enable low
       stepper.begin(RPM);
+      
     // if using enable/disable on ENABLE pin (active LOW) instead of SLEEP uncomment next line
     // stepper.setEnableActiveState(LOW);
     stepper.enable();
@@ -60,9 +61,10 @@ void loop() {
 
     // One complete revolution is also MOTOR_STEPS steps in full step mode
     //stepper.move(MOTOR_STEPS);    // forward revolution
-
+    Serial.println("First Rotation");
     stepper.rotate(-360);    
-    //stepper.move(MOTOR_STEPS); 
-    //digitalWrite(6,HIGH); // Set Enable high
+    Serial.println("Second Rotation");
+    stepper.move(-MOTOR_STEPS); 
+    digitalWrite(3,HIGH); // Set Enable high
 
 }
