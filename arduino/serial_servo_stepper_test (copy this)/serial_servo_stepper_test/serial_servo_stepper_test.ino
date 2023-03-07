@@ -3,18 +3,18 @@
 VarSpeedServo servo_1,servo_2,grip;
 
 #define MOTOR_STEPS 200
-#define RPM 30
+#define RPM 20
 
 #define DIR 3
 #define STEP 4
 #define SLEEP 5
 
 
-#include "DRV8825.h"
-#define MODE0 8
-#define MODE1 7
-#define MODE2 6
-DRV8825 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MODE0, MODE1, MODE2);
+#include "A4988.h"
+#define MS1 8
+#define MS2 7
+#define MS3 6
+A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 float set_j1,set_j2,set_j3,set_j4 = 90;
 float new_step,old_step=0;
