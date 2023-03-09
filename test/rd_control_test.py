@@ -206,7 +206,7 @@ def pickup_mode():
             current_pose = dType.GetPose(api)
             if l==0:
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-                nx,ny,nz =208,60, 120
+                nx,ny,nz =170,60, 130
                 i=0
                 j=1
                 k=2
