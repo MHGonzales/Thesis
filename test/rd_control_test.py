@@ -401,9 +401,10 @@ def start_threads():
 
 if __name__ == "__main__":
 
-    i,l = 0
+    i = 0
     j = 1
     k = 2
+    l = 0
     api = dType.load()
     dType.ConnectDobot(api, "", 115200)
     #dType.SetIOMultiplexing(api, 4, 2, 1)
