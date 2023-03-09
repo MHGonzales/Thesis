@@ -67,7 +67,7 @@ def forward():
                 robot(0,0,-5,nx,ny,nz)
             else:
                 nx,ny,nz = current_pose[0]+10,current_pose[1],current_pose[2]
-                robot(10,0,0,nx,ny,nz)
+                robot(2,0,0,nx,ny,nz)
         tm.sleep(0.1)
 
 def backward():
@@ -82,7 +82,7 @@ def backward():
             else:
                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 nx,ny,nz = current_pose[0]-10,current_pose[1],current_pose[2]
-                robot(-10,0,0,nx,ny,nz)
+                robot(-2,0,0,nx,ny,nz)
         tm.sleep(0.1)
     
 def power():
@@ -110,7 +110,7 @@ def low_mid():
             table = ws.range("A1:I2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =110, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -126,7 +126,7 @@ def switches():
             table = ws.range("A1:AJ2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =110, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -142,7 +142,7 @@ def high_mid():
             table = ws.range("A1:I2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =160, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -174,7 +174,7 @@ def low_right():
             table = ws.range("A1:L4").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =110, table[0][1],table[0][2]
             i=0
             j=1
             k=2
