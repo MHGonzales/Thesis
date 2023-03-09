@@ -17,7 +17,7 @@ ad = sr('COM4',9600)
 rb = Dobot()
 
 #this is for delta movement and robot movement
-def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "0"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
@@ -54,6 +54,21 @@ def roll():
             delta(ox,oy,oz,nx,ny,nz,roll)
         tm.sleep(0.25) 
 
+def push():
+    g:int = 0
+    while True:
+        if kb.read_key() == "g":
+            if g == 0:
+                current_pose= dType.GetPose(api)
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                robot(0,0,0,nx,ny,nz,grip = "0")
+                g =1
+            else:
+                current_pose= dType.GetPose(api)
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                robot(0,0,0,nx,ny,nz,grip = "160")
+                g=0
+        tm.sleep(0.25)
 
 #move forward
 def forward():
@@ -191,7 +206,7 @@ def pickup_mode():
             current_pose = dType.GetPose(api)
             if l==0:
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-                nx,ny,nz =50,151.6, 150
+                nx,ny,nz =208,60, 120
                 i=0
                 j=1
                 k=2
@@ -371,7 +386,7 @@ def start_threads():
     t17 = Thread(target = precision_left,daemon=True)
     t18 = Thread(target = precision_right,daemon=True)
     t19 = Thread(target = precision_up,daemon=True)
-    
+    t20 = Thread(target = push, daemon =True)
 
 
     t1.start()
@@ -393,6 +408,7 @@ def start_threads():
     t17.start()
     t18.start()
     t19.start()
+    t20.start()
 
     print("Threads Initialized....")
 
