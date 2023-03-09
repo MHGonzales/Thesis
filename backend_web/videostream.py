@@ -4,13 +4,13 @@ import os
 
 import time as tm
 from threading import Thread
+from flask_socketio import SocketIO, send, emit
 
-
-import xlwings as xw
-import keyboard as kb
-import roboticstoolbox as rtb
-from spatialmath import SE3
-from numpy import pi
+# import xlwings as xw
+# import keyboard as kb
+# import roboticstoolbox as rtb
+# from spatialmath import SE3
+# from numpy import pi
 
 # from utilities_test import Dobot
 # from utilities_test.dobot import DobotDllType as dType
@@ -24,6 +24,11 @@ from numpy import pi
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
+ 
+message = ""  # Define message as a global variable
+
 video = cv2.VideoCapture(2)
 video2 = cv2.VideoCapture(3)
 bg = cv2.imread('WEB.png', cv2.IMREAD_COLOR) 
@@ -462,35 +467,42 @@ def ahdr():
 def clk():
     return render_template('clicked.html')
 
-@app.route('/receive-key', methods=['POST'])
-def receive_key():
-    key = request.form['key']
-    app.logger.info("Received key: %s", key)
-    # do something with the key
+@app.route('/NEWCLICK')
+def nclick():
+    return render_template('index.html')
+ 
+@socketio.on('message')
+def handle_message(msg):
+    global message  # Use the global keyword to access the global message variable
+    message = msg
+    print('received message: ' + message)
+    send(message, broadcast=True) 
 
-# if __name__ == '__main__':
-#     i = 0
-#     j = 1
-#     k = 2
-#     l = 0
-#     api = dType.load()
-#     dType.ConnectDobot(api, "", 115200)
-#     #dType.SetIOMultiplexing(api, 4, 2, 1)
-#     #global current_pose
-#     current_pose=dType.GetPose(api)
-#     dType.SetPTPCmd(api,2,100,0,0,0,1) 
+if __name__ == '__main__':
+    # i = 0
+    # j = 1
+    # k = 2
+    # l = 0
+    # api = dType.load()
+    # dType.ConnectDobot(api, "", 115200)
+    # #dType.SetIOMultiplexing(api, 4, 2, 1)
+    # #global current_pose
+    # current_pose=dType.GetPose(api)
+    # dType.SetPTPCmd(api,2,100,0,0,0,1) 
     
-#     print(" Initializing Arduino Serial Connection")
+    # print(" Initializing Arduino Serial Connection")
     
-#     tm.sleep(5)
-#     print("Arduino Connected")
-#     print("Initializing threads....") 
+    # tm.sleep(5)
+    # print("Arduino Connected")
+    # print("Initializing threads....") 
     
-#     start_threads()
+    # start_threads()
 
-#     print("Robot Control Active")
+    # print("Robot Control Active")
 
-    app.run(host='localhost', port=2037, threaded=True)
+    app.debug = True
+    app.run(host='localhost', port=2038, threaded=True)
+    socketio.run(app, host='localhost', port=2038)
 
     print("Flask running")
 
