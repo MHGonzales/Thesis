@@ -3,7 +3,7 @@
 VarSpeedServo servo_1,servo_2,grip;
 
 #define MOTOR_STEPS 200
-#define RPM 30
+#define RPM 20
 
 #define DIR 3
 #define STEP 4
@@ -11,9 +11,9 @@ VarSpeedServo servo_1,servo_2,grip;
 
 
 #include "A4988.h"
-#define MS1 6
+#define MS1 8
 #define MS2 7
-#define MS3 8
+#define MS3 6
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 float set_j1,set_j2,set_j3,set_j4 = 90;
@@ -22,9 +22,9 @@ int pos_1= 90,pos_2= 90,pos_3 = 90;
 
 void setup() {
   // put your setup code here, to run once:
-  servo_1.attach(9,544,2520);
+  servo_1.attach(11,544,2525);
   servo_2.attach(10,544,2500);
-  grip.attach(11,544,2500);
+  grip.attach(9,544,2520);
 
   Serial.begin(9600); // start serial monitor
   //Wire.begin();
@@ -34,7 +34,7 @@ void setup() {
   grip.write(pos_3); 
 
   stepper.begin(RPM);
-  //stepper.enable();
+  stepper.enable();
   stepper.setMicrostep(1);
 
   delay(5000);

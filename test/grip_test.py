@@ -21,16 +21,16 @@ def robot(grip:str="90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position       
     j4 = 90
-    j5 = 90
+    j5 = grip
     j6 = 90
-    gr = grip
-    pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
+    
+    pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
     ad.write(pos_wrist.encode())   
     
 def grip_close():
     g:int = 0
     while True:
-        if kb.read_key() == "g":
+        if kb.read_key() == "left":
             if g == 0:
                 
                 robot(grip = "60")
@@ -44,7 +44,7 @@ def grip_close():
 def grip_open():
     f:int = 0
     while True:
-        if kb.read_key() == "f":
+        if kb.read_key() == "right":
             if f == 0:
                 
                 robot(grip = "120")
