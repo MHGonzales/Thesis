@@ -54,5 +54,13 @@ def control():
 def allview():
     return render_template('frame.html')
 
+@app.route('/HEADER')
+def ahdr():
+    return render_template('header.html')
+
+@app.route('/CLICK')
+def clk():
+    return render_template('clicked.html')
+
 if __name__ == '__main__':
     app.run(host='localhost', port=2037, threaded=True)
