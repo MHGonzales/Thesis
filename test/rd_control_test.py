@@ -30,7 +30,7 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
         gr =grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
-        Tf = SE3.Trans((nx+102)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
+        Tf = SE3.Trans((nx+107)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
         j4 = int(qn[4])
@@ -304,10 +304,10 @@ def precision_left():
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
             if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
                 robot(0,1,0,nx,ny,nz)
             else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
                 robot(0,1,0,nx,ny,nz)
         tm.sleep(0.25)
 
@@ -318,10 +318,10 @@ def precision_right():
             current_pose = dType.GetPose(api)
             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
             if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
                 robot(0,-1,0,nx,ny,nz)
             else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
                 robot(0,-1,0,nx,ny,nz)
         tm.sleep(0.25)
 
@@ -331,10 +331,10 @@ def precision_up():
         if kb.read_key() == "up":
             current_pose = dType.GetPose(api)        
             if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0]+1,current_pose[1],current_pose[2]
                 robot(1,0,0,nx,ny,nz)
             else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+1
                 robot(0,0,1,nx,ny,nz)
         tm.sleep(0.25)
 
@@ -344,10 +344,10 @@ def precision_down():
         if kb.read_key() == "down":
             current_pose = dType.GetPose(api)
             if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0]-1,current_pose[1],current_pose[2]
                 robot(-1,0,0,nx,ny,nz)
             else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-1
                 robot(0,0,-1,nx,ny,nz)
         tm.sleep(0.25)
 
