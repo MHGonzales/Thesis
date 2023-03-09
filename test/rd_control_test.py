@@ -17,7 +17,7 @@ ad = sr('COM4',9600)
 rb = Dobot()
 
 #this is for delta movement and robot movement
-def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "0"):
+def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "160"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
