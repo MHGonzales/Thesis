@@ -5,8 +5,8 @@
   </head>
   <body>
     <form id="form">
-      <input id="input" type="text" placeholder="Enter message here">
-      <button type="submit">Send</button>
+      <input id="input" type="text" hidden>
+      <button type="submit" hidden>Send</button>
     </form>
   </body>
 <script>
@@ -29,10 +29,20 @@ form.addEventListener('submit', function(event) {
     }
 });
 
+document.onkeydown = function(event) {
+	var key_press = event.key;
+	document.getElementById('kp').innerHTML = key_press;
+}
+
 socket.on('message', function(message) {
         var li = document.createElement('li');
         li.textContent = message;
         document.getElementById('messages').prepend(li)
       });
 </script>
+<font size="8"
+color= #FFFFFF> 
+    <center> Last Key Pressed : <span id="kp"></span>
+    </center>
+</font>  
 </html>
