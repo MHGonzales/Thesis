@@ -109,8 +109,8 @@ def forward():
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-5
                 robot(0,0,-5,nx,ny,nz)
             else:
-                nx,ny,nz = current_pose[0]+10,current_pose[1],current_pose[2]
-                robot(10,0,0,nx,ny,nz)
+                nx,ny,nz = current_pose[0]+5,current_pose[1],current_pose[2]
+                robot(5,0,0,nx,ny,nz)
             message=""
         tm.sleep(0.1)
 
@@ -125,8 +125,8 @@ def backward():
                 robot(0,0,5,nx,ny,nz)
             else:
                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                nx,ny,nz = current_pose[0]-10,current_pose[1],current_pose[2]
-                robot(-10,0,0,nx,ny,nz)
+                nx,ny,nz = current_pose[0]-5,current_pose[1],current_pose[2]
+                robot(-5,0,0,nx,ny,nz)
             message=""
         tm.sleep(0.1)
     
@@ -365,10 +365,10 @@ def precision_left():
                 current_pose = dType.GetPose(api)
                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 if l==1:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
                     robot(0,1,0,nx,ny,nz)
                 else:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
                     robot(0,1,0,nx,ny,nz)
                 message=""
         tm.sleep(0.25)
@@ -381,10 +381,10 @@ def precision_right():
                 current_pose = dType.GetPose(api)
                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 if l==1:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
                     robot(0,-1,0,nx,ny,nz)
                 else:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
                     robot(0,-1,0,nx,ny,nz)
                 message=""
         tm.sleep(0.25)
@@ -396,10 +396,10 @@ def precision_up():
             if message == "w" or message == "W":
                 current_pose = dType.GetPose(api)        
                 if l==1:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0]+1,current_pose[1],+current_pose[2]
                     robot(1,0,0,nx,ny,nz)
                 else:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+1
                     robot(0,0,1,nx,ny,nz)
                 message=""
         tm.sleep(0.25)
@@ -411,10 +411,10 @@ def precision_down():
             if message == "s" or message == "S":
                 current_pose = dType.GetPose(api)
                 if l==1:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0]-1,current_pose[1],current_pose[2]
                     robot(-1,0,0,nx,ny,nz)
                 else:
-                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
+                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-1
                     robot(0,0,-1,nx,ny,nz)
                 message=""
         tm.sleep(0.25)
