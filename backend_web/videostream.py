@@ -108,11 +108,10 @@ def forward():
             if l==1:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-5
                 robot(0,0,-5,nx,ny,nz)
-                message =""
             else:
                 nx,ny,nz = current_pose[0]+10,current_pose[1],current_pose[2]
                 robot(10,0,0,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.1)
 
 def backward():
@@ -124,12 +123,11 @@ def backward():
             if l==1: 
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+5
                 robot(0,0,5,nx,ny,nz)
-                message=""
             else:
                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
                 nx,ny,nz = current_pose[0]-10,current_pose[1],current_pose[2]
                 robot(-10,0,0,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.1)
     
 def power():
@@ -249,10 +247,10 @@ def pickup_mode():
                 k=2
                 l = 1
                 delta(ox,oy,oz,nx,ny,nz)
-                message =""
             else:
                 l = 0
                 robot(0,0,0,roll=0) 
+            message =""
         tm.sleep(0.25)
     return
     
@@ -364,11 +362,10 @@ def precision_left():
             if l==1:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,1,0,nx,ny,nz)
-                message=""
             else:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,1,0,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.25)
 
 def precision_right():
@@ -380,11 +377,10 @@ def precision_right():
             if l==1:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,-1,0,nx,ny,nz)
-                message=""
             else:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,-1,0,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.25)
 
 def precision_up():
@@ -395,11 +391,10 @@ def precision_up():
             if l==1:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(1,0,0,nx,ny,nz)
-                message=""
             else:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,0,1,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.25)
 
 def precision_down():
@@ -410,11 +405,10 @@ def precision_down():
             if l==1:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(-1,0,0,nx,ny,nz)
-                message=""
             else:
                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
                 robot(0,0,-1,nx,ny,nz)
-                message=""
+            message=""
         tm.sleep(0.25)
 
 def start_threads():
