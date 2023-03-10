@@ -54,21 +54,6 @@ def roll():
             delta(ox,oy,oz,nx,ny,nz,roll)
         tm.sleep(0.25) 
 
-def push():
-    g:int = 0
-    while True:
-        if kb.read_key() == "g":
-            if g == 0:
-                current_pose= dType.GetPose(api)
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                robot(0,0,0,nx,ny,nz,grip = "0")
-                g =1
-            else:
-                current_pose= dType.GetPose(api)
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-                robot(0,0,0,nx,ny,nz,grip = "160")
-                g=0
-        tm.sleep(0.25)
 
 #move forward
 def forward():
@@ -241,129 +226,157 @@ def delta(ox,oy,oz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     return
 
 def left():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "a":
-            current_pose = dType.GetPose(api)
-            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            if l==1:
-                ox,oy,oz =table[i][j],table[i][k],current_pose[2]
-                j-=3
-                k-=3
-                nx,ny,nz = table[i][j],table[i][k],current_pose[2]
-            else:
-                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                j-=3
-                k-=3
-                nx,ny,nz = current_pose[0], table[i][j],table[i][k]
-            delta(ox,oy,oz,nx,ny,nz)
+        if f == 0:
+            if kb.read_key()  == "a" or kb.read_key()  == "A" :
+                current_pose = dType.GetPose(api)
+                #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                if l==1:
+                    ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                    j-=3
+                    k-=3
+                    nx,ny,nz = table[i][j],table[i][k],current_pose[2]
+                else:
+                    ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                    j-=3
+                    k-=3
+                    nx,ny,nz = current_pose[0], table[i][j],table[i][k]
+                delta(ox,oy,oz,nx,ny,nz)
+                
         tm.sleep(0.25)
 
 def right():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "d":
-            current_pose = dType.GetPose(api)
-            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            if l==1:
-                ox,oy,oz =table[i][j],table[i][k],current_pose[2]
-                j+=3
-                k+=3
-                nx,ny,nz = table[i][j],table[i][k],current_pose[2]
-            else:
-                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                j+=3
-                k+=3
-                nx,ny,nz = current_pose[0], table[i][j],table[i][k]
-            delta(ox,oy,oz,nx,ny,nz)
+        if f == 0:
+            if kb.read_key()  == "d" or kb.read_key()  == "D" :
+                current_pose = dType.GetPose(api)
+                #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                if l==1:
+                    ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                    j+=3
+                    k+=3
+                    nx,ny,nz = table[i][j],table[i][k],current_pose[2]
+                else:
+                    ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                    j+=3
+                    k+=3
+                    nx,ny,nz = current_pose[0], table[i][j],table[i][k]
+                delta(ox,oy,oz,nx,ny,nz)
+                
         tm.sleep(0.25)
 
 def up():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "w":
-            current_pose = dType.GetPose(api)
-            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            
-            if l==1:
-                ox,oy,oz =table[i][j],table[i][k],current_pose[2]
-                i-=1
-                nx,ny,nz = table[i][j],table[i][k],current_pose[2]
-            else:
-                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                i-=1
-                nx,ny,nz = current_pose[0], table[i][j],table[i][k]
-            delta(ox,oy,oz,nx,ny,nz)
+        if f == 0:
+            if kb.read_key() == "w" or kb.read_key()  == "W":
+                current_pose = dType.GetPose(api)
+                #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                
+                if l==1:
+                    ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                    i-=1
+                    nx,ny,nz = table[i][j],table[i][k],current_pose[2]
+                else:
+                    ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                    i-=1
+                    nx,ny,nz = current_pose[0], table[i][j],table[i][k]
+                delta(ox,oy,oz,nx,ny,nz)
+                
         tm.sleep(0.25)
 
 def down():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "s":
-            current_pose = dType.GetPose(api)
-            if l==1:
-                ox,oy,oz =table[i][j],table[i][k],current_pose[2]
-                i+=1
-                nx,ny,nz = table[i][j],table[i][k],current_pose[2]
-            else:
-                ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-                i+=1
-                nx,ny,nz = current_pose[0],table[i][j],table[i][k]
-            delta(ox,oy,oz,nx,ny,nz)
+        if f == 0:
+            if kb.read_key()  == "s" or kb.read_key()  == "S":
+                current_pose = dType.GetPose(api)
+                if l==1:
+                    ox,oy,oz =table[i][j],table[i][k],current_pose[2]
+                    i+=1
+                    nx,ny,nz = table[i][j],table[i][k],current_pose[2]
+                else:
+                    ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                    i+=1
+                    nx,ny,nz = current_pose[0],table[i][j],table[i][k]
+                delta(ox,oy,oz,nx,ny,nz)
+                
         tm.sleep(0.25)
 
 def precision_left():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "left":
-            current_pose = dType.GetPose(api)
-            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
-                robot(0,1,0,nx,ny,nz)
-            else:
-                nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
-                robot(0,1,0,nx,ny,nz)
+        if f == 1:
+            if kb.read_key() == "a" or kb.read_key()  == "A":
+                current_pose = dType.GetPose(api)
+                #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                if l==1:
+                    nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
+                    robot(0,1,0,nx,ny,nz)
+                else:
+                    nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
+                    robot(0,1,0,nx,ny,nz)
         tm.sleep(0.25)
 
 def precision_right():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "right":
-            current_pose = dType.GetPose(api)
-            #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-            if l==1:
-                nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
-                robot(0,-1,0,nx,ny,nz)
-            else:
-                nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
-                robot(0,-1,0,nx,ny,nz)
+        if f == 1:
+            if kb.read_key()  == "d" or kb.read_key()  == "D":
+                current_pose = dType.GetPose(api)
+                #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+                if l==1:
+                    nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
+                    robot(0,-1,0,nx,ny,nz)
+                else:
+                    nx,ny,nz = current_pose[0],current_pose[1]-1,current_pose[2]
+                    robot(0,-1,0,nx,ny,nz)
+                message=""
         tm.sleep(0.25)
 
 def precision_up():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "up":
-            current_pose = dType.GetPose(api)        
-            if l==1:
-                nx,ny,nz = current_pose[0]+1,current_pose[1],current_pose[2]
-                robot(1,0,0,nx,ny,nz)
-            else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+1
-                robot(0,0,1,nx,ny,nz)
+        if f == 1:
+            if kb.read_key()  == "w" or kb.read_key()  == "W":
+                current_pose = dType.GetPose(api)        
+                if l==1:
+                    nx,ny,nz = current_pose[0]+1,current_pose[1],+current_pose[2]
+                    robot(1,0,0,nx,ny,nz)
+                else:
+                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+1
+                    robot(0,0,1,nx,ny,nz)
+                message=""
         tm.sleep(0.25)
 
 def precision_down():
-    global i,table,j,k,l
+    global i,table,j,k,l,f
     while True:
-        if kb.read_key() == "down":
-            current_pose = dType.GetPose(api)
-            if l==1:
-                nx,ny,nz = current_pose[0]-1,current_pose[1],current_pose[2]
-                robot(-1,0,0,nx,ny,nz)
+        if f == 1:
+            if kb.read_key() == "s" or kb.read_key() == "S":
+                current_pose = dType.GetPose(api)
+                if l==1:
+                    nx,ny,nz = current_pose[0]-1,current_pose[1],current_pose[2]
+                    robot(-1,0,0,nx,ny,nz)
+                else:
+                    nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-1
+                    robot(0,0,-1,nx,ny,nz)
+                message=""
+        tm.sleep(0.25)
+
+def _precision_switch():
+    global message,f
+    while True:
+        if kb.read_key() == "f" or kb.read_key() == "F":
+            if f == 0:
+                f = 1
+                print("Switching to Precision Control")
             else:
-                nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-1
-                robot(0,0,-1,nx,ny,nz)
+                f = 0
+                print("Switching to Module Control")
+            message=""
         tm.sleep(0.25)
 
 def start_threads():
@@ -386,7 +399,8 @@ def start_threads():
     t17 = Thread(target = precision_left,daemon=True)
     t18 = Thread(target = precision_right,daemon=True)
     t19 = Thread(target = precision_up,daemon=True)
-    t20 = Thread(target = push, daemon =True)
+    t20 = Thread(target = _precision_switch,daemon =True)
+    
 
 
     t1.start()
@@ -421,6 +435,7 @@ if __name__ == "__main__":
     j = 1
     k = 2
     l = 0
+    f = 0
     api = dType.load()
     dType.ConnectDobot(api, "", 115200)
     #dType.SetIOMultiplexing(api, 4, 2, 1)
