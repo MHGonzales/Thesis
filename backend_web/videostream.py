@@ -278,7 +278,7 @@ def delta(ox,oy,oz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     return
 
 def left():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 0:
             if message == "a" or message == "A" :
@@ -299,7 +299,7 @@ def left():
         tm.sleep(0.25)
 
 def right():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 0:
             if message == "d" or message == "D" :
@@ -320,7 +320,7 @@ def right():
         tm.sleep(0.25)
 
 def up():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 0:
             if message == "w" or message == "W":
@@ -340,7 +340,7 @@ def up():
         tm.sleep(0.25)
 
 def down():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 0:
             if message == "s" or message == "S":
@@ -358,7 +358,7 @@ def down():
         tm.sleep(0.25)
 
 def precision_left():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 1:
             if message == "a" or message == "A":
@@ -374,7 +374,7 @@ def precision_left():
         tm.sleep(0.25)
 
 def precision_right():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 1:
             if message == "d" or message == "D":
@@ -390,7 +390,7 @@ def precision_right():
         tm.sleep(0.25)
 
 def precision_up():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 1:
             if message == "w" or message == "W":
@@ -405,7 +405,7 @@ def precision_up():
         tm.sleep(0.25)
 
 def precision_down():
-    global i,table,j,k,l,message
+    global i,table,j,k,l,message,f
     while True:
         if f == 1:
             if message == "s" or message == "S":
@@ -420,8 +420,7 @@ def precision_down():
         tm.sleep(0.25)
 
 def _precision_switch():
-    global f
-    f:int = 0
+    global message,f
     while True:
         if message == "f" or message == "F":
             if f == 0:
@@ -430,7 +429,7 @@ def _precision_switch():
             else:
                 f = 0
                 print("Switching to Module Control")
-
+            message=""
 
 def start_threads():
     t1 = Thread(target=left,daemon=True)
@@ -475,6 +474,7 @@ def start_threads():
     t17.start()
     t18.start()
     t19.start()
+    t20.start()
 
     print("Threads Initialized....")
 
@@ -523,6 +523,7 @@ if __name__ == '__main__':
     j = 1
     k = 2
     l = 0
+    f = 0
     api = dType.load()
     dType.ConnectDobot(api, "COM21", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
