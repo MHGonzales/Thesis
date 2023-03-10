@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Chat</title>
+    <script src="https:///cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+  </head>
+  <body>
+    <form id="form">
+      <input id="input" type="text" placeholder="Enter message here">
+      <button type="submit">Send</button>
+    </form>
+  </body>
+<script>
+    var socket = io();
+
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    var message = input.value;
+    socket.emit('message', message);
+    input.value = '';
+  });
+
+  document.addEventListener("keypress", function(event) {
+    event.preventDefault();
+    if (event.key) {
+        var message = event.key;
+        socket.emit('message', message);
+        input.value = '';
+        document.getElementById("submit").click();
+    }
+});
+
+socket.on('message', function(message) {
+        var li = document.createElement('li');
+        li.textContent = message;
+        document.getElementById('messages').prepend(li)
+      });
+</script>
+</html>
