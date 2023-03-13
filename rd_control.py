@@ -53,7 +53,7 @@ def roll():
             current_pose= dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
-            delta(ox,oy,oz,nx,ny,nz,roll)
+            delta(ox,oy,oz,nx,ny,nz,roll)#git test
         tm.sleep(0.25) 
 
 def grip_close():

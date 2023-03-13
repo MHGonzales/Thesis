@@ -8,18 +8,15 @@ import imutils
 # Client socket
 # create an INET, STREAMing socket : 
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-
 host_ip = '1.tcp.ap.ngrok.io'
 # Standard loopback interface address (localhost)
 port = 21694
-
 # Port to listen on (non-privileged ports are > 1023)
 # now connect to the web server on the specified port number
 client_socket.connect((host_ip,port)) 
 #'b' or 'B'produces an instance of the bytes type instead of the str type
 #used in handling binary data from network connections
 data = b""
-
 # Q: unsigned long long integer(8 bytes)
 payload_size = struct.calcsize("Q")
 
@@ -36,9 +33,7 @@ while True:
     frame_data = data[:msg_size]
     data  = data[msg_size:]
     frame = pickle.loads(frame_data)
-    #frame1 = pickle.loads(frame_data)
     cv2.imshow("Receiving...",frame)
-    #cv2.imshow("Receiving...1",frame1)
     key = cv2.waitKey(10) 
     if key  == 27:
         break
