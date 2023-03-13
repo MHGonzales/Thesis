@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <script src="https:///cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+  </head>
+  <body>
+    <form id="form">
+      <input id="input" type="text" placeholder="Input voltage percentage">
+      <button type="submit" hidden>Send</button>
+    </form>
+  </body>
+  <style>
+    input[type=text], select {
+      width: 40%;
+      padding: 12px 20px;
+      margin: 8px 30%;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+</style>    
+<script>
+    var socket = io();
+form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        var roll = input.value;
+        socket.emit('roll', roll);
+        input.value = '';
+      });
+
+socket.on('roll', function(roll) {
+        var li = document.createElement('li');
+        li.textContent = roll;
+        document.getElementById('roll').prepend(li)
+      });
+</script>
+</html>
