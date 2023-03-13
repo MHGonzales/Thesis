@@ -86,10 +86,10 @@ def gen(video):
 #     #send serial to arduino
 
 # def roll():
-#     global message
+#     global _roll
 #     while True:
-#         if message == "r" or message == "R":
-#             roll = input("Roll Degrees: ")
+#         if _roll[0] == "roll":
+#             roll = roll[1]
 #             current_pose= dType.GetPose(api)
 #             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
 #             nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
@@ -98,36 +98,84 @@ def gen(video):
 #         tm.sleep(0.25) 
 
 
-# #move forward
+#move forward
 # def forward():
-#     global table,i,j,k,l,message
+#     global table,i,j,k,l,message,f
 #     while True:
-#         if message == "z" or message == "Z":
-#             current_pose = dType.GetPose(api)
-            
-#             if l==1:
-#                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-5
-#                 robot(0,0,-5,nx,ny,nz)
-#             else:
-#                 nx,ny,nz = current_pose[0]+5,current_pose[1],current_pose[2]
-#                 robot(5,0,0,nx,ny,nz)
-#             message=""
+#         if f == 1:
+#             if message == "z" or message == "Z":
+#                 current_pose = dType.GetPose(api)
+                
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-10
+#                     robot(0,0,-10,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0]+10,current_pose[1],current_pose[2]
+#                     robot(10,0,0,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "z" or message == "Z":
+#                 current_pose = dType.GetPose(api)
+                
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-5
+#                     robot(0,0,-5,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0]+5,current_pose[1],current_pose[2]
+#                     robot(5,0,0,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
+#             if message == "z" or message == "Z":
+#                 current_pose = dType.GetPose(api)
+                
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-1
+#                     robot(0,0,-1,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0]+1,current_pose[1],current_pose[2]
+#                     robot(1,0,0,nx,ny,nz)
+#                 message=""
 #         tm.sleep(0.1)
 
 # def backward():
-#     global table,i,j,k,l,message
+#     global table,i,j,k,l,message,f
 #     while True:
-#         if message == "x" or message == "X":
-#             current_pose = dType.GetPose(api)
-#             #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-#             if l==1: 
-#                 nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+5
-#                 robot(0,0,5,nx,ny,nz)
-#             else:
+#         if f == 1:
+#             if message == "x" or message == "X":
+#                 current_pose = dType.GetPose(api)
 #                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
-#                 nx,ny,nz = current_pose[0]-5,current_pose[1],current_pose[2]
-#                 robot(-5,0,0,nx,ny,nz)
-#             message=""
+#                 if l==1: 
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+10
+#                     robot(0,0,10,nx,ny,nz)
+#                 else:
+#                     #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                     nx,ny,nz = current_pose[0]-10,current_pose[1],current_pose[2]
+#                     robot(-10,0,0,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "x" or message == "X":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1: 
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+5
+#                     robot(0,0,5,nx,ny,nz)
+#                 else:
+#                     #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                     nx,ny,nz = current_pose[0]-5,current_pose[1],current_pose[2]
+#                     robot(-5,0,0,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
+#             if message == "x" or message == "X":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1: 
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+1
+#                     robot(0,0,1,nx,ny,nz)
+#                 else:
+#                     #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                     nx,ny,nz = current_pose[0]-1,current_pose[1],current_pose[2]
+#                     robot(-1,0,0,nx,ny,nz)
+#                 message=""
 #         tm.sleep(0.1)
     
 # def power():
@@ -365,18 +413,62 @@ def gen(video):
 #                 current_pose = dType.GetPose(api)
 #                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
 #                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1]+10,current_pose[2]
+#                     robot(0,10,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1]+10,current_pose[2]
+#                     robot(0,10,0,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "a" or message == "A":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1]+5,current_pose[2]
+#                     robot(0,5,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1]+5,current_pose[2]
+#                     robot(0,5,0,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
+#             if message == "a" or message == "A":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1:
 #                     nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
 #                     robot(0,1,0,nx,ny,nz)
 #                 else:
 #                     nx,ny,nz = current_pose[0],current_pose[1]+1,current_pose[2]
 #                     robot(0,1,0,nx,ny,nz)
 #                 message=""
-#         tm.sleep(0.25)
+        tm.sleep(0.25)
 
 # def precision_right():
 #     global i,table,j,k,l,message,f
 #     while True:
 #         if f == 1:
+#             if message == "d" or message == "D":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1]-10,current_pose[2]
+#                     robot(0,-10,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1]-10,current_pose[2]
+#                     robot(0,-10,0,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "d" or message == "D":
+#                 current_pose = dType.GetPose(api)
+#                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0],current_pose[1]-5,current_pose[2]
+#                     robot(0,-5,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1]-5,current_pose[2]
+#                     robot(0,-5,0,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
 #             if message == "d" or message == "D":
 #                 current_pose = dType.GetPose(api)
 #                 #ox,oy,oz =current_pose[0], table[i][j],table[i][k]
@@ -396,6 +488,26 @@ def gen(video):
 #             if message == "w" or message == "W":
 #                 current_pose = dType.GetPose(api)        
 #                 if l==1:
+#                     nx,ny,nz = current_pose[0]+10,current_pose[1],+current_pose[2]
+#                     robot(10,0,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+10
+#                     robot(0,0,10,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "w" or message == "W":
+#                 current_pose = dType.GetPose(api)        
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0]+5,current_pose[1],current_pose[2]
+#                     robot(5,0,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]+5
+#                     robot(0,0,5,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
+#             if message == "w" or message == "W":
+#                 current_pose = dType.GetPose(api)        
+#                 if l==1:
 #                     nx,ny,nz = current_pose[0]+1,current_pose[1],+current_pose[2]
 #                     robot(1,0,0,nx,ny,nz)
 #                 else:
@@ -408,6 +520,26 @@ def gen(video):
 #     global i,table,j,k,l,message,f
 #     while True:
 #         if f == 1:
+#             if message == "s" or message == "S":
+#                 current_pose = dType.GetPose(api)
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0]-10,current_pose[1],current_pose[2]
+#                     robot(-10,0,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-10
+#                     robot(0,0,-10,nx,ny,nz)
+#                 message=""
+#         elif f == 2:
+#             if message == "s" or message == "S":
+#                 current_pose = dType.GetPose(api)
+#                 if l==1:
+#                     nx,ny,nz = current_pose[0]-5,current_pose[1],current_pose[2]
+#                     robot(-5,0,0,nx,ny,nz)
+#                 else:
+#                     nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]-5
+#                     robot(0,0,-5,nx,ny,nz)
+#                 message=""
+#         elif f == 3:
 #             if message == "s" or message == "S":
 #                 current_pose = dType.GetPose(api)
 #                 if l==1:
@@ -425,7 +557,13 @@ def gen(video):
 #         if message == "f" or message == "F":
 #             if f == 0:
 #                 f = 1
-#                 print("Switching to Precision Control")
+#                 print("Switching to 10mm Precision Control")  
+#             elif f==1:
+#                 f = 2
+#                 print("Switching to 5mm Precision Control") 
+#             elif f==2:
+#                 f = 3 
+#                 print("Switching to 1mm Precision Control")  
 #             else:
 #                 f = 0
 #                 print("Switching to Module Control")
@@ -524,9 +662,11 @@ def handle_message(msg):
 
 @socketio.on('roll')
 def handle_message(rl):
-    global roll  # Use the global keyword to access the global message variable
-    roll = rl
-    print('roll:' + roll)
+    global _roll  # Use the global keyword to access the global message variable
+    roll = 'roll:'+rl
+    _roll = roll.split(':')
+    print(roll)
+    print(_roll[1])
     send(roll, broadcast=True) 
 
 if __name__ == '__main__':

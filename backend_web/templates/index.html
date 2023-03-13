@@ -11,12 +11,6 @@
 <script>
     var socket = io();
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    var message = input.value;
-    socket.emit('message', message);
-    input.value = '';
-  });
 
   document.addEventListener("keypress", function(event) {
     event.preventDefault();
