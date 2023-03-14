@@ -63,10 +63,10 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
-        Tf = SE3.Trans((nx+107)/1000 ,ny/1000 ,nz/1000) *SE3.OA([1,  0, 0], [0, 0, -1])
+        Tf = SE3.Trans((nx+107)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = 90
+        j4 = float(qn[4])
         j5= 0
         j6 = 0
         gr =grip
@@ -75,7 +75,7 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
         Tf = SE3.Trans((nx+102)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = int(qn[4])
+        j4 = float(qn[4])
         j5= roll
         j6= 90
         gr=grip
@@ -190,7 +190,7 @@ def power():
             table = ws.range("A1:C5").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =50, table[0][1],table[0][2]
+            nx,ny,nz =100, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -241,7 +241,7 @@ def high_mid():
             table = ws.range("A1:I2").value
             current_pose = dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-            nx,ny,nz =140, table[0][1],table[0][2]
+            nx,ny,nz =135, table[0][1],table[0][2]
             i=0
             j=1
             k=2
@@ -293,7 +293,7 @@ def pickup_mode():
             current_pose = dType.GetPose(api)
             if l==0:
                 ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
-                nx,ny,nz =50,151.6, 150
+                nx,ny,nz =150,150, 100
                 i=0
                 j=1
                 k=2
@@ -680,7 +680,7 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM11", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM18", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)

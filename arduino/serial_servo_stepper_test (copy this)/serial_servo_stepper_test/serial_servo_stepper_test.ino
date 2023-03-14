@@ -3,7 +3,7 @@
 VarSpeedServo servo_1,servo_2,grip;
 
 #define MOTOR_STEPS 200
-#define RPM 5
+#define RPM 30
 
 #define DIR 3
 #define STEP 4
