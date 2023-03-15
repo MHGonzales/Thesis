@@ -1,4 +1,8 @@
 #include <VarSpeedServo.h>
+#include "Wire.h"
+#include <MPU6050_light.h>
+
+MPU6050 mpu(Wire);
 
 VarSpeedServo servo_1,servo_2,servo_3,grip;
 
@@ -17,7 +21,7 @@ VarSpeedServo servo_1,servo_2,servo_3,grip;
 A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
 
 float set_j1,set_j2,set_j3 = 90;
-float new_step,old_step=90;
+float new_step,old_step;
 int pos_1= 90,pos_2= 90,pos_3 = 90;
 
 double i_pitch,i_roll,i_yaw;
@@ -31,7 +35,7 @@ double cumError1,cumError2,cumError3, rateError1,rateError2,rateError3;
 float out1,out2,out3=0;
 
 double kp = .5;
-double ki = .000001;
+double ki = 0.000000000001;
 double kd = 100;
 
 void setup() {
@@ -41,7 +45,7 @@ void setup() {
   servo_3.attach(11,544,2500);
 
   Serial.begin(9600); // start serial monitor
-  //Wire.begin();
+  Wire.begin();
 
   servo_1.write(90);
   servo_2.write(90);
@@ -51,8 +55,22 @@ void setup() {
   //stepper.enable();
   stepper.setMicrostep(1);
 
-  delay(5000);
+  delay(1000);
   Serial.println("Positioned at Home Position");
+  
+  byte status = mpu.begin();
+  Serial.print(F("MPU6050 status: "));
+  Serial.println(status);
+  while(status!=0){
+    Serial.print("MPU not connected!!!");
+   }
+  
+  //Calculates MPU 6050 offsets
+  Serial.println(F("Calculating offsets, do not move MPU6050"));
+  delay(1000);
+  // mpu.upsideDownMounting = true; // uncomment this line if the MPU6050 is mounted upside-down
+  mpu.calcOffsets(); // gyro and accelero
+  Serial.println("Done!\n");
 }
 
 void loop() {
@@ -104,19 +122,23 @@ void loop() {
     
   }
   mpu.update();
-  i_pitch = mpu.getAngleX();
+  i_pitch = mpu.getAngleX()+90;
   i_roll = mpu.getAngleY();
   i_yaw = mpu.getAngleZ();
+  Serial.print("Sensor Angle:");
+  Serial.print(i_pitch);
  
   //Computes PID
   comp_pid( i_pitch, i_roll, i_yaw, set_j1,  set_j2, set_j3, &out1, &out2, &out3);
 
   //Writes output from PID
-  servo_1.write(set_j1+out1); 
+  //servo_1.write(set_j1); 
       //delay(15);
-  stepper.rotate(out2);
+  //stepper.rotate(out2);
       //delay(15);
   servo_2.write(set_j3+out3); 
+  Serial.print(" Servo Angle Error:");
+  Serial.println(out3);
 
  
 }
