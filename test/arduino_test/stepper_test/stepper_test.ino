@@ -69,13 +69,13 @@ void loop() {
  // Set microstep mode to 1:1
 
   // One complete revolution is 360°
-  stepper.rotate(360);  // forward revolution
+  stepper.rotate(350*15);  // forward revolution
 
   // One complete revolution is also MOTOR_STEPS steps in full step mode
   //stepper.move(MOTOR_STEPS);    // forward revolution
   Serial.println("First Rotation");
   delay(1000);
-  stepper.rotate(-360);
+  stepper.rotate(-360*15);
   Serial.println("Second Rotation");
   delay(1000);
 }
