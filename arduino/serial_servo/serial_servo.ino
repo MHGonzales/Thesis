@@ -46,7 +46,9 @@ void setup() {
   byte status = mpu.begin();
   Serial.print(F("MPU6050 status: "));
   Serial.println(status);
-  while(status!=0){ }
+  while(status!=0){
+    Serial.print("MPU not connected!!!")
+   }
   
   //Calculates MPU 6050 offsets
   Serial.println(F("Calculating offsets, do not move MPU6050"));
