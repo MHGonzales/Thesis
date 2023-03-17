@@ -14,7 +14,7 @@ body {
   #wrapper {
     height: fit-content;
     width: fit-content;
-    padding: 10px;
+    padding: 5px;
     justify-content: center; 
   }
   
@@ -28,7 +28,7 @@ body {
   
   .movements_control {
     border: solid 1px black;  
-    border-width: 0 3px 3px 0;
+    border-width: 0 4px 4px 0;
     padding: 3px;
     margin: 0;
     padding: 0;
@@ -135,6 +135,37 @@ body {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     }    
   #home:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+
+  #mod {
+    border-collapse: collapse;
+    width: 100%;
+    grid-column-start: 2;
+  }
+  
+  #ten {
+    grid-column-start: 1;
+  }
+  
+  #five {
+    grid-column-start: 0;
+  }
+  
+  #one {
+    grid-column-start: 3;
+  }
+  
+  #mod:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #ten:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+  #five:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+    }    
+  #one:hover{
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
     }
 
