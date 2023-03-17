@@ -18,7 +18,7 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM4',9600) #Nano com
+ad = sr('COM17',9600) #Nano com
 rb = Dobot()
 
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
