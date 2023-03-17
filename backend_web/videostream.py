@@ -555,23 +555,38 @@ def precision_down():
                 message=""
         tm.sleep(0.25)
 
-def _precision_switch():
+def _precision_switch_module():
     global message,f
     while True:
         if message == "f" or message == "F":
-            if f == 0:
+            if f != 0:
+                f = 0
+                print("Switching to Module Control")  
+            message=""
+
+def _precision_switch_10mm():
+    global message,f
+    while True:
+        if message == "c" or message == "C":
+            if f != 1:
                 f = 1
-                print("Switching to 10mm Precision Control")  
-            elif f==1:
+                print("Switching to 10mm Precision Control") 
+
+def _precision_switch_5mm():
+    global message,f
+    while True:
+        if message == "v" or message == "V":
+            if f != 2:
                 f = 2
                 print("Switching to 5mm Precision Control") 
-            elif f==2:
-                f = 3 
-                print("Switching to 1mm Precision Control")  
-            else:
-                f = 0
-                print("Switching to Module Control")
-            message=""
+
+def _precision_switch_1mm():
+    global message,f
+    while True:
+        if message == "b" or message == "B":
+            if f != 3:
+                f = 3
+                print("Switching to 1mm Precision Control") 
 
 def start_threads():
     t1 = Thread(target=left,daemon=True)
@@ -593,7 +608,10 @@ def start_threads():
     t17 = Thread(target = precision_left,daemon=True)
     t18 = Thread(target = precision_right,daemon=True)
     t19 = Thread(target = precision_up,daemon=True)
-    t20 = Thread(target = _precision_switch,daemon =True)
+    t20 = Thread(target = _precision_switch_module,daemon =True)
+    t21 = Thread(target = _precision_switch_10mm,daemon =True)
+    t22 = Thread(target = _precision_switch_5mm,daemon =True)
+    t23 = Thread(target = _precision_switch_1mm,daemon =True)
     
 
 
@@ -617,6 +635,9 @@ def start_threads():
     t18.start()
     t19.start()
     t20.start()
+    t21.start()
+    t22.start()
+    t23.start()
 
     print("Threads Initialized....")
 
