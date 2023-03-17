@@ -18,7 +18,7 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM7',9600) #Nano com
+ad = sr('COM4',9600) #Nano com
 rb = Dobot()
 
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
@@ -31,7 +31,7 @@ message = " "  # Define message as a global variable
 _roll = " "
 
 video = cv2.VideoCapture(2)
-video2 = cv2.VideoCapture(3)
+video2 = cv2.VideoCapture(1)
 bg = cv2.imread('WEB.png', cv2.IMREAD_COLOR) 
 
 @app.route("/")
@@ -680,7 +680,7 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM11", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM16", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)

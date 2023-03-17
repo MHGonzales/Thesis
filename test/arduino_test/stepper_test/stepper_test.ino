@@ -12,7 +12,7 @@
 
 // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
 #define MOTOR_STEPS 200
-#define RPM 30
+#define RPM 50
 
 #define DIR 3
 #define STEP 4
@@ -56,6 +56,9 @@ void setup() {
   // stepper.setEnableActiveState(LOW);
   stepper.enable();
   stepper.setMicrostep(1); 
+  
+  delay(3000);
+  Serial.print("start");
   // set current level (for DRV8880 only).
   // Valid percent values are 25, 50, 75 or 100.
   // stepper.setCurrent(100);
@@ -69,13 +72,14 @@ void loop() {
  // Set microstep mode to 1:1
 
   // One complete revolution is 360°
-  stepper.rotate(350*15);  // forward revolution
+  stepper.rotate(-360*2/3);  // forward revolution
 
   // One complete revolution is also MOTOR_STEPS steps in full step mode
   //stepper.move(MOTOR_STEPS);    // forward revolution
   Serial.println("First Rotation");
-  delay(1000);
-  stepper.rotate(-360*15);
-  Serial.println("Second Rotation");
-  delay(1000);
+  delay(5000);
+  // stepper.rotate(-360*3);
+  // Serial.println("Second Rotation");
+  // delay(1000);
+
 }
