@@ -46,9 +46,25 @@
     function hClicked() {   
     alert('Home position');
              } 
+    function fClicked() {   
+    alert('Module mode');
+             } 
+    function cClicked() {   
+    alert('10mm precision mode');
+             } 
+    function vClicked() {   
+    alert('5mm precision mode');
+             } 
+    function bClicked() {   
+    alert('1mm precision mode');
+    }
     </script> 
 <body>
-    <div id="wrapper">
+  <div id="wrapper">
+    <div id="controls">  
+    </div>
+  </div>
+  <div id="wrapper">
         <div id="controls">
           <input type="button" id="up" class="movements_control" onclick="wClicked()" value="W"></button>
           <input type="button" id="left" class="movements_control" onclick="aClicked()" value="A" ></button>
@@ -73,6 +89,18 @@
           <input type="button" id="backward" class="movements_control" onclick="xClicked()" value="X"></button>
         </div>
     </div>
+    <div id="wrapper">
+      <div id="controls">
+        <input type="button" id="mod" class="movements_control" onclick="fClicked()" value="F"></button>
+          <input type="button" id="ten" class="movements_control" onclick="cClicked()" value="C" ></button>
+          <input type="button" id="five" class="movements_control" onclick="vClicked()" value="V"></button>
+          <input type="button" id="one" class="movements_control" onclick="bClicked()" value="B"></button>
+      </div>
+  </div>
+  <div id="wrapper">
+    <div id="controls">  
+    </div>
+  </div>
 </body>
 
 </html>
