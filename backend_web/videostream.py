@@ -18,7 +18,7 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM17',9600) #Nano com
+ad = sr('COM16',9600) #Nano com
 rb = Dobot()
 
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
@@ -680,7 +680,7 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM16", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM18", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)
