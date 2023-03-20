@@ -4,24 +4,29 @@
 
 MPU6050 mpu(Wire);
 
-VarSpeedServo servo_1,servo_2,servo_3,grip;
+VarSpeedServo servo_1,servo_2,grip;
 
 #define MOTOR_STEPS 200
 #define RPM 30
 
-#define DIR 3
-#define STEP 4
-#define SLEEP 9
+#define DIR 2
+#define STEP 3
+#define SLEEP 4
+
+#define DIR1 5
+#define STEP1 6
+#define SLEEP 4
+
 
 #include "A4988.h"
-#define MS1 5
-#define MS2 6
-#define MS3 7
+#define MS1 7
+#define MS2 8
+#define MS3 9
+A4988 stepper_roll(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
+A4988 stepper_knob(MOTOR_STEPS, DIR1, STEP1, SLEEP, MS1, MS2, MS3);
 
-A4988 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MS1, MS2, MS3);
-
-float set_j1,set_j2,set_j3 = 90;
-float new_step,old_step;
+float set_j1,set_j2,set_j3,set_j4 = 90;
+float new_step,old_step,new_step2,old_step2;
 int pos_1= 90,pos_2= 90,pos_3 = 90;
 
 double i_pitch,i_roll,i_yaw;
@@ -42,18 +47,22 @@ void setup() {
   // put your setup code here, to run once:
   servo_1.attach(9,544,2520);
   servo_2.attach(10,544,2500);
-  servo_3.attach(11,544,2500);
+  grip.attach(11,544,2500);
 
   Serial.begin(9600); // start serial monitor
   Wire.begin();
 
   servo_1.write(90);
   servo_2.write(90);
-  servo_3.write(pos_3); 
+  grip.write(pos_3); 
 
-  stepper.begin(RPM);
-  //stepper.enable();
-  stepper.setMicrostep(1);
+  stepper_roll.begin(RPM);
+  stepper_roll.enable();
+  stepper_roll.setMicrostep(1);
+
+  stepper_knob.begin(RPM);
+  stepper_knob.enable();
+  stepper_knob.setMicrostep(1);
 
   delay(1000);
   Serial.println("Positioned at Home Position");
@@ -79,7 +88,7 @@ void loop() {
   {
     //unsigned long progress = millis() - moveStartTime;
     String rxString = "";
-    String strArr[3];
+    String strArr[4];
   //Keep looping until there is something in the buffer.
     while (Serial.available()) {
       //Delay to allow byte to arrive in input buffer.
@@ -106,19 +115,22 @@ void loop() {
 
 
    //stores servo motor setpoints
-    set_j1 = strArr[0].toFloat();
-    set_j2 = strArr[1].toFloat();
-    new_step = strArr[2].toFloat();
+     set_j1 = strArr[0].toFloat();
+    new_step = strArr[1].toFloat();
+    set_j3 = strArr[2].toFloat();
+    new_step2  = strArr[3].toFloat();
 
-    set_j3 = new_step - old_step;
+    set_j2 = new_step - old_step;
+    set_j4 = new_step2 - old_step2;
     
     servo_1.slowmove(set_j1,13); 
-    delay(15);
     servo_2.slowmove(set_j3,13);
-    delay(15);
-    stepper.rotate(set_j2); 
+    grip.write(set_j4);
+    stepper_roll.rotate(set_j2); 
+    stepper_knob.rotate(set_j4*2/3);
 
     old_step = new_step;
+    old_step2 = new_step2;
     
   }
   mpu.update();

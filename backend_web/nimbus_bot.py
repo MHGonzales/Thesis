@@ -18,7 +18,7 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM16',9600) #Nano com
+ad = sr('COM19',9600) #Nano com
 rb = Dobot()
 
 os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
@@ -69,8 +69,8 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
         j4 = float(qn[4])
         j5= 0
         j6 = 0
-        gr =grip
-        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
+        gr =roll
+        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
         Tf = SE3.Trans((nx+102)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
@@ -78,8 +78,8 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
         j4 = float(qn[4])
         j5= roll
         j6= 90
-        gr=grip
-        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +',')
+        gr=roll
+        pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
 
@@ -701,7 +701,7 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM18", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM16", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)
