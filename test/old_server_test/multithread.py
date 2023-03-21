@@ -1,4 +1,4 @@
-import cv2
+import cv2,datetime
 import threading
 
 class camThread(threading.Thread):
@@ -20,6 +20,9 @@ def camPreview(previewName, camID):
     while rval:
         cv2.imshow(previewName, frame)
         rval, frame = cam.read()
+        font = cv2.FONT_HERSHEY_PLAIN
+        time = str(datetime.datetime.now())
+        frame = cv2.putText(frame, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
         key = cv2.waitKey(20)
         if key == 27:  # exit on ESC
             break

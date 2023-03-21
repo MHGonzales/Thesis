@@ -1,5 +1,5 @@
 from flask import Flask, Response, render_template, request
-import cv2
+import cv2, datetime
 import os
 
 import time as tm
@@ -40,22 +40,26 @@ def index():
 
 def gen(video2):
     while True:
-        success, img = video2.read()
+        success, frame = video2.read()
         encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
-        ret, jpeg = cv2.imencode('.jpg', img, encode_param)
+        font = cv2.FONT_HERSHEY_PLAIN
+        time = str(datetime.datetime.now())
+        frame = cv2.putText(frame, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        ret, jpeg = cv2.imencode('.jpg', frame, encode_param) 
         frame = jpeg.tobytes()
-        
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 def gen(video):
     while True:
-        success2, img2 = video.read()
-        new_img2 = cv2.resize(img2, (588, 324))
+        success2, frame1 = video.read()
+        frame1 = cv2.resize(frame1, (588, 324))
         encode_param2=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
-        ret, jpeg = cv2.imencode('.jpg', new_img2, encode_param2)
+        font = cv2.FONT_HERSHEY_PLAIN
+        time = str(datetime.datetime.now())
+        frame1 = cv2.putText(frame1, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        ret, jpeg = cv2.imencode('.jpg', frame1, encode_param2)
         frame1 = jpeg.tobytes()
-        
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame1 + b'\r\n\r\n')
 
