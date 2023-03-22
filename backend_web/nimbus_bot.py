@@ -21,7 +21,7 @@ print("Import Success !!")
 ad = sr('COM18',9600) #Nano com
 rb = Dobot()
 
-#os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
+os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -44,7 +44,7 @@ def gen(video2):
         encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         font = cv2.FONT_HERSHEY_PLAIN
         time = str(datetime.datetime.now())
-        frame = cv2.putText(frame, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        frame = cv2.putText(frame, time, (10,30), font,1, (255,122,160), 2 , cv2.LINE_AA)
         ret, jpeg = cv2.imencode('.jpg', frame, encode_param) 
         frame = jpeg.tobytes()
         yield (b'--frame\r\n'
@@ -57,7 +57,7 @@ def gen(video):
         encode_param2=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         font = cv2.FONT_HERSHEY_PLAIN
         time = str(datetime.datetime.now())
-        frame1 = cv2.putText(frame1, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        frame1 = cv2.putText(frame1, time, (10,30), font,1, (255,122,160), 2 , cv2.LINE_AA)
         ret, jpeg = cv2.imencode('.jpg', frame1, encode_param2)
         frame1 = jpeg.tobytes()
         yield (b'--frame\r\n'
