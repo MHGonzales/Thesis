@@ -45,9 +45,9 @@ double kd = 100;
 
 void setup() {
   // put your setup code here, to run once:
-  servo_1.attach(9,544,2520);
+  servo_1.attach(11,544,2520);
   servo_2.attach(10,544,2500);
-  grip.attach(11,544,2500);
+  //grip.attach(11,544,2500);
 
   Serial.begin(9600); // start serial monitor
   Wire.begin();
@@ -134,14 +134,17 @@ void loop() {
     
   }
   mpu.update();
-  i_pitch = mpu.getAngleX()+90;
+  i_pitch = mpu.getAngleX();
   i_roll = mpu.getAngleY();
   i_yaw = mpu.getAngleZ();
   Serial.print("Sensor Angle:");
   Serial.print(i_pitch);
  
   //Computes PID
-  comp_pid( i_pitch, i_roll, i_yaw, set_j1,  set_j2, set_j3, &out1, &out2, &out3);
+  if(e_3 > 5){
+    comp_pid( i_pitch, i_roll, i_yaw, set_j1,  set_j2, set_j3, &out1, &out2, &out3);
+  }
+ 
 
   //Writes output from PID
   //servo_1.write(set_j1); 
@@ -162,29 +165,29 @@ double comp_pid(double i_pitch,double i_roll,double i_yaw,double set_j1, double 
   
   //Errors
 
-  e_1 = set_j1 - i_yaw;
-  e_2 = set_j2 - i_roll;
+  // e_1 = set_j1 - i_yaw;
+  // e_2 = set_j2 - i_roll;
   e_3 = set_j3 - i_pitch;
 
   //Integral Errors
-  cumError1 += e_1 *elapsedTime;
-  cumError2 += e_2 * elapsedTime;
+  // cumError1 += e_1 *elapsedTime;
+  // cumError2 += e_2 * elapsedTime;
   cumError3 += e_3 * elapsedTime;
 
 
   //Derivative Errors
-  rateError1 = (e_1-lastError1)/elapsedTime;
-  rateError2 = (e_2-lastError2)/elapsedTime;
+  // rateError1 = (e_1-lastError1)/elapsedTime;
+  // rateError2 = (e_2-lastError2)/elapsedTime;
   rateError3 = (e_3-lastError3)/elapsedTime;
 
   //New call by reference output
-  *output1 = kp*e_1 + ki*cumError1 + kd*rateError1;
-  *output2  = kp*e_2 + ki*cumError2 + kd*rateError2;
+  // *output1 = kp*e_1 + ki*cumError1 + kd*rateError1;
+  // *output2  = kp*e_2 + ki*cumError2 + kd*rateError2;
   *output3  = kp*e_3 + ki*cumError3 + kd*rateError3;
 
   // Saves last error
-  lastError1 = e_1;
-  lastError2 = e_2;
+  // lastError1 = e_1;
+  // lastError2 = e_2;
   lastError3 = e_3;
 
   previousTime = currentTime;
