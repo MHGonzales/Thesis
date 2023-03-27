@@ -67,21 +67,21 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
-        Tf = SE3.Trans((nx+107)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
+        Tf = SE3.Trans((nx+65)/1000 ,ny/1000 ,nz/1000) *SE3.OA([1,  0, 0], [0, -1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = float(qn[4])
+        j4 = float(qn[4])+90
         j5= 0
-        j6 = 0
+        j6 = float(qn[5])+90
         gr =grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
-        Tf = SE3.Trans((nx+102)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
+        Tf = SE3.Trans((nx+65)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, -1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = float(qn[4])
+        j4 = float(qn[4])+90
         j5= roll
-        j6= 95
+        j6= float(qn[5])+90
         gr=grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     ad.write(pos_wrist.encode())   

@@ -42,7 +42,7 @@ class Dobot(DHRobot):
         )
         L6 = RevoluteMDH(
             alpha = np.pi/2,
-            a=120*mm,
+            a=65*mm,
             #offset= 90*deg,
             #flip=True
         )
@@ -53,7 +53,7 @@ class Dobot(DHRobot):
         super().__init__(
             L,
             name = "Dobot",
-            #tool = transl(35*mm,0,0)@ trotz(-pi)
+            #tool = transl(140*mm,0,0)@ trotz(-pi)
             
 
         )
