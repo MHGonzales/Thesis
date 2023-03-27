@@ -15,7 +15,7 @@ from serial import Serial as sr
 print("Import Success !!")
 
 
-ad = sr('COM4',9600)
+ad = sr('COM20',9600)
 rb = Dobot()
 
 #this is for delta movement and robot movement
