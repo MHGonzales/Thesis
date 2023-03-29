@@ -18,10 +18,10 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM19',9600) #Nano com
+ad = sr('COM4',9600) #Nano com
 rb = Dobot()
 
-os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
+#os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -44,7 +44,7 @@ def gen(video2):
         encode_param=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         font = cv2.FONT_HERSHEY_PLAIN
         time = str(datetime.datetime.now())
-        frame = cv2.putText(frame, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        frame = cv2.putText(frame, time, (10,30), font,1, (255,122,160), 2 , cv2.LINE_AA)
         ret, jpeg = cv2.imencode('.jpg', frame, encode_param) 
         frame = jpeg.tobytes()
         yield (b'--frame\r\n'
@@ -57,7 +57,7 @@ def gen(video):
         encode_param2=[int(cv2.IMWRITE_JPEG_QUALITY),20] 
         font = cv2.FONT_HERSHEY_PLAIN
         time = str(datetime.datetime.now())
-        frame1 = cv2.putText(frame1, time, (10,50), font,1, (0,0,0), 2 , cv2.LINE_AA)
+        frame1 = cv2.putText(frame1, time, (10,30), font,1, (255,122,160), 2 , cv2.LINE_AA)
         ret, jpeg = cv2.imencode('.jpg', frame1, encode_param2)
         frame1 = jpeg.tobytes()
         yield (b'--frame\r\n'
@@ -67,22 +67,22 @@ def robot(dx,dy,dz,nx,ny,nz,roll:str = "0",grip:str = "90"):
     global j4,j5,j6,l
     #calculate inverse kinematics for position
     if l==1:
-        Tf = SE3.Trans((nx+107)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
+        Tf = SE3.Trans((nx+65)/1000 ,ny/1000 ,nz/1000) *SE3.OA([1,  0, 0], [0, -1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = float(qn[4])
+        j4 = float(qn[4])+90
         j5= 0
-        j6 = 0
-        gr =roll
+        j6 = float(qn[5])+90
+        gr =grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     else:
-        Tf = SE3.Trans((nx+102)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, 1, 0])
+        Tf = SE3.Trans((nx+65)/1000 ,ny/1000 ,nz/1000) *SE3.OA([0,  0, 1], [0, -1, 0])
         sol = rb.ikine_LMS(Tf,rb.qz)
         qn =sol.q*180/pi
-        j4 = float(qn[4])
+        j4 = float(qn[4])+90
         j5= roll
-        j6= 90
-        gr=roll
+        j6= float(qn[5])+90
+        gr=grip
         pos_wrist = str(str(j4) +','+ str(j5) + ','+ str(j6) +','+ str(gr) +',')
     ad.write(pos_wrist.encode())   
     dType.SetPTPCmdEx(api, 7, dx,  dy,  dz, 0, 1)
@@ -95,14 +95,15 @@ def roll():
     while True:
         if _roll[0] == "roll":
             
-            roll = _roll[1]
+            roll = float(_roll[1])
+            roll_out = (roll/1.2)*(300/100)*(200*1.8/15)
             print("Received Roll")
             current_pose= dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
             nx,ny,nz = current_pose[0],current_pose[1],current_pose[2]
             print("Rolling")
-            delta(ox,oy,oz,nx,ny,nz,roll)
-            message=""
+            delta(ox,oy,oz,nx,ny,nz,roll,roll_out)
+            _roll[0]=""
         tm.sleep(0.25) 
 
 
@@ -320,7 +321,7 @@ def home_position():
             j=1
             k=2
             l = 0
-            delta(ox,oy,oz,nx,ny,nz)
+            dType.SetHOMECmd(api,0,1) 
             message =""
         tm.sleep(0)
 #this is for delta calculation
@@ -705,11 +706,11 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM16", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM21", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,2,100,0,0,0,1) 
+    dType.SetHOMECmd(api,0,1) 
     
     print(" Initializing Arduino Serial Connection")
     

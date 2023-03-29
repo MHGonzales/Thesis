@@ -83,9 +83,9 @@ void loop() {
 
 
    //stores servo motor setpoints
-    set_j1 = strArr[0].toFloat();
+    set_j1 = strArr[0].toFloat();+90;
     new_step = strArr[1].toFloat();
-    set_j3 = strArr[2].toFloat();
+    set_j3 = strArr[2].toFloat();+90;
     new_step2  = strArr[3].toFloat();
 
     set_j2 = new_step - old_step;
