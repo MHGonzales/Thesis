@@ -95,8 +95,8 @@ def roll():
     while True:
         if _roll[0] == "roll":
             
-            roll = int(_roll[1])
-            roll_out = -24*sum([3]*roll)
+            roll = float(_roll[1])
+            roll_out = (roll/1.2)*(300/100)*(200*1.8/15)
             print("Received Roll")
             current_pose= dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
@@ -321,7 +321,7 @@ def home_position():
             j=1
             k=2
             l = 0
-            delta(ox,oy,oz,nx,ny,nz)
+            dType.SetHOMECmd(api,0,1) 
             message =""
         tm.sleep(0)
 #this is for delta calculation
@@ -710,7 +710,7 @@ if __name__ == '__main__':
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)
-    dType.SetPTPCmd(api,4,0,0,0,0,1) 
+    dType.SetHOMECmd(api,0,1) 
     
     print(" Initializing Arduino Serial Connection")
     
