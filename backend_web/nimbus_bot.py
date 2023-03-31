@@ -18,7 +18,7 @@ from serial import Serial as sr
 
 print("Import Success !!")
 
-ad = sr('COM4',9600) #Nano com
+ad = sr('COM18',9600) #Nano com
 rb = Dobot()
 
 #os.system("start \"\" http://1.tcp.ap.ngrok.io:21694")
@@ -95,8 +95,10 @@ def roll():
     while True:
         if _roll[0] == "roll":
             
+
+
             roll = float(_roll[1])
-            roll_out = (roll/1.2)*(300/100)*(200*1.8/15)
+            roll_out = (roll/1.1)*(-300/100)*(200*1.8/15)
             print("Received Roll")
             current_pose= dType.GetPose(api)
             ox,oy,oz = current_pose[0],current_pose[1],current_pose[2]
@@ -706,7 +708,7 @@ if __name__ == '__main__':
     l = 0
     f = 0
     api = dType.load()
-    dType.ConnectDobot(api, "COM21", 115200) #Dobot COM
+    dType.ConnectDobot(api, "COM19", 115200) #Dobot COM
     #dType.SetIOMultiplexing(api, 4, 2, 1)
     #global current_pose
     current_pose=dType.GetPose(api)
